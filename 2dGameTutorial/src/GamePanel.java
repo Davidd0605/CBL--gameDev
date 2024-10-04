@@ -1,22 +1,21 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
     //Size of a chess tile will be 64x64 pixel
-    final int tileSize = 64;
+    public final int tileSize = 64;
 
     final int noColumns = 8;
     final int noRows = 8;
     final int panelWidth = tileSize * noColumns;
     final int panelHeight = tileSize * noRows;
-    int FPS = 16;
-    private int playerX = 100, playerY = 100;
 
+    public int FPS = 8;
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
+    Player player = new Player(this, keyHandler);
     //Constructor for the panel
     public GamePanel() {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -39,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
         while(gameThread.isAlive()) {
             update();
             repaint();
-            //I don't fucking know what this is like... jesus
+            //I don't fucking know what this is like... Jesus
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime / 1000000;
@@ -58,29 +57,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Update game data function
     public void update() {
-        if(keyHandler.downPressed) {
-            playerY += tileSize;
-        }
-        if(keyHandler.upPressed) {
-            playerY -= tileSize;
-        }
-        if(keyHandler.leftPressed) {
-            playerX -= tileSize;
-        }
-        if(keyHandler.rightPressed) {
-            playerX += tileSize;
-        }
-
+        player.update();
     }
     //Redraw the panels components
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-        //Convert graphics to 2D
+
         Graphics2D g2 = (Graphics2D) g;
-        //Debug
-        g2.setColor(Color.WHITE);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+
+        player.draw(g2);
+
         g2.dispose();
     }
 }
