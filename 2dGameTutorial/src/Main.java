@@ -1,4 +1,7 @@
+import UI.GameBar;
+
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -17,13 +20,20 @@ public class Main {
         frame.setTitle("Touch grass");
         frame.setLocationRelativeTo(null);
 
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        GameBar gameBar = new GameBar();
+        gameBar.setBackground(Color.WHITE);
+        gameBar.setSize(800, 300);
+        frame.add(gameBar, BorderLayout.SOUTH);
         //Append the game environment
         GamePanel newGamePanel = new GamePanel();
-        frame.add(newGamePanel);
+        frame.add(newGamePanel,BorderLayout.CENTER);
         newGamePanel.startGameThread();
+
+
+
+        frame.setVisible(true);
 
     }
 

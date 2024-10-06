@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.Random;
 
 public class Enemy extends Entity {
     public Player player;

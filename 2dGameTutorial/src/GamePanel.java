@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
@@ -14,13 +15,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
+
+    //Entities
     Player player = new Player(this, keyHandler);
     Enemy enemy = new Enemy(keyHandler, this, player);
+    ArrayList<Enemy> enemies = new ArrayList<>();
     //Constructor for the panel
     public GamePanel() {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.black);
-
+        //For key input
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
     }
