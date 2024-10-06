@@ -3,16 +3,20 @@ import java.awt.*;
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
+    public int FPS;
 
     public Player(GamePanel gp , KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         setDefaultValues();
+        FPS = 24;
+        hp = FPS;
     }
     public void setDefaultValues() {
         x = 100;
         y = 100;
-        speed = gp.tileSize;
+        speed = 10;
+
     }
     public void update() {
         if(keyHandler.downPressed) {
@@ -26,6 +30,14 @@ public class Player extends Entity {
         }
         if(keyHandler.rightPressed) {
             x += speed;
+        }
+        if(keyHandler.turnFPSDown) {
+            this.FPS--;
+            System.out.println("FPS: " + this.FPS);
+        }
+        if(keyHandler.turnFPSUp) {
+            this.FPS++;
+            System.out.println("FPS: " + this.FPS);
         }
     }
     public void draw(Graphics2D g2) {

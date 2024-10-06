@@ -11,11 +11,10 @@ public class GamePanel extends JPanel implements Runnable {
     final int noRows = 8;
     final int panelWidth = tileSize * noColumns;
     final int panelHeight = tileSize * noRows;
-
-    public int FPS = 8;
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
+    Enemy enemy = new Enemy(keyHandler, this, player);
     //Constructor for the panel
     public GamePanel() {
         setPreferredSize(new Dimension(panelWidth, panelHeight));
@@ -24,7 +23,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
     }
-
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -33,9 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
     @Override
     public void run() {
         //System.out.println("Game thread started");
-        double drawInterval = (double) 1000000000 / FPS; //Interval in nanoseconds
+        double drawInterval = (double) 1000000000 / player.FPS; //Interval in nanoseconds
         double nextDrawTime = System.nanoTime() + drawInterval; //Calculate the next sys time we are drawing at
         while(gameThread.isAlive()) {
+            drawInterval = (double) 1000000000 / player.FPS;
             update();
             repaint();
             //I don't fucking know what this is like... Jesus
@@ -58,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Update game data function
     public void update() {
         player.update();
+        enemy.update();
     }
     //Redraw the panels components
     public void paintComponent(Graphics g) {
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         player.draw(g2);
-
+        enemy.draw(g2);
         g2.dispose();
     }
 }
