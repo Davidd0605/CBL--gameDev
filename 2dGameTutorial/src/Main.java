@@ -14,7 +14,7 @@ public class Main {
         JFrame frame = new JFrame();
         frame.setSize(800, 600);
         frame.setResizable(false);
-        frame.setTitle("Game Tutorial");
+        frame.setTitle("Touch grass");
         frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
@@ -23,7 +23,6 @@ public class Main {
         //Append the game environment
         GamePanel newGamePanel = new GamePanel();
         frame.add(newGamePanel);
-
         newGamePanel.startGameThread();
 
     }

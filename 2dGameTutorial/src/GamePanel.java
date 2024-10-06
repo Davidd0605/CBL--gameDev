@@ -11,6 +11,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int noRows = 8;
     final int panelWidth = tileSize * noColumns;
     final int panelHeight = tileSize * noRows;
+
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
     Player player = new Player(this, keyHandler);
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
     }
+    // Create another thread for the mobs
     //Run is the game loop
     @Override
     public void run() {
@@ -34,10 +36,13 @@ public class GamePanel extends JPanel implements Runnable {
         double drawInterval = (double) 1000000000 / player.FPS; //Interval in nanoseconds
         double nextDrawTime = System.nanoTime() + drawInterval; //Calculate the next sys time we are drawing at
         while(gameThread.isAlive()) {
-            drawInterval = (double) 1000000000 / player.FPS;
+            //the part where we actually do stuff
+            //----------------------
             update();
             repaint();
-            //I don't fucking know what this is like... Jesus
+            //----------------------
+            drawInterval = (double) 1000000000 / player.FPS;
+            // try and catch works as follows: if the program runs intro any errors in the try flag, then it will cll t
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime / 1000000;

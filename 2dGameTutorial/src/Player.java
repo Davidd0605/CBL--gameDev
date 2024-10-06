@@ -4,12 +4,11 @@ public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
     public int FPS;
-
     public Player(GamePanel gp , KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
         setDefaultValues();
-        FPS = 24;
+        FPS = 50;
         hp = FPS;
     }
     public void setDefaultValues() {
@@ -19,6 +18,7 @@ public class Player extends Entity {
 
     }
     public void update() {
+        speed = 50 * 10 / FPS; // speed is i.p. to FPS
         if(keyHandler.downPressed) {
             y += speed;
         }
