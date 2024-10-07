@@ -1,4 +1,9 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -41,7 +46,19 @@ public class Player extends Entity {
         }
     }
     public void draw(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+//        g2.setColor(Color.WHITE);
+//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+//        g2.drawRect(x,y,gp.tileSize,gp.tileSize);
+        BufferedImage img = null;
+        try
+        {
+            img = ImageIO.read(getClass().getResourceAsStream("Monkey-Selfie.jpeg"));
+        }
+        catch ( IOException exc )
+        {
+            //TODO: Handle exception.
+        }
+        g2.drawImage(img, x, y, gp.tileSize, gp.tileSize, null);
+
     }
 }

@@ -6,7 +6,7 @@ public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
     //Size of a chess tile will be 64x64 pixel
-    public final int tileSize = 64;
+    public final int tileSize = 60;
 
     final int noColumns = 8;
     final int noRows = 8;
@@ -22,8 +22,9 @@ public class GamePanel extends JPanel implements Runnable {
     ArrayList<Enemy> enemies = new ArrayList<>();
     //Constructor for the panel
     public GamePanel() {
-        setPreferredSize(new Dimension(panelWidth, panelHeight));
+        this.setBounds(0, 0, 800, 450);
         this.setBackground(Color.black);
+
         //For key input
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
@@ -45,6 +46,8 @@ public class GamePanel extends JPanel implements Runnable {
             update();
             repaint();
             //----------------------
+
+            //THIS U IGNORE
             drawInterval = (double) 1000000000 / player.FPS;
             // try and catch works as follows: if the program runs intro any errors in the try flag, then it will cll t
             try {

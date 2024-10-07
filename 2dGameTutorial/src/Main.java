@@ -19,17 +19,15 @@ public class Main {
         frame.setResizable(false);
         frame.setTitle("Touch grass");
         frame.setLocationRelativeTo(null);
-
-
+        frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GameBar gameBar = new GameBar();
-        gameBar.setBackground(Color.WHITE);
-        gameBar.setSize(800, 300);
-        frame.add(gameBar, BorderLayout.SOUTH);
-        //Append the game environment
+
         GamePanel newGamePanel = new GamePanel();
-        frame.add(newGamePanel,BorderLayout.CENTER);
+        frame.add(newGamePanel);
         newGamePanel.startGameThread();
+
+        GameBar newGameBar = new GameBar();
+        frame.add(newGameBar);
 
 
 
