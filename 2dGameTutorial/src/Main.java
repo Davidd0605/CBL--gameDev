@@ -15,7 +15,7 @@ public class Main {
         //Create a frame for our game
 
         JFrame frame = new JFrame();
-        frame.setSize(800, 600);
+        frame.setSize(1000, 800);
         frame.setResizable(false);
         frame.setTitle("Touch grass");
         frame.setLocationRelativeTo(null);
@@ -24,11 +24,10 @@ public class Main {
 
         GamePanel newGamePanel = new GamePanel();
         frame.add(newGamePanel);
-        newGamePanel.startGameThread();
-
         GameBar newGameBar = new GameBar();
         frame.add(newGameBar);
-        newGameBar.addMouseListener(new myListener());
+
+        newGamePanel.startGameThread();
 
         frame.setVisible(true);
 
