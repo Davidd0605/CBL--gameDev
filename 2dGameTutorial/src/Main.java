@@ -24,11 +24,11 @@ public class Main {
 
         GamePanel newGamePanel = new GamePanel();
         frame.add(newGamePanel);
-        GameBar newGameBar = new GameBar();
-        frame.add(newGameBar);
+
+//        GameBar newGameBar = new GameBar();
+//        frame.add(newGameBar);
 
         newGamePanel.startGameThread();
-
         frame.setVisible(true);
 
     }

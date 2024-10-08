@@ -19,7 +19,7 @@ public class Enemy extends Entity {
         x = 300;
         y = 300;
         hp = 50;
-        speed = 5;
+        speed = 2;
         hitBoxRadius = Math.sqrt(2)/2 * gp.tileSize;
     }
     public void assignSprite() {
