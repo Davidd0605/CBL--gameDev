@@ -1,7 +1,7 @@
 Main idea: Top Down wave survival game with the main gimmick is that health is replaced by fps
 Topics of choice(for now): Multithreading and Path detection
 
-Stage I:
+Group project 95
 
 Name: Generate tile map with player
 
