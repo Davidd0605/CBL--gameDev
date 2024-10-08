@@ -15,11 +15,13 @@ public class GamePanel extends JPanel implements Runnable {
     public int frameClock = 0;
 
     Thread gameThread;
+    Thread enemyThread;
     KeyHandler keyHandler = new KeyHandler();
 
     //Entities
     Player player = new Player(this, keyHandler);
     Enemy enemy = new Enemy(keyHandler, this, player);
+
     ArrayList<Enemy> enemies = new ArrayList<>();
     //Constructor for the panel
     public GamePanel() {
@@ -29,6 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
         //For key input
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+    public void startEnemyThread() {
+        enemyThread = new Thread(this);
+
     }
     public void startGameThread() {
         gameThread = new Thread(this);
