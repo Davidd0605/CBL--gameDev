@@ -42,23 +42,25 @@ public class GamePanel extends JPanel implements MouseListener {
         Graphics2D g2 = (Graphics2D) g;
         player.draw(g2);
         enemy.draw(g2);
+        for(Bullet bullet : player.bullets)
+            bullet.draw(g2);
         g2.dispose();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
         //System.out.println("Mouse Clicked at position" + e.getX() + "," + e.getY());
         double norm = Math.sqrt(Math.pow((e.getX() - player.x), 2) + Math.pow((e.getY() - player.y), 2));
         dirX = (e.getX() - player.x)/norm;
         dirY = (e.getY() - player.y)/norm;
         //System.out.println("Direction vector of projectile:" + (e.getX() - player.x)/norm + "," + (e.getY() - player.y) /norm);
         player.shootButtonClicked = true;
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
     }
 
     @Override

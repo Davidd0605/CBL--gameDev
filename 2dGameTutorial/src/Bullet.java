@@ -18,7 +18,7 @@ public class Bullet {
         this.directionX = directionX;
         this.directionY = directionY;
         this.player = player;
-        this.speed = 5;
+        this.speed = 70;
     }
     public void update() {
         currentX += directionX * speed;
@@ -26,6 +26,7 @@ public class Bullet {
     }
     public void draw(Graphics g) {
         g.setColor(Color.YELLOW);
+        g.fillOval((int) currentX, (int) currentY, 10,10);
         g.drawOval((int) currentX, (int) currentY, 10, 10);
     }
 }

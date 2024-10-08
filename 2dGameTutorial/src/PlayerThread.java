@@ -48,10 +48,9 @@ public class PlayerThread implements Runnable {
     public void update() {
         player.update();
         //update position of all existing bullets
-        for(Bullet bullet : player.bullets) {
-            bullet.update();
-        }
-        System.out.println(bullets.size() + " bullets");
+//        for(Bullet bullet : player.bullets) {
+//            bullet.update();
+//        }
 
     }
     //Redraw the panels components

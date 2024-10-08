@@ -42,7 +42,7 @@ public class Player extends Entity {
     }
     public void update() {
 
-        speed = 50 * 10 / FPS; // speed is i.p. to FPS
+        speed = 20 * 10 / (FPS/2); // speed is i.p. to FPS
         double xDirection = 0;
         double yDirection = 0;
 
@@ -64,7 +64,6 @@ public class Player extends Entity {
         }
         if(shootButtonClicked) {
             //shoot
-            System.out.println("SHOOT");
             Bullet tempBullet = new Bullet(x,y,gp.dirX,gp.dirY,this);
             bullets.add(tempBullet);
         }
