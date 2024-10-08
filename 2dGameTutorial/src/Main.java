@@ -1,6 +1,7 @@
 import UI.GameBar;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 
 /**
  *
@@ -27,7 +28,7 @@ public class Main {
 
         GameBar newGameBar = new GameBar();
         frame.add(newGameBar);
-
+        newGameBar.addMouseListener(new myListener());
 
         frame.setVisible(true);
 

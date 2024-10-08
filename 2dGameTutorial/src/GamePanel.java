@@ -12,13 +12,14 @@ public class GamePanel extends JPanel implements Runnable {
     final int noRows = 8;
     final int panelWidth = tileSize * noColumns;
     final int panelHeight = tileSize * noRows;
+    public int frameClock = 0;
 
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
 
     //Entities
     Player player = new Player(this, keyHandler);
-    //Enemy enemy = new Enemy(keyHandler, this, player);
+    Enemy enemy = new Enemy(keyHandler, this, player);
     ArrayList<Enemy> enemies = new ArrayList<>();
     //Constructor for the panel
     public GamePanel() {
@@ -37,12 +38,15 @@ public class GamePanel extends JPanel implements Runnable {
     //Run is the game loop
     @Override
     public void run() {
+
         //System.out.println("Game thread started");
         double drawInterval = (double) 1000000000 / player.FPS; //Interval in nanoseconds
         double nextDrawTime = System.nanoTime() + drawInterval; //Calculate the next sys time we are drawing at
         while(gameThread.isAlive()) {
             //the part where we actually do stuff
             //----------------------
+            frameClock++;
+            frameClock %= 3;
             update();
             repaint();
             //----------------------
@@ -69,7 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Update game data function
     public void update() {
         player.update();
-        //enemy.update();
+        enemy.update();
     }
     //Redraw the panels components
     public void paintComponent(Graphics g) {
@@ -79,7 +83,9 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         player.draw(g2);
-        //enemy.draw(g2);
+        enemy.draw(g2);
+
+
         g2.dispose();
     }
 }

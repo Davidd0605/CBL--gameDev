@@ -32,9 +32,9 @@ public class Player extends Entity {
 //        down1 = ImageIO.read(getClass().getResourceAsStream());
 //        down2 = ImageIO.read(getClass().getResourceAsStream());
 //        left1 = ImageIO.read(getClass().getResourceAsStream());
-//        left2 = ImageIO.read(getClass().getResourceAsStream());
-//        right1 = ImageIO.read(getClass().getResourceAsStream());
-//        right2 = ImageIO.read(getClass().getResourceAsStream());
+//       left2 = ImageIO.read(getClass().getResourceAsStream());
+//       right1 = ImageIO.read(getClass().getResourceAsStream());
+//       right2 = ImageIO.read(getClass().getResourceAsStream());
     }
     public void update() {
 
@@ -63,7 +63,7 @@ public class Player extends Entity {
         double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
         xDirection = length == 0 ? 0 : xDirection / length;
         yDirection = length == 0 ? 0 : yDirection / length;
-        length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
+
         x += xDirection * speed;
         y += yDirection * speed;
 
