@@ -1,5 +1,4 @@
 import UI.GameBar;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,7 +27,6 @@ public class Main {
 
         GameBar newGameBar = new GameBar();
         frame.add(newGameBar);
-
 
 
         frame.setVisible(true);

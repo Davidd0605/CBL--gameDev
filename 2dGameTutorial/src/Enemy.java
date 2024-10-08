@@ -5,12 +5,14 @@ public class Enemy extends Entity {
     public GamePanel gp;
     public KeyHandler keyHandler;
     public boolean isCollided = false;
+    public double hitBoxRadius;
 
     public Enemy (KeyHandler keyHandler, GamePanel gp, Player player) {
         this.keyHandler = keyHandler;
         this.gp = gp;
         this.player = player;
         setDefaultValues();
+        assignSprite();
 
     }
     private void setDefaultValues() {
@@ -18,10 +20,21 @@ public class Enemy extends Entity {
         y = 300;
         hp = 50;
         speed = 5;
+        hitBoxRadius = Math.sqrt(2)/2 * gp.tileSize;
+    }
+    public void assignSprite() {
+//        up1 = ImageIO.read(getClass().getResourceAsStream());
+//        up2 = ImageIO.read(getClass().getResourceAsStream());
+//        down1 = ImageIO.read(getClass().getResourceAsStream());
+//        down2 = ImageIO.read(getClass().getResourceAsStream());
+//        left1 = ImageIO.read(getClass().getResourceAsStream());
+//        left2 = ImageIO.read(getClass().getResourceAsStream());
+//        right1 = ImageIO.read(getClass().getResourceAsStream());
+//        right2 = ImageIO.read(getClass().getResourceAsStream());
     }
     public void detectCollison() {
         double Distance = Math.sqrt(Math.pow(x - player.x, 2) + Math.pow(y - player.y, 2));
-        if(Distance <= 60) {
+        if(Distance <= hitBoxRadius) {
             // could make like an imaginary circle around the player and the enemy characters and just detect
             // the collision when the circles intersect? maybe
             isCollided = true;

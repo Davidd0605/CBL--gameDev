@@ -6,7 +6,7 @@ public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
     //Size of a chess tile will be 64x64 pixel
-    public final int tileSize = 60;
+    public final int tileSize = 64;
 
     final int noColumns = 8;
     final int noRows = 8;
@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Entities
     Player player = new Player(this, keyHandler);
-    Enemy enemy = new Enemy(keyHandler, this, player);
+    //Enemy enemy = new Enemy(keyHandler, this, player);
     ArrayList<Enemy> enemies = new ArrayList<>();
     //Constructor for the panel
     public GamePanel() {
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Update game data function
     public void update() {
         player.update();
-        enemy.update();
+        //enemy.update();
     }
     //Redraw the panels components
     public void paintComponent(Graphics g) {
@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         player.draw(g2);
-        enemy.draw(g2);
+        //enemy.draw(g2);
         g2.dispose();
     }
 }

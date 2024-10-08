@@ -20,6 +20,7 @@ public class Player extends Entity {
         hp = FPS;
     }
     public void setDefaultValues() {
+        size = gp.tileSize;
         x = 100;
         y = 100;
         speed = 10;
@@ -95,6 +96,8 @@ public class Player extends Entity {
 //                img = down1;
 //                break;
 //        }
+
+        //PLACEHOLDER
         try
         {
             img = ImageIO.read(getClass().getResourceAsStream("Monkey-Selfie.jpeg"));
@@ -103,7 +106,9 @@ public class Player extends Entity {
         {
             //TODO: Handle exception.
         }
-        g2.drawImage((Image) img, (int)x, (int)y, gp.tileSize, gp.tileSize, null);
+        //----------------------
+
+        g2.drawImage((Image) img, (int)x, (int)y, (int) size, (int) size, null);
 
     }
 }
