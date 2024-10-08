@@ -25,14 +25,14 @@ public class Enemy extends Entity {
             // could make like an imaginary circle around the player and the enemy characters and just detect
             // the collision when the circles intersect? maybe
             isCollided = true;
-            System.out.println("Collision Detected");
+            //System.out.println("Collision Detected");
         }
         else
             isCollided = false;
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.ORANGE);
-        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
+        g2.fillRect((int) x, (int) y, gp.tileSize, gp.tileSize);
     }
     public void update() {
         if(!isCollided) {
