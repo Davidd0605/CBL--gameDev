@@ -47,6 +47,10 @@ Name: Enemy death
 
 How to demo: After being hit by a player three times, a sound will play and a death animation for the enemy will play
 
+Name: Wall spawn and collision
+
+How to demo: Both the enemies and the player will get not pass through the wall, the enemy being forced to choose a new path
+
 Name: Wave end
 
 How to demo: After killing a certain amount of enemies, a panel saying "Wave finished" will appear and 3 seconds later another wave will start, saying "Wave start"
