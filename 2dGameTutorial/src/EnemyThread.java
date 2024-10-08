@@ -37,7 +37,7 @@ public class EnemyThread implements Runnable {
         }
     }
     void update() {
-        enemy.update();
+            enemy.update();
     }
 }
 

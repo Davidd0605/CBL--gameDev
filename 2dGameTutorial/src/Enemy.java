@@ -6,11 +6,13 @@ public class Enemy extends Entity {
     public KeyHandler keyHandler;
     public boolean isCollided = false;
     public double hitBoxRadius;
+    public EnemyThread thread;
 
     public Enemy (KeyHandler keyHandler, GamePanel gp, Player player) {
         this.keyHandler = keyHandler;
         this.gp = gp;
         this.player = player;
+        thread = gp.enemyThread;
         setDefaultValues();
         assignSprite();
 
@@ -20,7 +22,7 @@ public class Enemy extends Entity {
         y = 300;
         hp = 50;
         speed = 2;
-        hitBoxRadius = Math.sqrt(2)/2 * gp.tileSize;
+        hitBoxRadius =gp.tileSize + gp.tileSize * .4;
     }
     public void assignSprite() {
 //        up1 = ImageIO.read(getClass().getResourceAsStream());
@@ -57,12 +59,9 @@ public class Enemy extends Entity {
                 y+= speed;
             else if(y > player.y)
                 y-= speed;
-        } /*else {
-        *
-        * PAUSE FOR X SECONDS, ATK, PLAY SOME ATK ANIMATION
-        *
-        *}
-        */
+        } else {
+
+        }
         detectCollison();
     }
 }

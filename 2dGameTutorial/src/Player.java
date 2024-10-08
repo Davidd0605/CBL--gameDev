@@ -5,17 +5,21 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
     public int FPS;
-
+    public boolean shootButtonClicked = false;
+    public PlayerThread thread;
+    ArrayList<Bullet> bullets = new ArrayList<>();
     public Player(GamePanel gp , KeyHandler keyHandler) {
 
         this.gp = gp;
         this.keyHandler = keyHandler;
         setDefaultValues();
+        thread = gp.playerThread;
         FPS = 50;
         hp = FPS;
     }
@@ -57,6 +61,12 @@ public class Player extends Entity {
         if(keyHandler.leftPressed) {
             direction = "left";
             xDirection = -1;
+        }
+        if(shootButtonClicked) {
+            //shoot
+            System.out.println("SHOOT");
+            Bullet tempBullet = new Bullet(x,y,gp.dirX,gp.dirY,this);
+            bullets.add(tempBullet);
         }
 
         //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed

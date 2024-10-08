@@ -1,10 +1,12 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class PlayerThread implements Runnable {
 
     Thread thread;
     Player player;
     GamePanel gamePanel;
+    ArrayList<Bullet> bullets = new ArrayList<>();
 
     PlayerThread(Player player, GamePanel gamePanel) {
         this.player = player;
@@ -15,6 +17,7 @@ public class PlayerThread implements Runnable {
         thread = new Thread(this);
         thread.start();
     }
+
     @Override
     public void run() {
 
@@ -44,6 +47,12 @@ public class PlayerThread implements Runnable {
     //Update game data function
     public void update() {
         player.update();
+        //update position of all existing bullets
+        for(Bullet bullet : player.bullets) {
+            bullet.update();
+        }
+        System.out.println(bullets.size() + " bullets");
+
     }
     //Redraw the panels components
 
