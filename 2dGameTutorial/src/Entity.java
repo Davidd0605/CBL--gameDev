@@ -10,6 +10,8 @@ public class Entity {
 
 
     //animations
-    public String direction = "left";
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public String direction = "idle";
+    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2, idle1, idle2;
+    public int spriteCounter = 0;
+    public int spriteNum = 1;
 }

@@ -6,7 +6,6 @@ public class PlayerThread implements Runnable {
     Thread thread;
     Player player;
     GamePanel gamePanel;
-    ArrayList<Bullet> bullets = new ArrayList<>();
 
     PlayerThread(Player player, GamePanel gamePanel) {
         this.player = player;

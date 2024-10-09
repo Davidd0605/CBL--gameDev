@@ -1,11 +1,7 @@
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -22,23 +18,30 @@ public class Player extends Entity {
         thread = gp.playerThread;
         FPS = 50;
         hp = FPS;
+
     }
     public void setDefaultValues() {
         size = gp.tileSize;
         x = 100;
         y = 100;
         speed = 10;
+        assignSprite();
     }
 
-    public void assignSprite() {
-//        up1 = ImageIO.read(getClass().getResourceAsStream());
-//        up2 = ImageIO.read(getClass().getResourceAsStream());
-//        down1 = ImageIO.read(getClass().getResourceAsStream());
-//        down2 = ImageIO.read(getClass().getResourceAsStream());
-//        left1 = ImageIO.read(getClass().getResourceAsStream());
-//       left2 = ImageIO.read(getClass().getResourceAsStream());
-//       right1 = ImageIO.read(getClass().getResourceAsStream());
-//       right2 = ImageIO.read(getClass().getResourceAsStream());
+    public void assignSprite(){
+        try {
+            up1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_up_1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_up_2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_down_1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_down_2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     public void update() {
 
@@ -62,6 +65,9 @@ public class Player extends Entity {
             direction = "left";
             xDirection = -1;
         }
+        if(xDirection == 0 && yDirection == 0) {
+            direction = "down";
+        }
         //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed
         double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
         xDirection = length == 0 ? 0 : xDirection / length;
@@ -78,38 +84,42 @@ public class Player extends Entity {
             this.FPS++;
             System.out.println("FPS: " + this.FPS);
         }
+        spriteCounter++;
+        if(spriteCounter > 10 * FPS / 50) {
+            spriteNum = spriteNum == 2 ? 1 : 2;
+            spriteCounter = 0;
+        }
     }
     public void draw(Graphics2D g2) {
-//        g2.setColor(Color.WHITE);
-//        g2.fillRect(x, y, gp.tileSize, gp.tileSize);
-//        g2.drawRect(x,y,gp.tileSize,gp.tileSize);
-        BufferedImage img = null;
-//
-//        switch (direction) {
-//            case "left":
-//                img = left1;
-//                break;
-//            case "up":
-//                img = up1;
-//                break;
-//            case "right":
-//                img = right1;
-//                break;
-//            case "down":
-//                img = down1;
-//                break;
-//        }
+        BufferedImage img = up1;
 
-        //PLACEHOLDER
-        try
-        {
-            img = ImageIO.read(getClass().getResourceAsStream("Monkey-Selfie.jpeg"));
+        switch (direction) {
+            case "left":
+                if(spriteNum == 1)
+                    img = left1;
+                else
+                    img = left2;
+                break;
+            case "up":
+                if(spriteNum == 1)
+                    img = up1;
+                else
+                    img = up2;
+                break;
+            case "right":
+                if(spriteNum == 1)
+                    img = right1;
+                else
+                    img = right2;
+                break;
+            case "down":
+                if(spriteNum == 1)
+                    img = down1;
+                else
+                    img = down2;
+                break;
         }
-        catch ( IOException exc )
-        {
-            //TODO: Handle exception.
-        }
-        //----------------------
+
 
         g2.drawImage((Image) img, (int)x, (int)y, (int) size, (int) size, null);
 

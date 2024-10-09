@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements MouseListener, Runnable {
+public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
     //Size of a chess tile will be 64x64 pixel
@@ -13,7 +10,6 @@ public class GamePanel extends JPanel implements MouseListener, Runnable {
     final int noRows = 10;
     final int FPS = 40;
     KeyHandler keyHandler = new KeyHandler();
-    ArrayList<Bullet> bullets = new ArrayList<>();
     GameBar gameBar;
 
 
@@ -30,7 +26,6 @@ public class GamePanel extends JPanel implements MouseListener, Runnable {
     public GamePanel() {
         this.setSize(tileSize * noColumns, tileSize * noRows);
         this.setBackground(Color.black);
-        this.addMouseListener(this);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         gameThread = new Thread(this);
@@ -42,9 +37,6 @@ public class GamePanel extends JPanel implements MouseListener, Runnable {
     }
     void update() {
         enemy.update();
-        for(Bullet bullet : bullets) {
-            bullet.update();
-        }
         gameBar.update();
 
     }
@@ -54,44 +46,7 @@ public class GamePanel extends JPanel implements MouseListener, Runnable {
         Graphics2D g2 = (Graphics2D) g;
         player.draw(g2);
         enemy.draw(g2);
-        for (Bullet bullet : bullets) {
-            bullet.draw(g2);
-        }
         g2.dispose();
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //System.out.println("Mouse Clicked at position " + e.getX() + "," + e.getY());
-        double norm = Math.sqrt(Math.pow((e.getX() - player.x), 2) + Math.pow((e.getY() - player.y), 2));
-        dirX = (e.getX() - player.x)/norm;
-        dirY = (e.getY() - player.y)/norm;
-        //System.out.println("Direction vector of projectile: " + (e.getX() - player.x)/norm + "," + (e.getY() - player.y) /norm);
-        if(player.canShoot) {
-            //Instantiate new bullet
-            Bullet tempBullet = new Bullet(player.x, player.y, dirX, dirY, player);
-            bullets.add(tempBullet);
-        }
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-    @Override
-    public void mouseExited(MouseEvent e) {
 
     }
 
