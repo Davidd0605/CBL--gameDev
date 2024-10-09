@@ -6,13 +6,11 @@ public class Enemy extends Entity {
     public KeyHandler keyHandler;
     public boolean isCollided = false;
     public double hitBoxRadius;
-    public EnemyThread thread;
 
     public Enemy (KeyHandler keyHandler, GamePanel gp, Player player) {
         this.keyHandler = keyHandler;
         this.gp = gp;
         this.player = player;
-        thread = gp.enemyThread;
         setDefaultValues();
         assignSprite();
 

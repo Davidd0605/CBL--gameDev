@@ -13,7 +13,7 @@ public class Player extends Entity {
     public int FPS;
     public boolean shootButtonClicked = false;
     public PlayerThread thread;
-    ArrayList<Bullet> bullets = new ArrayList<>();
+    public boolean canShoot = true;
     public Player(GamePanel gp , KeyHandler keyHandler) {
 
         this.gp = gp;
@@ -62,12 +62,6 @@ public class Player extends Entity {
             direction = "left";
             xDirection = -1;
         }
-        if(shootButtonClicked) {
-            //shoot
-            Bullet tempBullet = new Bullet(x,y,gp.dirX,gp.dirY,this);
-            bullets.add(tempBullet);
-        }
-
         //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed
         double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
         xDirection = length == 0 ? 0 : xDirection / length;
@@ -76,11 +70,11 @@ public class Player extends Entity {
         x += xDirection * speed;
         y += yDirection * speed;
 
-        if(keyHandler.turnFPSDown) {
+        if(keyHandler.turnFPSDown && FPS > 8) {
             this.FPS--;
             System.out.println("FPS: " + this.FPS);
         }
-        if(keyHandler.turnFPSUp) {
+        if(keyHandler.turnFPSUp && FPS < 60) {
             this.FPS++;
             System.out.println("FPS: " + this.FPS);
         }

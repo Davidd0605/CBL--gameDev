@@ -1,7 +1,5 @@
-import UI.GameBar;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 
 /**
  *
@@ -22,12 +20,14 @@ public class Main {
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+
         GamePanel newGamePanel = new GamePanel();
         frame.add(newGamePanel, BorderLayout.CENTER);
 
-        GameBar newGameBar = new GameBar();
-        frame.add(newGameBar, BorderLayout.NORTH);
-
+        GameBar newGameBar = new GameBar(newGamePanel);
+        frame.add(newGameBar, BorderLayout.SOUTH);
+        newGamePanel.gameBar = newGameBar;
         newGamePanel.startGameThread();
         frame.setVisible(true);
 

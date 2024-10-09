@@ -47,11 +47,6 @@ public class PlayerThread implements Runnable {
     //Update game data function
     public void update() {
         player.update();
-        //update position of all existing bullets
-//        for(Bullet bullet : player.bullets) {
-//            bullet.update();
-//        }
-
     }
     //Redraw the panels components
 
