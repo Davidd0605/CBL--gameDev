@@ -32,7 +32,7 @@ public class Enemy extends Entity {
 //        right1 = ImageIO.read(getClass().getResourceAsStream());
 //        right2 = ImageIO.read(getClass().getResourceAsStream());
     }
-    public void detectCollison() {
+    public void detectCollision() {
         double Distance = Math.sqrt(Math.pow(x - player.x, 2) + Math.pow(y - player.y, 2));
         if(Distance <= hitBoxRadius) {
             // could make like an imaginary circle around the player and the enemy characters and just detect
@@ -63,6 +63,6 @@ public class Enemy extends Entity {
         *
         *}
         */
-        detectCollison();
+        detectCollision();
     }
 }
