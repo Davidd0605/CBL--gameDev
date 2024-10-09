@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
+    public final int originalTileSize = 16;
+    final int scale =3;
+
 
     //Size of a chess tile will be 64x64 pixel
-    public final int tileSize = 64;
+    public final int tileSize = originalTileSize * scale;
 
     final int noColumns = 8;
     final int noRows = 8;
@@ -14,6 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int panelHeight = tileSize * noRows;
     public int frameClock = 0;
 
+    TileManager tileM = new TileManager(this);
     Thread gameThread;
     Thread enemyThread;
     KeyHandler keyHandler = new KeyHandler();
@@ -88,7 +92,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
+        tileM.draw(g2);
+
         player.draw(g2);
+
         enemy.draw(g2);
 
 
