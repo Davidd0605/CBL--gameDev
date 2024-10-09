@@ -18,7 +18,7 @@ public class Player extends Entity {
         thread = gp.playerThread;
         FPS = 50;
         hp = FPS;
-
+        hitBox = new Rectangle()
     }
     public void setDefaultValues() {
         size = gp.tileSize;
