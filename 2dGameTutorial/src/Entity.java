@@ -17,5 +17,6 @@ public class Entity {
 
     //HITBOX
     public Rectangle hitBox;
+    public boolean collisionOn = false;
 
 }
