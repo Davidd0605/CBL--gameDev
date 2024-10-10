@@ -24,7 +24,7 @@ public class TileManager {
         try {
             tile[0] = new tiles();
 
-            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("src/block_01.png")));
+            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("block_01.png")));
 
 
         } catch (IOException e){

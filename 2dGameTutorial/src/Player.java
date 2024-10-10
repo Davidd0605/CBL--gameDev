@@ -10,6 +10,8 @@ public class Player extends Entity {
     public boolean shootButtonClicked = false;
     public PlayerThread thread;
     public boolean canShoot = true;
+    public boolean hasIFrames = false;
+    public int iFrames = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
 
         this.gp = gp;
@@ -18,6 +20,11 @@ public class Player extends Entity {
         thread = gp.playerThread;
         FPS = 50;
         hp = FPS;
+        hitBox = new Rectangle();
+        hitBox.x = 8 ;
+        hitBox.y = 16 ;
+        hitBox.width = 32;
+        hitBox.height = 32;
 
     }
     public void setDefaultValues() {
@@ -38,6 +45,7 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_2.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +53,7 @@ public class Player extends Entity {
     }
     public void update() {
 
-        speed = 20 * 10 / (FPS/2); // speed is i.p. to FPS
+        speed = 10 * 10 / (FPS/2); // speed is i.p. to FPS
         double xDirection = 0;
         double yDirection = 0;
 
@@ -67,6 +75,14 @@ public class Player extends Entity {
         }
         if(xDirection == 0 && yDirection == 0) {
             direction = "down";
+        }
+
+        if(hasIFrames) {
+            iFrames++;
+            if(iFrames == 5 * FPS / 2) {
+                hasIFrames = false;
+                iFrames = 0;
+            }
         }
         //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed
         double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
@@ -119,9 +135,7 @@ public class Player extends Entity {
                     img = down2;
                 break;
         }
-
-
-        g2.drawImage((Image) img, (int)x, (int)y, (int) size, (int) size, null);
+        g2.drawImage(img, (int)x, (int)y, (int) size, (int) size, null);
 
     }
 }
