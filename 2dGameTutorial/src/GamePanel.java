@@ -11,6 +11,7 @@ public class GamePanel extends JPanel implements Runnable {
     final int FPS = 40;
     KeyHandler keyHandler = new KeyHandler();
     GameBar gameBar;
+    TileManager tileManager = new TileManager(this);
 
 
     //temporary
@@ -44,6 +45,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
+        tileManager.draw(g2);
         player.draw(g2);
         enemy.draw(g2);
         g2.dispose();
