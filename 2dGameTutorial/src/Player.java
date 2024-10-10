@@ -12,6 +12,8 @@ public class Player extends Entity {
     public boolean canShoot = true;
     public boolean hasIFrames = false;
     public int iFrames = 0;
+
+    public int frameClock = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
 
         this.gp = gp;
@@ -45,6 +47,17 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_right_2.png"));
+            idle1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_idle_1.png"));
+            idle2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_idle_2.png"));
+            atkDown1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_down_1.png"));
+            atkDown2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_down_2.png"));
+            atkLeft1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_left_1.png"));
+            atkLeft2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_left_2.png"));
+            atkRight1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_right_1.png"));
+            atkRight2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_right_2.png"));
+            atkUp1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_up_1.png"));
+            atkUp2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_attack_up_2.png"));
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,6 +70,13 @@ public class Player extends Entity {
         double xDirection = 0;
         double yDirection = 0;
 
+        if(!canShoot) {
+            frameClock++;
+            if(frameClock >= FPS) {
+                frameClock = 0;
+                canShoot = true;
+            }
+        }
         if(keyHandler.downPressed) {
             direction = "down";
             yDirection = 1;
@@ -74,7 +94,7 @@ public class Player extends Entity {
             xDirection = -1;
         }
         if(xDirection == 0 && yDirection == 0) {
-            direction = "down";
+            direction = "idle";
         }
 
         if(hasIFrames) {
@@ -110,25 +130,51 @@ public class Player extends Entity {
         BufferedImage img = up1;
 
         switch (direction) {
+            case "idle":
+                if(canShoot && keyHandler.atkPressed) {
+                    System.out.println("RADIAL ATTACK");
+                    canShoot = false;
+                }
+                if(spriteNum == 1)
+                    img = idle1;
+                else
+                    img = idle2;
+                break;
             case "left":
+                if(canShoot && keyHandler.atkPressed) {
+                    System.out.println("LEFT ATTAAAACK");
+                    canShoot = false;
+                }
                 if(spriteNum == 1)
                     img = left1;
                 else
                     img = left2;
                 break;
             case "up":
+                if(canShoot && keyHandler.atkPressed) {
+                    System.out.println("UP ATTAAAACK");
+                    canShoot = false;
+                }
                 if(spriteNum == 1)
                     img = up1;
                 else
                     img = up2;
                 break;
             case "right":
+                if(canShoot && keyHandler.atkPressed) {
+                    System.out.println("RIGHT ATTAAAACK");
+                    canShoot = false;
+                }
                 if(spriteNum == 1)
                     img = right1;
                 else
                     img = right2;
                 break;
             case "down":
+                if(canShoot && keyHandler.atkPressed) {
+                    System.out.println("DOWN ATTAAAACK");
+                    canShoot = false;
+                }
                 if(spriteNum == 1)
                     img = down1;
                 else
