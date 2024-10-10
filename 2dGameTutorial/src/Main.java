@@ -1,7 +1,7 @@
-import UI.GameBar;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
+
 
 /**
  *
@@ -15,21 +15,35 @@ public class Main {
         //Create a frame for our game
 
         JFrame frame = new JFrame();
-        frame.setSize(800, 600);
+
+        try {
+            for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if(info.getName().equals("CDE/Motif")) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //change look and feel of main Jframe
+        frame.setSize(24 * 32, 600);
         frame.setResizable(false);
-        frame.setTitle("Touch grass");
+        frame.setTitle("FPS survivor");
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+
         GamePanel newGamePanel = new GamePanel();
-        frame.add(newGamePanel);
+        frame.add(newGamePanel, BorderLayout.CENTER);
+
+        GameBar newGameBar = new GameBar(newGamePanel);
+        frame.add(newGameBar, BorderLayout.SOUTH);
+        newGamePanel.gameBar = newGameBar;
         newGamePanel.startGameThread();
-
-        GameBar newGameBar = new GameBar();
-        frame.add(newGameBar);
-        newGameBar.addMouseListener(new myListener());
-
         frame.setVisible(true);
 
     }

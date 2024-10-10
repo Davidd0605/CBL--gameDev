@@ -3,7 +3,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
 
-    boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown;
+    boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed;
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -11,6 +11,9 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+        if(key == KeyEvent.VK_SPACE) {
+            atkPressed = true;
+        }
         if(key == KeyEvent.VK_R) {
             turnFPSUp = true;
         }
@@ -34,6 +37,9 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
+        if(key == KeyEvent.VK_SPACE) {
+            atkPressed = false;
+        }
         if(key == KeyEvent.VK_R) {
             turnFPSUp = false;
         }

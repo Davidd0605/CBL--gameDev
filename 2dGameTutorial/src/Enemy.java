@@ -38,6 +38,11 @@ public class Enemy extends Entity {
             // could make like an imaginary circle around the player and the enemy characters and just detect
             // the collision when the circles intersect? maybe
             isCollided = true;
+            if(player.FPS > 8 && !player.hasIFrames) {
+                player.FPS -= 5;
+                player.hasIFrames = true;
+            }
+
             //System.out.println("Collision Detected");
         }
         else

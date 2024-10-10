@@ -1,68 +1,68 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
-    public final int originalTileSize = 16;
-    final int scale =3;
-
 
     //Size of a chess tile will be 64x64 pixel
-    public final int tileSize = originalTileSize * scale;
-
-    final int noColumns = 8;
-    final int noRows = 8;
-    final int panelWidth = tileSize * noColumns;
-    final int panelHeight = tileSize * noRows;
-    public int frameClock = 0;
-
-    TileManager tileM = new TileManager(this);
-    Thread gameThread;
-    Thread enemyThread;
+    public final int tileSize = 48;
+    final int noColumns = 24;
+    final int noRows = 10;
+    final int FPS = 40;
     KeyHandler keyHandler = new KeyHandler();
+    GameBar gameBar;
+    TileManager tileManager = new TileManager(this);
 
+
+    //temporary
+
+    public double dirX, dirY;
     //Entities
     Player player = new Player(this, keyHandler);
     Enemy enemy = new Enemy(keyHandler, this, player);
 
-    ArrayList<Enemy> enemies = new ArrayList<>();
+    Thread gameThread;
+    PlayerThread playerThread = new PlayerThread(player, this);
     //Constructor for the panel
     public GamePanel() {
-        this.setBounds(0, 0, 800, 450);
+        this.setSize(tileSize * noColumns, tileSize * noRows);
         this.setBackground(Color.black);
-
-        //For key input
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-    }
-    public void startEnemyThread() {
-        enemyThread = new Thread(this);
-
-    }
-    public void startGameThread() {
         gameThread = new Thread(this);
+    }
+    //Start threads
+    public void startGameThread() {
+        playerThread.startGameThread();
         gameThread.start();
     }
-    // Create another thread for the mobs
-    //Run is the game loop
+    void update() {
+        enemy.update();
+        gameBar.update();
+
+    }
+    // Redraw the panels graphics
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+
+        tileManager.draw(g2);
+        player.draw(g2);
+        enemy.draw(g2);
+        g2.dispose();
+
+    }
+
+    //Game thread
     @Override
     public void run() {
+        double drawInterval = (double) 1000000000 / FPS; //Interval in nanoseconds
+        double nextDrawTime = System.nanoTime() + drawInterval;
 
-        //System.out.println("Game thread started");
-        double drawInterval = (double) 1000000000 / player.FPS; //Interval in nanoseconds
-        double nextDrawTime = System.nanoTime() + drawInterval; //Calculate the next sys time we are drawing at
         while(gameThread.isAlive()) {
-            //the part where we actually do stuff
-            //----------------------
-            frameClock++;
-            frameClock %= 3;
             update();
             repaint();
-            //----------------------
 
-            //THIS U IGNORE
-            drawInterval = (double) 1000000000 / player.FPS;
             // try and catch works as follows: if the program runs intro any errors in the try flag, then it will cll t
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
@@ -80,25 +80,4 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    //Update game data function
-    public void update() {
-        player.update();
-        enemy.update();
-    }
-    //Redraw the panels components
-    public void paintComponent(Graphics g) {
-
-        super.paintComponent(g);
-
-        Graphics2D g2 = (Graphics2D) g;
-
-        tileM.draw(g2);
-
-        player.draw(g2);
-
-        enemy.draw(g2);
-
-
-        g2.dispose();
-    }
 }
