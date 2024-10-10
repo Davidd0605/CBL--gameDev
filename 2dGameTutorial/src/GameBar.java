@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 public class GameBar extends JPanel {
+    /**
+     * Currently the game bar covers the two bottoms lanes of tiles. Was let in for debugging purposes
+     */
     public JLabel label;
     public GamePanel gamePanel;
     public GameBar(GamePanel gamePanel) {
