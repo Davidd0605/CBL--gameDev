@@ -8,7 +8,18 @@ public class GamePanel extends JPanel implements Runnable {
     public final int tileSize = 48;
     final int noColumns = 24;
     final int noRows = 10;
+
+
+    //WORLD SETTINGS
+    public final int maxWorldCol = 24;  //values of the miniMap number of columns and rows
+    public final int maxWorldRow = 18;
+
+
+    //FPS
     final int FPS = 40;
+
+
+    //Object initialization
     KeyHandler keyHandler = new KeyHandler();
     GameBar gameBar;
     TileManager tileManager = new TileManager(this);
@@ -24,8 +35,9 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     PlayerThread playerThread = new PlayerThread(player, this);
     //Constructor for the panel
-    public GamePanel() {
-        this.setSize(tileSize * noColumns, tileSize * noRows);
+    public GamePanel(int x, int y) {
+        //this.setSize(tileSize * noColumns, tileSize * noRows);  //the game panel itself seems to not have that size on the x-axis
+        this.setSize(x , y);     //-3*tileSize is for the game Bar
         this.setBackground(Color.black);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
@@ -38,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
     void update() {
         enemy.update();
-        gameBar.update();
+        //gameBar.update(); //game bar commented out
 
     }
     // Redraw the panels graphics

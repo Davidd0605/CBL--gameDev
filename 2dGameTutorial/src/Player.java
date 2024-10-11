@@ -6,6 +6,10 @@ import java.io.IOException;
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
+
+    public final int screenX;
+    public final int screenY;
+
     public int FPS;
     public boolean shootButtonClicked = false;
     public PlayerThread thread;
@@ -26,11 +30,17 @@ public class Player extends Entity {
         hitBox.width = 32;
         hitBox.height = 32;
 
+    //        screenX=(gp.tileSize* gp.noColumns/2)-(gp.tileSize/2);    //temporary comment till I find a fix
+            screenX=(gp.tileSize * 8) - (gp.tileSize / 2);
+            screenY=(gp.tileSize* gp.noRows/2)-(gp.tileSize/2);
+
+
+
     }
     public void setDefaultValues() {
         size = gp.tileSize;
-        x = 100;
-        y = 100;
+        worldX = 12* gp.tileSize;
+        worldY = 9* gp.tileSize;
         speed = 10;
         assignSprite();
     }
@@ -89,8 +99,8 @@ public class Player extends Entity {
         xDirection = length == 0 ? 0 : xDirection / length;
         yDirection = length == 0 ? 0 : yDirection / length;
 
-        x += xDirection * speed;
-        y += yDirection * speed;
+        worldX += xDirection * speed;
+        worldY += yDirection * speed;
 
         if(keyHandler.turnFPSDown && FPS > 8) {
             this.FPS--;
@@ -135,7 +145,8 @@ public class Player extends Entity {
                     img = down2;
                 break;
         }
-        g2.drawImage(img, (int)x, (int)y, (int) size, (int) size, null);
+        g2.drawImage(img, (int)screenX, (int)screenY, (int) size, (int) size, null);
+
 
     }
 }

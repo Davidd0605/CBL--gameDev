@@ -2,8 +2,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
-    public double x;
-    public double y;
+    public double worldX;   //worldX and worldY was previously x and y. the enemy is acting weird
+    public double worldY;
     public int speed;
     public double size;
     int hp;

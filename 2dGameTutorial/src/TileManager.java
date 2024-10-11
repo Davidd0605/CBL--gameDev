@@ -22,7 +22,7 @@ public class TileManager {
         mapTileNum = new int[gp.noColumns][gp.noRows];
 
         getTileImage();
-        loadMap("/maps/testMap.txt");
+        loadMap("/maps/miniMap.txt");
 
     }
 
@@ -37,6 +37,15 @@ public class TileManager {
 
             tile[2] = new tiles();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("Tiles/crate_05.png"));
+
+            tile[3] = new tiles();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_02.png"));
+
+            tile[4] = new tiles();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("Tiles/block_07.png"));
+
+            tile[5] = new tiles();
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_06.png"));
 
 
         } catch (IOException e){
@@ -89,7 +98,7 @@ public class TileManager {
         }
 
     }
-//    public void drawFullMap(Graphics2D g2) {
+//    public void drawFullMap(Graphics2D g2) {  //this one just draws a map full of one kind of tile
 //        int x =0;
 //        int y =0;
 //        int row = 0;
