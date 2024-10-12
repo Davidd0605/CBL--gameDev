@@ -4,18 +4,15 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
-    //Size of a chess tile will be 64x64 pixel
     public final int tileSize = 48;
-    final int noColumns = 24;
-    final int noRows = 10;
+
+    public final int noColumns = 16;
+    public final int noRows = 12;
+
     final int FPS = 40;
+    CollisionChecker collisionChecker;
     KeyHandler keyHandler = new KeyHandler();
-    GameBar gameBar;
     TileManager tileManager = new TileManager(this);
-
-
-    //temporary
-
     public double dirX, dirY;
     //Entities
     Player player = new Player(this, keyHandler);
@@ -38,8 +35,6 @@ public class GamePanel extends JPanel implements Runnable {
     }
     void update() {
         enemy.update();
-        gameBar.update();
-
     }
     // Redraw the panels graphics
     public void paintComponent(Graphics g) {

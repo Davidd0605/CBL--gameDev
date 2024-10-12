@@ -1,6 +1,8 @@
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -15,7 +17,8 @@ public class Main {
         //Create a frame for our game
 
         JFrame frame = new JFrame();
-
+        BufferedImage icon;
+        frame.setIconImage(new ImageIcon("Player/boy_idle_1").getImage());
         try {
             for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if(info.getName().equals("CDE/Motif")) {
@@ -28,7 +31,7 @@ public class Main {
         }
 
         //change look and feel of main Jframe
-        frame.setSize(24 * 32, 600);
+        frame.setSize(16 * 48 + 48, 48 * 12 + 48);
         frame.setResizable(false);
         frame.setTitle("FPS survivor");
         frame.setLocationRelativeTo(null);
@@ -41,8 +44,8 @@ public class Main {
         frame.add(newGamePanel, BorderLayout.CENTER);
 
         GameBar newGameBar = new GameBar(newGamePanel);
-        frame.add(newGameBar, BorderLayout.SOUTH);
-        newGamePanel.gameBar = newGameBar;
+//        frame.add(newGameBar, BorderLayout.SOUTH);
+//        newGamePanel.gameBar = newGameBar;
         newGamePanel.startGameThread();
         frame.setVisible(true);
 

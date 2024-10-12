@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 public class Entity {
     public double x;
     public double y;
+    public double worldX, worldY;
+    public double screenX, screenY;
     public int speed;
     public double size;
     int hp;
