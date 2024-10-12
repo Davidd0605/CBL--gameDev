@@ -154,7 +154,8 @@ public class Player extends Entity {
     }
     public void draw(Graphics2D g2) {
         BufferedImage img = up1;
-
+        int imgHeight = gp.tileSize;
+        int imgWidth = gp.tileSize;
         switch (direction) {
             case "idle":
                 if(!attacking) {
@@ -180,9 +181,11 @@ public class Player extends Entity {
                     else
                         img = left2;
                 } else {
+                    imgWidth *= 2;
                     if(spriteNum == 1) {
                         img = atkLeft1;
                     } else {
+
                         img = atkLeft2;
                     }
                 }
@@ -195,9 +198,11 @@ public class Player extends Entity {
                     else
                         img = up2;
                 } else {
+                    imgHeight *= 2;
                     if(spriteNum == 1) {
                         img = atkUp1;
                     } else {
+
                         img = atkUp2;
                     }
                 }
@@ -210,9 +215,11 @@ public class Player extends Entity {
                     else
                         img = right2;
                 } else {
+                    imgWidth *= 2;
                     if(spriteNum == 1) {
                         img = atkRight1;
                     } else {
+
                         img = atkRight2;
                     }
                 }
@@ -225,6 +232,7 @@ public class Player extends Entity {
                         img = down2;
 
                 } else {
+                    imgHeight *= 2;
                     if(spriteNum == 1) {
                         img = atkDown1;
                     }
@@ -235,7 +243,7 @@ public class Player extends Entity {
                 break;
 
         }
-        g2.drawImage(img, (int)x, (int)y, (int) size, (int) size, null);
+        g2.drawImage(img, (int)x, (int)y, imgWidth, imgHeight, null);
 
     }
 }
