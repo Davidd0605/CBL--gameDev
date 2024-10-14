@@ -16,11 +16,11 @@ public class Enemy extends Entity {
 
     }
     private void setDefaultValues() {
-        x = 300;
-        y = 300;
+        worldX = 300;
+        worldY   = 300;
         hp = 50;
-        speed = 5;
-        hitBoxRadius = Math.sqrt(2)/2 * gp.tileSize;
+        speed = 2;
+        hitBoxRadius =gp.tileSize + gp.tileSize * .4;
     }
     public void assignSprite() {
 //        up1 = ImageIO.read(getClass().getResourceAsStream());
@@ -33,7 +33,7 @@ public class Enemy extends Entity {
 //        right2 = ImageIO.read(getClass().getResourceAsStream());
     }
     public void detectCollision() {
-        double Distance = Math.sqrt(Math.pow(x - player.x, 2) + Math.pow(y - player.y, 2));
+        double Distance = Math.sqrt(Math.pow(worldX - player.worldX, 2) + Math.pow(worldY - player.worldY, 2));
         if(Distance <= hitBoxRadius) {
             // could make like an imaginary circle around the player and the enemy characters and just detect
             // the collision when the circles intersect? maybe
@@ -50,24 +50,21 @@ public class Enemy extends Entity {
     }
     public void draw(Graphics2D g2) {
         g2.setColor(Color.ORANGE);
-        g2.fillRect((int) x, (int) y, gp.tileSize, gp.tileSize);
+        g2.fillRect((int) worldX, (int) worldX, gp.tileSize, gp.tileSize);
     }
     public void update() {
         if(!isCollided) {
-            if(x < player.x)
-                x+= speed;
-            else if(x > player.x)
-                x-= speed;
-            if(y < player.y)
-                y+= speed;
-            else if(y > player.y)
-                y-= speed;
-        } /*else {
-        *
-        * PAUSE FOR X SECONDS, ATK, PLAY SOME ATK ANIMATION
-        *
-        *}
-        */
+            if(worldX < player.worldX)
+                worldX+= speed;
+            else if(worldX > player.worldX)
+                worldX-= speed;
+            if(worldY < player.worldY)
+                worldY+= speed;
+            else if(worldY > player.worldY)
+                worldY-= speed;
+        } else {
+
+        }
         detectCollision();
     }
 }
