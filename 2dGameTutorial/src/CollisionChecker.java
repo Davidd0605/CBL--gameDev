@@ -6,5 +6,30 @@ public class CollisionChecker {
     }
     public void checkTile(Entity entity) {
 
+        double entityLeftWorldX = entity.worldX + entity.hitBox.x;
+        double entityTopWorldY = entity.worldY + entity.hitBox.y;
+        double entityRightWorldX = entity.worldX + entity.hitBox.x + entity.hitBox.width;
+        double entityBottomWorldY = entity.worldY + entity.hitBox.y + entity.hitBox.height;
+
+        int entityLeftCol = (int) (entityLeftWorldX/gamePanel.tileSize);
+        int entityRightCol = (int) (entityRightWorldX/gamePanel.tileSize);
+        int entityTopRow = (int) (entityTopWorldY/gamePanel.tileSize);
+        int entityBottomRow = (int) (entityBottomWorldY/gamePanel.tileSize);
+
+        int tileNum1, tileNum2;
+
+        switch(entity.direction) {
+            case "up" :
+                entityTopRow = (int) ((entityTopWorldY - entity.speed) / gamePanel.tileSize);
+                break;
+            case "down" :
+                entityBottomRow = (int) ((entityBottomWorldY - entity.speed) / gamePanel.tileSize);
+                break;
+            case "left" :
+                break;
+            case "right" :
+                break;
+        }
     }
+
 }

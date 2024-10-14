@@ -4,7 +4,6 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
-    //Size of a chess tile will be 64x64 pixel
     public final int tileSize = 48;
     final int noColumns = 24;
     final int noRows = 10;
@@ -22,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     //Object initialization
+    CollisionChecker collisionChecker;
     KeyHandler keyHandler = new KeyHandler();
     GameBar gameBar;
     TileManager tileManager = new TileManager(this);

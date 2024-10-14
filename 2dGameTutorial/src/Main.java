@@ -1,6 +1,8 @@
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -15,7 +17,8 @@ public class Main {
         //Create a frame for our game
 
         JFrame frame = new JFrame();
-
+        BufferedImage icon;
+        frame.setIconImage(new ImageIcon("Player/boy_idle_1").getImage());
         try {
             for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                     if(info.getName().equals("CDE/Motif")) {

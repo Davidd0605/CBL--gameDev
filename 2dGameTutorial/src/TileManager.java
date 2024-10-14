@@ -30,12 +30,14 @@ public class TileManager {
         try {
             tile[0] = new tiles();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("Tiles/block_01.png"));
+            tile[0].collision = true;
 
             tile[1] = new tiles();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_01.png"));
 
             tile[2] = new tiles();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("Tiles/crate_05.png"));
+            tile[2].collision = true;
 
             tile[3] = new tiles();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_02.png"));
@@ -74,7 +76,8 @@ public class TileManager {
             br.close();
 
         } catch(Exception e){
-
+            //TODO HANDLE EXCEPTION
+            e.printStackTrace();
         }
     }
     public void draw(Graphics2D g2){
