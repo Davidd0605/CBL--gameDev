@@ -11,8 +11,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     //WORLD SETTINGS
-    public final int maxWorldCol = 24;  //values of the miniMap number of columns and rows
-    public final int maxWorldRow = 18;
+    public final int maxWorldCol = 18;  //values of the miniMap number of columns and rows
+    public final int maxWorldRow = 24;
+    public final int worldWidth = tileSize * maxWorldCol;
+    public final int worldHeight = tileSize * maxWorldRow;
 
 
     //FPS
@@ -36,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
     PlayerThread playerThread = new PlayerThread(player, this);
     //Constructor for the panel
     public GamePanel(int x, int y) {
-        //this.setSize(tileSize * noColumns, tileSize * noRows);  //the game panel itself seems to not have that size on the x-axis
-        this.setSize(x , y);     //-3*tileSize is for the game Bar
+        this.setSize(tileSize * x, tileSize * y);  //the game panel itself seems to not have that size on the x-axis
+//        this.setSize(x , y);     //-3*tileSize is for the game Bar
         this.setBackground(Color.black);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);

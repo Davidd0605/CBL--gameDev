@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Objects;
 
 public class TileManager {
 
@@ -19,7 +18,7 @@ public class TileManager {
         this.gp = gp;
 
         tile = new tiles[10];
-        mapTileNum = new int[gp.noColumns][gp.noRows];
+        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
         loadMap("/maps/miniMap.txt");
@@ -66,7 +65,9 @@ public class TileManager {
                 for(int col = 0; col < numbers.length; col++){
                     int num = Integer.parseInt(numbers[col]);
                     mapTileNum[col][lineCounter] = num;
+
                 }
+
 
                 lineCounter++;
             }
@@ -77,23 +78,31 @@ public class TileManager {
         }
     }
     public void draw(Graphics2D g2){
-        int x =0;
-        int y =0;
-        int row = 0;
-        int col = 0;
-        while(row < gp.noRows && col < gp.noColumns){
+        int worldRow = 0;
+        int worldCol = 0;
+        while(worldRow < gp.maxWorldRow && worldCol < gp.maxWorldCol){
 
-            int tileNum = mapTileNum[col][row];
+            int tileNum = mapTileNum[worldCol][worldRow];
 
-            g2.drawImage(tile[tileNum].image, x, y, gp.tileSize, gp.tileSize, null);
-            col++;
-            x += gp.tileSize;
+            int worldX = worldCol * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);  //the tutorial did not need the (int)
+            int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);  //it's +player.screen in order to offset the correct coordinate for the tile since the player is in the middle of the screen
 
-            if(col == 16){
-                col = 0;
-                x=0;
-                row++;
-                y +=gp.tileSize;
+            if(worldX +gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize< gp.player.worldX + gp.player.screenX
+                && worldY + gp.tileSize> gp.player.worldY - gp.player.screenY && worldY -gp.tileSize< gp.player.worldY + gp.player.screenY){
+                g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+            }
+
+            worldCol++;
+
+
+            if(worldCol == gp.maxWorldCol){
+                worldCol = 0;
+
+                worldRow++;
+
             }
         }
 
