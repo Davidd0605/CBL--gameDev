@@ -10,39 +10,50 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     //WORLD SETTINGS
+    public double screenHeight;
+    public double screenWidth;
     public final int maxWorldCol = 18;  //values of the miniMap number of columns and rows
     public final int maxWorldRow = 24;
+
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
-
-
-    //FPS
-    final int FPS = 40;
-
+    final int FPS = 60;
+    //UI
+    public UI ui = new UI(this);
+    public int waveNumber = 1;
 
     //Object initialization
     CollisionChecker collisionChecker = new CollisionChecker(this);
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     GameBar gameBar;
     TileManager tileManager = new TileManager(this);
 
 
-    //temporary
+    //Game State
+    public int gameState;
+    public int playState = 0;
+    public int pauseState = 1;
+    public int overState = 2;
 
     public double dirX, dirY;
     //Entities
     Player player = new Player(this, keyHandler);
-    //Enemy enemy = new Enemy(keyHandler, this, player);
 
     Thread gameThread;
     PlayerThread playerThread = new PlayerThread(player, this);
+
+    //test enemy
+    Enemy enemy = new Enemy(keyHandler, this, player);
     //Constructor for the panel
+
     public GamePanel(int x, int y) {
-        this.setSize(tileSize * x, tileSize * y);  //the game panel itself seems to not have that size on the x-axis
-//        this.setSize(x , y);     //-3*tileSize is for the game Bar
+        this.screenHeight = tileSize * y;
+        this.screenWidth = tileSize * x;
+        this.setSize((int) screenWidth, (int) screenHeight);
         this.setBackground(Color.black);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+        this.gameState = this.playState;
         gameThread = new Thread(this);
     }
     //Start threads
@@ -50,10 +61,13 @@ public class GamePanel extends JPanel implements Runnable {
         playerThread.startGameThread();
         gameThread.start();
     }
-    void update() {
-        //enemy.update();
-        //gameBar.update(); //game bar commented out
-
+    void update(){
+        if(gameState == playState){
+            enemy.update();
+        }
+        if(gameState == pauseState){
+            //PAUSE
+        }
     }
     // Redraw the panels graphics
     public void paintComponent(Graphics g) {
@@ -61,8 +75,9 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         tileManager.draw(g2);
+        enemy.draw(g2);
         player.draw(g2);
-        //enemy.draw(g2);
+        ui.draw(g2);
         g2.dispose();
 
     }
@@ -70,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Game thread
     @Override
     public void run() {
+        //Game runs at constant 60 FPS
         double drawInterval = (double) 1000000000 / FPS; //Interval in nanoseconds
         double nextDrawTime = System.nanoTime() + drawInterval;
 

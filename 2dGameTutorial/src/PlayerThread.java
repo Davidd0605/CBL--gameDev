@@ -2,7 +2,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PlayerThread implements Runnable {
-
     Thread thread;
     Player player;
     GamePanel gamePanel;
@@ -19,10 +18,8 @@ public class PlayerThread implements Runnable {
 
     @Override
     public void run() {
-
         double drawInterval = (double) 1000000000 / player.FPS; //Interval in nanoseconds
         double nextDrawTime = System.nanoTime() + drawInterval;
-
         while(thread.isAlive()) {
             update();
             gamePanel.repaint();
@@ -45,7 +42,12 @@ public class PlayerThread implements Runnable {
     }
     //Update game data function
     public void update() {
-        player.update();
+        if(gamePanel.gameState == gamePanel.pauseState) {
+
+        } else {
+            player.update();
+        }
+
     }
     //Redraw the panels components
 

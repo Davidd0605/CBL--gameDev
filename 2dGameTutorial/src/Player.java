@@ -32,11 +32,8 @@ public class Player extends Entity {
         hitBox.height = 32;
 
     // screenX=(gp.tileSize* gp.noColumns/2)-(gp.tileSize/2);    //temporary comment till I find a fix
-            screenX=(gp.tileSize * 8) - (gp.tileSize / 2);
-            screenY=(gp.tileSize* gp.noRows/2)-(gp.tileSize/2);
-
-
-
+        screenX=(gp.tileSize * 8) - ((double) gp.tileSize / 2);
+        screenY=((double) (gp.tileSize * gp.noRows) /2) - ((double) gp.tileSize /2);
     }
     public void setDefaultValues() {
         size = gp.tileSize;
@@ -140,10 +137,6 @@ public class Player extends Entity {
             worldY += yDirection * speed;
 
         }
-
-
-        //gp.collisionChecker.checkTile(this);
-
         if(hasIFrames) {
             iFrames++;
             if(iFrames == 5 * FPS / 2) {
@@ -151,7 +144,7 @@ public class Player extends Entity {
                 iFrames = 0;
             }
         }
-
+        //TEMPORARY
         if(keyHandler.turnFPSDown && FPS > 8) {
             this.FPS--;
             System.out.println("FPS: " + this.FPS);
@@ -169,6 +162,7 @@ public class Player extends Entity {
         int imgWidth = gp.tileSize;
         double imgX = screenX;
         double imgY = screenY;
+        //draw player sprite in the middle of the screen
         switch (direction) {
             case "idle":
                 if(!attacking) {

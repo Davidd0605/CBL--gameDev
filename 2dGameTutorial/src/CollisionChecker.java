@@ -44,7 +44,7 @@ public class CollisionChecker {
                 }
                 break;
             case "right" :
-                entityTopRow = (int) ((entityRightWorldX + entity.speed) / gamePanel.tileSize);
+                entityRightCol = (int) ((entityRightWorldX + entity.speed) / gamePanel.tileSize);
                 tileNum1 = gamePanel.tileManager.mapTileNum[entityRightCol][entityBottomRow];
                 tileNum2 = gamePanel.tileManager.mapTileNum[entityRightCol][entityTopRow];
                 if(gamePanel.tileManager.tile[tileNum1].collision || gamePanel.tileManager.tile[tileNum2].collision) {
