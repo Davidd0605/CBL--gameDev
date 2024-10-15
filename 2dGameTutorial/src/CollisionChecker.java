@@ -21,13 +21,35 @@ public class CollisionChecker {
         switch(entity.direction) {
             case "up" :
                 entityTopRow = (int) ((entityTopWorldY - entity.speed) / gamePanel.tileSize);
+                tileNum1 = gamePanel.tileManager.mapTileNum[entityRightCol][entityTopRow];
+                tileNum2 = gamePanel.tileManager.mapTileNum[entityLeftCol][entityTopRow];
+                if(gamePanel.tileManager.tile[tileNum1].collision || gamePanel.tileManager.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
             case "down" :
-                entityBottomRow = (int) ((entityBottomWorldY - entity.speed) / gamePanel.tileSize);
+                entityTopRow = (int) ((entityBottomWorldY + entity.speed) / gamePanel.tileSize);
+                tileNum1 = gamePanel.tileManager.mapTileNum[entityRightCol][entityBottomRow];
+                tileNum2 = gamePanel.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
+                if(gamePanel.tileManager.tile[tileNum1].collision || gamePanel.tileManager.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
             case "left" :
+                entityLeftCol = (int) ((entityLeftWorldX - entity.speed) / gamePanel.tileSize);
+                tileNum1 = gamePanel.tileManager.mapTileNum[entityLeftCol][entityBottomRow];
+                tileNum2 = gamePanel.tileManager.mapTileNum[entityLeftCol][entityTopRow];
+                if(gamePanel.tileManager.tile[tileNum1].collision || gamePanel.tileManager.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
             case "right" :
+                entityTopRow = (int) ((entityRightWorldX + entity.speed) / gamePanel.tileSize);
+                tileNum1 = gamePanel.tileManager.mapTileNum[entityRightCol][entityBottomRow];
+                tileNum2 = gamePanel.tileManager.mapTileNum[entityRightCol][entityTopRow];
+                if(gamePanel.tileManager.tile[tileNum1].collision || gamePanel.tileManager.tile[tileNum2].collision) {
+                    entity.collisionOn = true;
+                }
                 break;
         }
     }

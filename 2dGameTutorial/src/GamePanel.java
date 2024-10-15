@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
     //Object initialization
-    CollisionChecker collisionChecker;
+    CollisionChecker collisionChecker = new CollisionChecker(this);
     KeyHandler keyHandler = new KeyHandler();
     GameBar gameBar;
     TileManager tileManager = new TileManager(this);
@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     public double dirX, dirY;
     //Entities
     Player player = new Player(this, keyHandler);
-    Enemy enemy = new Enemy(keyHandler, this, player);
+    //Enemy enemy = new Enemy(keyHandler, this, player);
 
     Thread gameThread;
     PlayerThread playerThread = new PlayerThread(player, this);
@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     void update() {
-        enemy.update();
+        //enemy.update();
         //gameBar.update(); //game bar commented out
 
     }
@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         tileManager.draw(g2);
         player.draw(g2);
-        enemy.draw(g2);
+        //enemy.draw(g2);
         g2.dispose();
 
     }

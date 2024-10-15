@@ -31,7 +31,7 @@ public class Player extends Entity {
         hitBox.width = 32;
         hitBox.height = 32;
 
-    //        screenX=(gp.tileSize* gp.noColumns/2)-(gp.tileSize/2);    //temporary comment till I find a fix
+    // screenX=(gp.tileSize* gp.noColumns/2)-(gp.tileSize/2);    //temporary comment till I find a fix
             screenX=(gp.tileSize * 8) - (gp.tileSize / 2);
             screenY=(gp.tileSize* gp.noRows/2)-(gp.tileSize/2);
 
@@ -81,7 +81,7 @@ public class Player extends Entity {
         if(spriteCounter > FPS / 5 && spriteCounter <= FPS) {
             spriteNum = 2;
         }
-        if(spriteCounter > FPS) {
+        if(spriteCounter > FPS * 2 / 3) {
             spriteNum = 1;
             spriteCounter = 0;
             attacking = false;
@@ -92,7 +92,8 @@ public class Player extends Entity {
         speed = 200 / FPS; // speed is i.p. to FPS
         double xDirection = 0;
         double yDirection = 0;
-
+        collisionOn = false;
+        gp.collisionChecker.checkTile(this);
         if(attacking) {
             attacking();
         }
@@ -130,7 +131,17 @@ public class Player extends Entity {
             }
         }
 
-        collisionOn = false;
+        if(!collisionOn) {
+            //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed
+            double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
+            xDirection = length == 0 ? 0 : xDirection / length;
+            yDirection = length == 0 ? 0 : yDirection / length;
+            worldX += xDirection * speed;
+            worldY += yDirection * speed;
+
+        }
+
+
         //gp.collisionChecker.checkTile(this);
 
         if(hasIFrames) {
@@ -140,13 +151,6 @@ public class Player extends Entity {
                 iFrames = 0;
             }
         }
-        //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed
-        double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
-        xDirection = length == 0 ? 0 : xDirection / length;
-        yDirection = length == 0 ? 0 : yDirection / length;
-
-        worldX += xDirection * speed;
-        worldY += yDirection * speed;
 
         if(keyHandler.turnFPSDown && FPS > 8) {
             this.FPS--;
