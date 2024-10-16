@@ -19,6 +19,8 @@ public class Entity {
 
     //HITBOX
     public Rectangle hitBox;
+    public void setHitBox(int x, int y, int width, int height) {
+        hitBox = new Rectangle(x, y, width, height);
+    }
     public boolean collisionOn = false;
-
 }

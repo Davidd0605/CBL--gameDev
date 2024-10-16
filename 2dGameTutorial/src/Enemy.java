@@ -8,11 +8,14 @@ public class Enemy extends Entity {
     public KeyHandler keyHandler;
     public boolean isCollided = false;
     public double hitBoxRadius;
-    public boolean direction = false;
+    public boolean dir = true;
+    public EnemyCollision collisionChecker;
+
     public Enemy (KeyHandler keyHandler, GamePanel gp, Player player) {
         this.keyHandler = keyHandler;
         this.gp = gp;
         this.player = player;
+        collisionChecker = new EnemyCollision(gp, player, this);
         setDefaultValues();
         assignSprite();
 
@@ -21,8 +24,8 @@ public class Enemy extends Entity {
         worldX = 300;
         worldY   = 300;
         hp = 50;
-        speed = 2;
-        hitBoxRadius =gp.tileSize + gp.tileSize * .4;
+        speed = 4;
+        hitBox = new Rectangle(0,0,gp.tileSize,gp.tileSize );
     }
     public void assignSprite() {
         try {
@@ -41,14 +44,13 @@ public class Enemy extends Entity {
     }
     public void detectCollision() {
         double Distance = Math.sqrt(Math.pow(worldX - player.worldX, 2) + Math.pow(worldY - player.worldY, 2));
+        System.out.println(Distance);
         if(Distance <= gp.tileSize) {
             isCollided = true;
             if(player.FPS > 8 && !player.hasIFrames) {
                 player.FPS -= 5;
                 player.hasIFrames = true;
             }
-
-            //System.out.println("Collision Detected");
         }
         else
             isCollided = false;
@@ -65,7 +67,31 @@ public class Enemy extends Entity {
         }
     }
     public void update() {
+        collisionOn = false;
+        collisionChecker.checkTile(this);
+        collisionChecker.determineGridTile();
+        if(!collisionOn) {
+            if(dir) {
+                direction = "down";
+                worldY += speed;
+            }
+            else {
+                direction = "up";
+                worldY -= speed;
+            }
+        }
+        if(collisionOn) {
+            dir = !dir;
+        }
+            if(dir) {
+                direction = "down";
+                worldY += speed;
+            }
+            else {
+                direction = "up";
+                worldY -= speed;
+            }
+            //detectCollision();
+        }
 
-        detectCollision();
     }
-}

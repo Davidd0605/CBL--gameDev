@@ -34,7 +34,12 @@ public class UI {
             g.setFont(g.getFont().deriveFont(Font.PLAIN, 50));
             int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(pauseText, g).getWidth();
             x = gamePanel.getWidth()/2 - textSize / 2;
-            y = gamePanel.getHeight()/2;
+            y = gamePanel.getHeight()/2 - 2 * gamePanel.tileSize;
+            g.setColor(Color.BLACK);
+            Rectangle rect = new Rectangle(x, y, gamePanel.tileSize, gamePanel.tileSize);
+            g.drawRect(x, y - gamePanel.tileSize * 3, textSize, textSize);
+            g.fillRect(x, y - gamePanel.tileSize * 3, textSize, textSize);
+            g.setColor(Color.WHITE);
             g.drawString(pauseText, x, y);
         }
         if (gamePanel.gameState == gamePanel.playState) {

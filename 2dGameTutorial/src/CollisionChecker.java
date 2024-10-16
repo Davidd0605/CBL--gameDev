@@ -1,20 +1,29 @@
 public class CollisionChecker {
     GamePanel gamePanel;
-
+    //Determine bounds of the hit box
+    double entityLeftWorldX ;
+    double entityTopWorldY ;
+    double entityRightWorldX ;
+    double entityBottomWorldY ;
+    //Finds coords in n x n tile map matrix
+    int entityLeftCol ;
+    int entityRightCol ;
+    int entityTopRow ;
+    int entityBottomRow ;
     CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
     public void checkTile(Entity entity) {
-
-        double entityLeftWorldX = entity.worldX + entity.hitBox.x;
-        double entityTopWorldY = entity.worldY + entity.hitBox.y;
-        double entityRightWorldX = entity.worldX + entity.hitBox.x + entity.hitBox.width;
-        double entityBottomWorldY = entity.worldY + entity.hitBox.y + entity.hitBox.height;
-
-        int entityLeftCol = (int) (entityLeftWorldX/gamePanel.tileSize);
-        int entityRightCol = (int) (entityRightWorldX/gamePanel.tileSize);
-        int entityTopRow = (int) (entityTopWorldY/gamePanel.tileSize);
-        int entityBottomRow = (int) (entityBottomWorldY/gamePanel.tileSize);
+        //Determine bounds of the hit box
+        entityLeftWorldX = entity.worldX + entity.hitBox.x;
+        entityTopWorldY = entity.worldY + entity.hitBox.y;
+        entityRightWorldX = entity.worldX + entity.hitBox.x + entity.hitBox.width;
+        entityBottomWorldY = entity.worldY + entity.hitBox.y + entity.hitBox.height;
+        //Finds coords in n x n tile map matrix
+        entityLeftCol = (int) (entityLeftWorldX/gamePanel.tileSize);
+        entityRightCol = (int) (entityRightWorldX/gamePanel.tileSize);
+        entityTopRow = (int) (entityTopWorldY/gamePanel.tileSize);
+        entityBottomRow = (int) (entityBottomWorldY/gamePanel.tileSize);
 
         int tileNum1, tileNum2;
 

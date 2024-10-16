@@ -43,18 +43,24 @@ public class GamePanel extends JPanel implements Runnable {
     PlayerThread playerThread = new PlayerThread(player, this);
 
     //test enemy
-    Enemy enemy = new Enemy(keyHandler, this, player);
+    Enemy[] enemy = new Enemy[5];
     //Constructor for the panel
+    void setEnemy() {
+        enemy[0] = new Enemy(keyHandler, this, player);
 
+    }
     public GamePanel(int x, int y) {
         this.screenHeight = tileSize * y;
         this.screenWidth = tileSize * x;
         this.setSize((int) screenWidth, (int) screenHeight);
-        this.setBackground(Color.black);
+        this.setBackground(Color.green);
+
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.gameState = this.playState;
         gameThread = new Thread(this);
+
+        setEnemy();
     }
     //Start threads
     public void startGameThread() {
@@ -63,7 +69,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
     void update(){
         if(gameState == playState){
-            enemy.update();
+            for(Enemy e : enemy) {
+                if(e != null)
+                    e.update();
+            }
         }
         if(gameState == pauseState){
             //PAUSE
@@ -75,7 +84,10 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         tileManager.draw(g2);
-        enemy.draw(g2);
+        for(Enemy e : enemy) {
+            if(e != null)
+                e.draw(g2);
+        }
         player.draw(g2);
         ui.draw(g2);
         g2.dispose();
