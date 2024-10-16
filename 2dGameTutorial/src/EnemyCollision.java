@@ -9,7 +9,11 @@ public class EnemyCollision extends CollisionChecker{
     }
     public void determineGridTile() {
         //TEMPORARY DEBUG
-        System.out.println("Determine Grid Tile" + entityLeftCol + "," + entityRightCol + " " + entityTopRow + "," + entityBottomRow);
-        System.out.println(gamePanel.collisionChecker.entityLeftCol + "," + gamePanel.collisionChecker.entityRightCol + "," + gamePanel.collisionChecker.entityTopRow + "," + gamePanel.collisionChecker.entityBottomRow);
+        int enemyX = (entityLeftCol+ entityRightCol)/2;
+        int enemyY = (entityTopRow + entityBottomRow)/2;
+        System.out.println(enemyX + ", " + enemyY);
+        int playerX = (gamePanel.collisionChecker.entityLeftCol + gamePanel.collisionChecker.entityRightCol) / 2;
+        int playerY =(gamePanel.collisionChecker.entityTopRow + gamePanel.collisionChecker.entityBottomRow)/ 2;
+        System.out.println(playerX + "," + playerY);
     }
 }
