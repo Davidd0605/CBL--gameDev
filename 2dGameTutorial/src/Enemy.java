@@ -1,17 +1,19 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Random;
 
 public class Enemy extends Entity {
     public Player player;
     public GamePanel gp;
     public KeyHandler keyHandler;
-    public boolean isCollided = false;
-    public double hitBoxRadius;
-    public boolean dir = true;
     public EnemyCollision collisionChecker;
-
-    public Enemy (KeyHandler keyHandler, GamePanel gp, Player player) {
+    public int behaviourState;
+    public final int wanderingState = 1;
+    public final int chasingState = 2;
+    public int directionCounter;
+    public int detectionDistance;
+    public Enemy(KeyHandler keyHandler, GamePanel gp, Player player) {
         this.keyHandler = keyHandler;
         this.gp = gp;
         this.player = player;
@@ -20,13 +22,17 @@ public class Enemy extends Entity {
         assignSprite();
 
     }
+
     private void setDefaultValues() {
+        behaviourState = wanderingState;
         worldX = 300;
-        worldY   = 300;
+        worldY = 300;
         hp = 50;
-        speed = 4;
-        hitBox = new Rectangle(0,0,gp.tileSize,gp.tileSize );
+        speed = 2;
+        hitBox = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        detectionDistance = gp.tileSize * 4;
     }
+
     public void assignSprite() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
@@ -42,56 +48,86 @@ public class Enemy extends Entity {
         }
 
     }
-    public void detectCollision() {
-        double Distance = Math.sqrt(Math.pow(worldX - player.worldX, 2) + Math.pow(worldY - player.worldY, 2));
-        System.out.println(Distance);
-        if(Distance <= gp.tileSize) {
-            isCollided = true;
-            if(player.FPS > 8 && !player.hasIFrames) {
-                player.FPS -= 5;
-                player.hasIFrames = true;
-            }
-        }
-        else
-            isCollided = false;
-    }
+    //REMAINS AS IS
     public void draw(Graphics2D g2) {
         //Complex equation I stole from the tile map draw thing
         int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);  //the tutorial did not need the (int)
         int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);  //it's +player.screen in order to offset the correct coordinate for the tile since the player is in the middle of the screen
         //only render if on screen
-        if(worldX +gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize< gp.player.worldX + gp.player.screenX
-                && worldY + gp.tileSize> gp.player.worldY - gp.player.screenY && worldY -gp.tileSize< gp.player.worldY + gp.player.screenY){
+        if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
+                && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             g2.drawImage(up1, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         }
     }
+
+    //WIP//
     public void update() {
+        behaviourState = playerProximity() ? chasingState : wanderingState;
+        switch (behaviourState) {
+            case wanderingState:
+                wonder();
+                break;
+            case chasingState:
+                chase();
+                break;
+        }
+    }
+    private boolean playerProximity() {
+        double distance = Math.sqrt(Math.pow(worldX - gp.player.worldX, 2) + Math.pow(worldY - gp.player.worldY, 2));
+        if(distance < detectionDistance) {
+
+            return true;
+        }
+        return false;
+    }
+    private void wonder() {
+        //SWITCH DIRECTION EVERY FRAME MAYBE IDK
+        directionCounter++;
+        if(directionCounter == gp.FPS) {
+            int i = new Random().nextInt(5) + 1;
+            switch(i) {
+                case 1:
+                    direction = "up";
+                    break;
+                case 2:
+                    direction = "down";
+                    break;
+                case 3:
+                    direction = "left";
+                    break;
+                case 4:
+                    direction = "right";
+                    break;
+                default:
+                    direction = "idle";
+                    break;
+            }
+        }
+        directionCounter %= gp.FPS; //reset every FPS frames so essentially once per second
         collisionOn = false;
         collisionChecker.checkTile(this);
-        collisionChecker.determineGridTile();
-        if(!collisionOn) {
-            if(dir) {
-                direction = "down";
-                worldY += speed;
-            }
-            else {
-                direction = "up";
-                worldY -= speed;
-            }
-        }
         if(collisionOn) {
-            dir = !dir;
+            System.out.println("collision");
+            direction = "idle";
         }
-            if(dir) {
-                direction = "down";
+        switch(direction) {
+            case "up":
+                    worldY -= speed;
+                break;
+            case "down":
                 worldY += speed;
-            }
-            else {
-                direction = "up";
-                worldY -= speed;
-            }
-            //detectCollision();
+                break;
+            case "left":
+                worldX -= speed;
+                break;
+            case "right":
+                worldX += speed;
+                break;
         }
-
     }
+    public void chase() {
+        //TODO PATHFINDING
+        System.out.println("GEORGE SAMA NOTICED YOU UWU");
+    }
+}
