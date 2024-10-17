@@ -2,8 +2,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-
-    boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed;
+    public GamePanel gamePanel;
+    public KeyHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+    boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed, escPressed = false;
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -31,6 +34,11 @@ public class KeyHandler implements KeyListener {
         }
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             rightPressed = true;
+        }
+        if(key == KeyEvent.VK_ESCAPE) {
+            escPressed = !escPressed;
+            gamePanel.gameState = gamePanel.gameState == gamePanel.playState ? gamePanel.pauseState : gamePanel.playState;
+            System.out.println(gamePanel.gameState);
         }
     }
 
