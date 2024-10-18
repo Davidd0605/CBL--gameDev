@@ -49,36 +49,50 @@ public class EnemyCollision extends CollisionChecker{
         entity.playerCollision = doOverLap(playerLeftWorldX, playerRightWorldX, playerTopWorldY, playerBottomWorldY,
                 entityLeftWorldX, entityRightWorldX, entityTopWorldY, entityBottomWorldY);
 
-        if(player.attacking && entity.playerCollision) {
-            //CHECK WHICH DIRECTION THE ATTACK IS COMING FROM AND SEE IF IT LANDS
-            switch(player.direction) {
-                case "up":
-                    if(entityTopWorldY <= playerTopWorldY) {
-                        System.out.println("HIT");
-                    } else
-                        System.out.println("MISSED");
-                    break;
-                case "down":
-                    if(entityBottomWorldY >= playerBottomWorldY) {
-                        System.out.println("HIT");
+        if(entity.playerCollision) {
+            if(player.attacking) {
+                //CHECK WHICH DIRECTION THE ATTACK IS COMING FROM AND SEE IF IT LANDS
+                boolean hit = false;
+                switch(player.direction) {
+                    case "up":
+                        if(entityTopWorldY <= playerTopWorldY)
+                            hit = true;
+                        break;
+                    case "down":
+                        if(entityBottomWorldY >= playerBottomWorldY)
+                            hit = true;
+                        break;
+                    case "left":
+                        if(entityLeftWorldX <= playerLeftWorldX)
+                            hit = true;
+                        break;
+                    case "right":
+                        if(entityRightWorldX >= playerRightWorldX)
+                            hit = true;
+                        break;
+                }
+                if(hit) {
+                    if(!entity.hasIframes) {
+                        entity.hasIframes = true;
+                        entity.currentHP--;
+                        System.out.println("HIT REGISTER " + entity.currentHP);
                     }
-                    else
-                        System.out.println("MISSED");
-                    break;
-                case "left":
-                    if(entityLeftWorldX <= playerLeftWorldX) {
-                        System.out.println("HIT");
+                } else {
+                    if(!player.hasIframes) {
+                        player.hasIframes = true;
+                        System.out.println("PLAYER CRITICALLY HIT");
+                        player.FPS -= 10;
                     }
-                    else
-                        System.out.println("MISSED");
-                    break;
-                case "right":
-                    if(entityRightWorldX >= playerRightWorldX) {
-                        System.out.println("HIT");
-                    }else
-                        System.out.println("MISSED");
-                    break;
+                }
+            } else {
+                if(!player.hasIframes) {
+                    player.hasIframes = true;
+                    System.out.println("PLAYER HIT");
+                    player.FPS -= 5;
+                }
+
             }
+
         }
     }
     public void checkEntity() {

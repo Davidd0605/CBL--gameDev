@@ -15,13 +15,12 @@ public class GamePanel extends JPanel implements Runnable {
     public double screenWidth;
     public final int maxWorldCol = 18;  //values of the miniMap number of columns and rows
     public final int maxWorldRow = 24;
-
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
     final int FPS = 60;
     //UI
     public UI ui = new UI(this);
-    public int waveNumber = 1;
+    public int waveNumber = 0;
 
     //Object initialization
     CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -45,11 +44,24 @@ public class GamePanel extends JPanel implements Runnable {
     Enemy[] enemy = new Enemy[5];
     ArrayList<Entity> entityList = new ArrayList<>();
     //Constructor for the panel
+    void checkNumberOfEnemies() {
+        int no = 0;
+        for(int i = 0; i < enemy.length; i ++) {
+            if(enemy[i] != null && enemy[i].alive) {
+                no++;
+            }
+        }
+        if(no == 0) {
+            System.out.println("No more enemies");
+            waveNumber++;
+            ui.timeCounter = 0;
+            setEnemy();
+        }
+    }
     void setEnemy() {
-        enemy[0] = new Enemy( this, player);
-//        enemy[1] = new Enemy( this, player);
-//        enemy[2] = new Enemy( this, player);
-
+        for(int i = 0 ; i < waveNumber; i ++) {
+            enemy[i] = new Enemy(this, player);
+        }
     }
     public GamePanel(int x, int y) {
         this.screenHeight = tileSize * y;
@@ -70,9 +82,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
     void update(){
         if(gameState == playState){
-            for(Enemy e : enemy) {
-                if(e != null)
-                    e.update();
+            checkNumberOfEnemies();
+            for(int i = 0 ; i < waveNumber ; i ++) {
+                if(enemy[i] != null) {
+                    enemy[i].update();
+                }
             }
         }
         if(gameState == pauseState){
@@ -85,9 +99,10 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         tileManager.draw(g2);
-        for(Enemy e : enemy) {
-            if(e != null)
-                e.draw(g2);
+        for(int i = 0 ; i < waveNumber ; i ++) {
+            if(enemy[i] != null) {
+                enemy[i].draw(g2);
+            }
         }
         player.draw(g2);
         ui.draw(g2);

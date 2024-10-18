@@ -9,6 +9,8 @@ public class Entity {
     public int speed;
     public double size;
     int hp;
+    int currentHP;
+    boolean alive = true;
 
 
     //animations
@@ -24,4 +26,7 @@ public class Entity {
         hitBox = new Rectangle(x, y, width, height);
     }
     public boolean collisionOn = false;
+    //IFRAME
+    public boolean hasIframes;
+    public int iFrameCounter = 0;
 }

@@ -14,6 +14,7 @@ public class Enemy extends Entity {
     public int detectionDistance;
     public Point initialPosition;
     public boolean playerCollision = false;
+
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
@@ -23,8 +24,13 @@ public class Enemy extends Entity {
         assignSprite();
 
     }
-
+    public void checkLife() {
+        if(currentHP == 0) {
+            alive = false;
+        }
+    }
     private void setDefaultValues() {
+        hp = currentHP = 5;
         behaviourState = wanderingState;
         //Generate worldX worldY randomly
         worldX = initialPosition.x;
@@ -78,19 +84,30 @@ public class Enemy extends Entity {
 
     //WIP//
     public void update() {
-        behaviourState = playerProximity() ? chasingState : wanderingState;
-        collisionOn = false;
-        playerCollision = false;
-        collisionChecker.checkPlayer(this);
-        collisionChecker.checkTile(this);
-        switch (behaviourState) {
-            case wanderingState:
-                wander();
-                break;
-            case chasingState:
-                chase();
-                break;
+        if(alive) {
+            checkLife();
+            if(hasIframes) {
+                iFrameCounter ++;
+                if(iFrameCounter == gp.FPS) {
+                    hasIframes = false;
+                    iFrameCounter = 0;
+                }
+            }
+            behaviourState = playerProximity() ? chasingState : wanderingState;
+            collisionOn = false;
+            playerCollision = false;
+            collisionChecker.checkPlayer(this);
+            collisionChecker.checkTile(this);
+            switch (behaviourState) {
+                case wanderingState:
+                    wander();
+                    break;
+                case chasingState:
+                    chase();
+                    break;
+            }
         }
+
     }
     private boolean playerProximity() {
         double distance = Math.sqrt(Math.pow(worldX - gp.player.worldX, 2) + Math.pow(worldY - gp.player.worldY, 2));

@@ -10,9 +10,7 @@ public class Player extends Entity {
     public boolean shootButtonClicked = false;
     public PlayerThread thread;
     public boolean canAttack = true;
-    public boolean hasIFrames = false;
     public boolean attacking = false;
-    public int iFrames = 0;
 
     public int frameClock = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
@@ -72,16 +70,6 @@ public class Player extends Entity {
     }
     public void attacking() {
         //SHIFT THE HIT BOX TO THE ATKED TILE
-        switch (direction) {
-            case "up":
-                break;
-            case "down":
-                break;
-            case "left":
-                break;
-            case "right":
-                break;
-        }
         spriteCounter++;
         if(spriteCounter <= 5) {
             spriteNum = 1;
@@ -89,7 +77,7 @@ public class Player extends Entity {
         if(spriteCounter > FPS / 5 && spriteCounter <= FPS) {
             spriteNum = 2;
         }
-        if(spriteCounter > FPS * 2 / 3) {
+        if(spriteCounter > FPS * 1 / 2) {
             spriteNum = 1;
             spriteCounter = 0;
             attacking = false;
@@ -97,6 +85,13 @@ public class Player extends Entity {
     }
     public void update() {
 
+        if(hasIframes) {
+            iFrameCounter++;
+            if(iFrameCounter == gp.FPS) {
+                hasIframes = false;
+                iFrameCounter = 0;
+            }
+        }
         speed = 200 / FPS; // speed is i.p. to FPS
         double xDirection = 0;
         double yDirection = 0;
@@ -147,13 +142,6 @@ public class Player extends Entity {
             worldX += xDirection * speed;
             worldY += yDirection * speed;
 
-        }
-        if(hasIFrames) {
-            iFrames++;
-            if(iFrames == 5 * FPS / 2) {
-                hasIFrames = false;
-                iFrames = 0;
-            }
         }
         //TEMPORARY
         if(keyHandler.turnFPSDown && FPS > 8) {
