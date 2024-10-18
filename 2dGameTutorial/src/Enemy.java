@@ -6,18 +6,19 @@ import java.util.Random;
 public class Enemy extends Entity {
     public Player player;
     public GamePanel gp;
-    public KeyHandler keyHandler;
     public EnemyCollision collisionChecker;
     public int behaviourState;
     public final int wanderingState = 1;
     public final int chasingState = 2;
     public int directionCounter;
     public int detectionDistance;
-    public Enemy(KeyHandler keyHandler, GamePanel gp, Player player) {
-        this.keyHandler = keyHandler;
+    public Point initialPosition;
+    public boolean playerCollision = false;
+    public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
-        collisionChecker = new EnemyCollision(gp, player, this);
+        initialPosition = randomPosition();
+        collisionChecker = new EnemyCollision(gp, player);
         setDefaultValues();
         assignSprite();
 
@@ -25,14 +26,28 @@ public class Enemy extends Entity {
 
     private void setDefaultValues() {
         behaviourState = wanderingState;
-        worldX = 300;
-        worldY = 300;
+        //Generate worldX worldY randomly
+        worldX = initialPosition.x;
+        worldY = initialPosition.y;
         hp = 50;
         speed = 2;
         hitBox = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
         detectionDistance = gp.tileSize * 4;
     }
+    public Point randomPosition() {
+        int worldBoundLeft = gp.tileSize;
+        int worldBoundRight = gp.tileSize * gp.maxWorldCol - 3 * gp.tileSize;
+        int worldBoundTop = gp.tileSize;
+        int worldBoundBottom = gp.tileSize * gp.maxWorldRow - 3 * gp.tileSize;
 
+        double randomXPercent = new Random().nextDouble(100) + 1;
+        double randomYPercent = new Random().nextDouble(100) + 1;
+
+        int x = (int)( worldBoundLeft + randomXPercent / 100 * (worldBoundRight - worldBoundLeft));
+        int y = (int)( worldBoundTop + randomYPercent / 100 * (worldBoundBottom - worldBoundTop));
+
+        return new Point(x, y);
+    }
     public void assignSprite() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
@@ -64,9 +79,13 @@ public class Enemy extends Entity {
     //WIP//
     public void update() {
         behaviourState = playerProximity() ? chasingState : wanderingState;
+        collisionOn = false;
+        playerCollision = false;
+        collisionChecker.checkPlayer(this);
+        collisionChecker.checkTile(this);
         switch (behaviourState) {
             case wanderingState:
-                wonder();
+                wander();
                 break;
             case chasingState:
                 chase();
@@ -75,13 +94,12 @@ public class Enemy extends Entity {
     }
     private boolean playerProximity() {
         double distance = Math.sqrt(Math.pow(worldX - gp.player.worldX, 2) + Math.pow(worldY - gp.player.worldY, 2));
-        if(distance < detectionDistance) {
-
+        if (distance < detectionDistance) {
             return true;
         }
         return false;
     }
-    private void wonder() {
+    private void wander() {
         //SWITCH DIRECTION EVERY FRAME MAYBE IDK
         directionCounter++;
         if(directionCounter == gp.FPS) {
@@ -105,10 +123,8 @@ public class Enemy extends Entity {
             }
         }
         directionCounter %= gp.FPS; //reset every FPS frames so essentially once per second
-        collisionOn = false;
-        collisionChecker.checkTile(this);
-        if(collisionOn) {
-            System.out.println("collision");
+
+        if(collisionOn || playerCollision) {
             direction = "idle";
         }
         switch(direction) {
@@ -127,7 +143,7 @@ public class Enemy extends Entity {
         }
     }
     public void chase() {
+
         //TODO PATHFINDING
-        System.out.println("GEORGE SAMA NOTICED YOU UWU");
     }
 }

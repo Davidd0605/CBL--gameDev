@@ -19,6 +19,7 @@ public class Entity {
 
     //HITBOX
     public Rectangle hitBox;
+    public Rectangle hitBoxLocation;
     public void setHitBox(int x, int y, int width, int height) {
         hitBox = new Rectangle(x, y, width, height);
     }

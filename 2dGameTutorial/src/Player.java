@@ -71,6 +71,17 @@ public class Player extends Entity {
 
     }
     public void attacking() {
+        //SHIFT THE HIT BOX TO THE ATKED TILE
+        switch (direction) {
+            case "up":
+                break;
+            case "down":
+                break;
+            case "left":
+                break;
+            case "right":
+                break;
+        }
         spriteCounter++;
         if(spriteCounter <= 5) {
             spriteNum = 1;

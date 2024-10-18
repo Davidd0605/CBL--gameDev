@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
     public final int tileSize = 48;
-    final int noColumns = 24;
-    final int noRows = 10;
+    public final int noColumns = 24;
+    public final int noRows = 10;
 
 
     //WORLD SETTINGS
@@ -35,18 +36,19 @@ public class GamePanel extends JPanel implements Runnable {
     public int pauseState = 1;
     public int overState = 2;
 
-    public double dirX, dirY;
     //Entities
     Player player = new Player(this, keyHandler);
-
     Thread gameThread;
     PlayerThread playerThread = new PlayerThread(player, this);
 
     //test enemy
     Enemy[] enemy = new Enemy[5];
+    ArrayList<Entity> entityList = new ArrayList<>();
     //Constructor for the panel
     void setEnemy() {
-        enemy[0] = new Enemy(keyHandler, this, player);
+        enemy[0] = new Enemy( this, player);
+//        enemy[1] = new Enemy( this, player);
+//        enemy[2] = new Enemy( this, player);
 
     }
     public GamePanel(int x, int y) {
@@ -54,7 +56,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.screenWidth = tileSize * x;
         this.setSize((int) screenWidth, (int) screenHeight);
         this.setBackground(Color.green);
-
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         this.gameState = this.playState;
@@ -75,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
         if(gameState == pauseState){
-            //PAUSE
+
         }
     }
     // Redraw the panels graphics
