@@ -1,5 +1,3 @@
-import Tiles.tiles;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.BufferedReader;
