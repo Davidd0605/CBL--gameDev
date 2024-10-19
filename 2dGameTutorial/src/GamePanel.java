@@ -12,7 +12,8 @@ public class GamePanel extends JPanel implements Runnable {
     //WORLD SETTINGS
     public double screenHeight;
     public double screenWidth;
-    public final int maxWorldCol = 18;  //values of the miniMap number of columns and rows
+    public final int maxWorldCol = 24
+            ;  //values of the miniMap number of columns and rows
     public final int maxWorldRow = 24;
 
     public final int worldWidth = tileSize * maxWorldCol;
@@ -50,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
     public GamePanel(int x, int y) {
+
         this.screenHeight = tileSize * y;
         this.screenWidth = tileSize * x;
         this.setSize((int) screenWidth, (int) screenHeight);
@@ -82,8 +84,13 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        if(keyHandler.OPressed){
+            keyHandler.OPressed = false;
+            tileManager.generatePerlin();
 
+        }
         tileManager.draw(g2);
+
         for(Enemy e : enemy) {
             if(e != null)
                 e.draw(g2);
@@ -104,6 +111,7 @@ public class GamePanel extends JPanel implements Runnable {
         while(gameThread.isAlive()) {
             update();
             repaint();
+
 
             // try and catch works as follows: if the program runs intro any errors in the try flag, then it will cll t
             try {

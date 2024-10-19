@@ -1,4 +1,4 @@
-import Tiles.tiles;
+
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -7,21 +7,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TileManager {
+public class TileManager extends PerlinGenerator {
 
     public GamePanel gp;
     public tiles[] tile = new tiles[10];
     public int[][] mapTileNum;
+    public KeyHandler keyHandler;
+
 
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
+        KeyHandler keyHandler = new KeyHandler(gp);
+        this.keyHandler = keyHandler;
 
         tile = new tiles[10];
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
-
+        //mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        mapTileNum = new int[24][24];
+        generatePerlin();
         getTileImage();
-        loadMap("/maps/miniMap.txt");
+        //loadMap("/maps/miniMap.txt");
+
 
     }
 
@@ -30,14 +36,14 @@ public class TileManager {
         try {
             tile[0] = new tiles();
             tile[0].image = ImageIO.read(getClass().getResourceAsStream("Tiles/block_01.png"));
-            tile[0].collision = true;
+            tile[0].collision = false;
 
             tile[1] = new tiles();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_01.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("Tiles/crate_05.png"));
+            tile[1].collision = false;
 
             tile[2] = new tiles();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("Tiles/crate_05.png"));
-            tile[2].collision = true;
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_01.png"));
 
             tile[3] = new tiles();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("Tiles/ground_02.png"));
@@ -80,12 +86,21 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+
+    public void generateMap(){
+
+    }
     public void draw(Graphics2D g2){
+        if(keyHandler.OPressed){
+            keyHandler.OPressed = false;
+//            g2.dispose();
+            generatePerlin();
+        }
         int worldRow = 0;
         int worldCol = 0;
-        while(worldRow < gp.maxWorldRow && worldCol < gp.maxWorldCol){
+        while(worldRow < 24 && worldCol < 24){  //worldRow < gp.maxWorldRow && worldCol < gp.maxWorldCol
 
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = perlinMap[worldCol][worldRow];    //int tileNum = mapTileNum[worldCol][worldRow]
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
