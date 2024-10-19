@@ -11,17 +11,17 @@ public class PerlinGenerator extends PerlinNoise2D {
     static int[][] perlinMap;
     //int mapSize;
     //TODO add parameter for map generator size
-    public PerlinGenerator(int width, int length) {
-        perlinMap = new int[width][length];
+    public PerlinGenerator() {
+        perlinMap = new int[24][24];
     }
-    public void generatePerlin(int width, int length) {
+    public void generatePerlin() {
         Random rand = new Random();
         System.out.print("New perlin created");
         double XOffset = rand.nextDouble(1000);
         double YOffset = rand.nextDouble(1000);
         double scale = 0.15;    //controls the smoothness of the transitions
-        for(int i=0;i<width;i++){
-            for(int j=0;j<length;j++){
+        for(int i=0;i<24;i++){
+            for(int j=0;j<24;j++){
                 double noiseValue = noise((i * 1.01 + XOffset) * scale, (j* 1.03 + YOffset) * scale );
                 noiseValue = (noiseValue +1)/2; //normalize the values
                 if(noiseValue>0.5){
