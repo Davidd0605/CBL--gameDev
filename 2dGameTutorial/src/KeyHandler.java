@@ -6,7 +6,7 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-    boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed, escPressed = false;
+    boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed, escPressed = false, OPressed = false;
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -39,6 +39,11 @@ public class KeyHandler implements KeyListener {
             escPressed = !escPressed;
             gamePanel.gameState = gamePanel.gameState == gamePanel.playState ? gamePanel.pauseState : gamePanel.playState;
             System.out.println(gamePanel.gameState);
+        }
+        if(key == KeyEvent.VK_O){
+            OPressed = !OPressed;
+            System.out.println("Map toggled");
+            System.out.println(OPressed);
         }
     }
 
