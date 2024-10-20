@@ -22,6 +22,7 @@ public class Enemy extends Entity {
         collisionChecker = new EnemyCollision(gp, player);
         setDefaultValues();
         assignSprite();
+        this.tag = "enemy";
 
     }
     public void checkLife() {
@@ -98,6 +99,9 @@ public class Enemy extends Entity {
             playerCollision = false;
             collisionChecker.checkPlayer(this);
             collisionChecker.checkTile(this);
+            if(!collisionOn) {
+                collisionChecker.checkEntity(this);
+            }
             switch (behaviourState) {
                 case wanderingState:
                     wander();

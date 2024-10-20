@@ -32,6 +32,8 @@ public class Player extends Entity {
     // screenX=(gp.tileSize* gp.noColumns/2)-(gp.tileSize/2);    //temporary comment till I find a fix
         screenX=(gp.tileSize * 8) - ((double) gp.tileSize / 2);
         screenY=((double) (gp.tileSize * gp.noRows) /2) - ((double) gp.tileSize /2);
+
+        this.tag = "player";
     }
     public void setDefaultValues() {
         size = gp.tileSize;
@@ -97,6 +99,8 @@ public class Player extends Entity {
         double yDirection = 0;
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
+        if(!collisionOn)
+            gp.collisionChecker.checkEntity(this);
         if(attacking) {
             attacking();
         }

@@ -13,6 +13,17 @@ public class CollisionChecker {
     CollisionChecker(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
+    public boolean doOverLap(double PLX, double PRX, double PTY, double PBY, double ELX, double ERX, double ETY, double EBY) {
+        //if one rectangle is to the left of the other
+        if(PTY > EBY || ETY > PBY) {
+            return false;
+        }
+        if (PLX > ERX || ELX > PRX) {
+            return false;
+        }
+        return true;
+    }
     public void checkTile(Entity entity) {
         //Determine bounds of the hit box
         entityLeftWorldX = entity.worldX + entity.hitBox.x;
@@ -60,6 +71,60 @@ public class CollisionChecker {
                     entity.collisionOn = true;
                 }
                 break;
+        }
+    }
+    public void checkEntity(Entity entity) {
+        //TODO CHECK COLLISIONS WITH OTHER ENTITIES
+        //Determine bounds of the hit box
+        entityLeftWorldX = entity.worldX;
+        entityTopWorldY = entity.worldY;
+        entityRightWorldX = entity.worldX + gamePanel.tileSize;
+        entityBottomWorldY = entity.worldY + gamePanel.tileSize;
+//        //Finds coords in n x n tile map matrix
+//        entityLeftCol = (int) (entityLeftWorldX/gamePanel.tileSize);
+//        entityRightCol = (int) (entityRightWorldX/gamePanel.tileSize);
+//        entityTopRow = (int) (entityTopWorldY/gamePanel.tileSize);
+//        entityBottomRow = (int) (entityBottomWorldY/gamePanel.tileSize);
+        for(Enemy e: gamePanel.enemy) {
+            if(e != null) {
+                if(e != entity) {
+                    //GET BOUNDS OF COLLIDING ENTITY
+                    double collisionLeftWorldX = e.worldX;
+                    double collisionTopWorldY = e.worldY;
+                    double collisionRightWorldX = e.worldX + gamePanel.tileSize;
+                    double collisionBottomWorldY = e.worldY + gamePanel.tileSize;
+                    //GET COORDS IN MATRIX
+//                int coliisionLeftCol = (int) (collisionLeftWorldX/gamePanel.tileSize);
+//                int collisionBottomCol = (int) (collisionBottomWorldY/gamePanel.tileSize);
+//                int collisionRightCol = (int) (collisionRightWorldX/gamePanel.tileSize);
+//                int collisionTopRow = (int) (collisionTopWorldY/gamePanel.tileSize);
+//
+                switch(entity.direction) {
+                    case "up" :
+                        entityTopWorldY = entityTopWorldY - entity.speed;
+                        entityBottomWorldY = entityBottomWorldY - entity.speed;
+                        break;
+                    case "down" :
+                        entityBottomWorldY = entityBottomWorldY + entity.speed;
+                        entityTopWorldY = entityTopWorldY + entity.speed;
+                        break;
+                    case "left" :
+                        entityLeftWorldX = (entityLeftWorldX - entity.speed);
+                        entityRightWorldX = entityRightWorldX - entity.speed;
+
+                        break;
+                    case "right" :
+                        entityRightWorldX= (entityRightWorldX + entity.speed);
+                        entityLeftWorldX = entityLeftWorldX + entity.speed;
+                        break;
+                }
+                    if( doOverLap(collisionLeftWorldX, collisionRightWorldX, collisionTopWorldY, collisionBottomWorldY,
+                            entityLeftWorldX, entityRightWorldX, entityTopWorldY, entityBottomWorldY) ) {
+                        entity.collisionOn = true;
+                    }
+                }
+            }
+
         }
     }
 

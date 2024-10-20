@@ -11,7 +11,7 @@ public class Entity {
     int hp;
     int currentHP;
     boolean alive = true;
-
+    String tag;
 
     //animations
     public String direction = "idle";

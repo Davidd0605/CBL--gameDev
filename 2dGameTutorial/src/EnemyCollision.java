@@ -7,16 +7,6 @@ public class EnemyCollision extends CollisionChecker{
         super(gamePanel);
         this.player = player;
     }
-    public boolean doOverLap(double PLX, double PRX, double PTY, double PBY, double ELX, double ERX, double ETY, double EBY) {
-        //if one rectangle is to the left of the other
-        if(PTY > EBY || ETY > PBY) {
-            return false;
-        }
-        if (PLX > ERX || ELX > PRX) {
-            return false;
-        }
-        return true;
-    }
     public void checkPlayer(Enemy entity) {
         //Determine bounds of the hit box
         entityLeftWorldX = entity.worldX + entity.hitBox.x;
@@ -30,7 +20,6 @@ public class EnemyCollision extends CollisionChecker{
         double playerRightWorldX = player.worldX + gamePanel.tileSize;
         double playerBottomWorldY = player.worldY + gamePanel.tileSize;
         if(player.attacking) {
-            //CHECK WHICH DIRECTION THE ATTACK IS COMING FROM AND SEE IF IT LANDS
             switch(player.direction) {
                 case "up":
                     playerTopWorldY = playerTopWorldY - gamePanel.tileSize / 2;
@@ -51,7 +40,6 @@ public class EnemyCollision extends CollisionChecker{
 
         if(entity.playerCollision) {
             if(player.attacking) {
-                //CHECK WHICH DIRECTION THE ATTACK IS COMING FROM AND SEE IF IT LANDS
                 boolean hit = false;
                 switch(player.direction) {
                     case "up":
@@ -92,10 +80,6 @@ public class EnemyCollision extends CollisionChecker{
                 }
 
             }
-
         }
-    }
-    public void checkEntity() {
-
     }
 }
