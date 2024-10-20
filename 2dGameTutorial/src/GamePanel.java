@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Object initialization
     CollisionChecker collisionChecker = new CollisionChecker(this);
     KeyHandler keyHandler = new KeyHandler(this);
-    GameBar gameBar;
+
     TileManager tileManager = new TileManager(this);
 
 
