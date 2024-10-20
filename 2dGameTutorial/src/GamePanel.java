@@ -25,7 +25,6 @@ public class GamePanel extends JPanel implements Runnable {
     //Object initialization
     CollisionChecker collisionChecker = new CollisionChecker(this);
     KeyHandler keyHandler = new KeyHandler(this);
-    GameBar gameBar;
     TileManager tileManager = new TileManager(this);
 
 
@@ -64,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     public GamePanel(int x, int y) {
+
         this.screenHeight = tileSize * y;
         this.screenWidth = tileSize * x;
         this.setSize((int) screenWidth, (int) screenHeight);
@@ -97,7 +97,13 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-
+        if(keyHandler.OPressed){
+            keyHandler.OPressed = false;
+            tileManager.generatePerlin();
+            for(int i =0; i< 24; i++) {
+                tileManager.mapTileNum[i] = tileManager.perlinMap[i].clone();
+            }
+        }
         tileManager.draw(g2);
         for(int i = 0 ; i < waveNumber ; i ++) {
             if(enemy[i] != null) {
@@ -120,6 +126,7 @@ public class GamePanel extends JPanel implements Runnable {
         while(gameThread.isAlive()) {
             update();
             repaint();
+
 
             // try and catch works as follows: if the program runs intro any errors in the try flag, then it will cll t
             try {
