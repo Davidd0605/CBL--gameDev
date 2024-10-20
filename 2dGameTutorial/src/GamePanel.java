@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
             tileManager.generatePerlin();
-            for(int i =1; i< 24; i++) {
+            for(int i =0; i< 24; i++) {
                 tileManager.mapTileNum[i] = tileManager.perlinMap[i].clone();
             }
         }
