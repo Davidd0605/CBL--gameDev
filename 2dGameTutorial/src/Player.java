@@ -10,6 +10,7 @@ public class Player extends Entity {
     public boolean shootButtonClicked = false;
     public PlayerThread thread;
     public boolean canAttack = true;
+    public int attackCooldown = 0;
     public boolean attacking = false;
 
     public int frameClock = 0;
@@ -28,16 +29,13 @@ public class Player extends Entity {
         hitBox.y = 16 ;
         hitBox.width = 32;
         hitBox.height = 32;
-
-    // screenX=(gp.tileSize* gp.noColumns/2)-(gp.tileSize/2);    //temporary comment till I find a fix
         screenX=(gp.tileSize * 8) - ((double) gp.tileSize / 2);
         screenY=((double) (gp.tileSize * gp.noRows) /2) - ((double) gp.tileSize /2);
-
         this.tag = "player";
     }
     public void setDefaultValues() {
         size = gp.tileSize;
-        worldX = 12* gp.tileSize;
+        worldX = 12 * gp.tileSize;
         worldY = 9* gp.tileSize;
         speed = 10;
         assignSprite();
@@ -71,7 +69,6 @@ public class Player extends Entity {
 
     }
     public void attacking() {
-        //SHIFT THE HIT BOX TO THE ATKED TILE
         spriteCounter++;
         if(spriteCounter <= 5) {
             spriteNum = 1;
@@ -86,7 +83,13 @@ public class Player extends Entity {
         }
     }
     public void update() {
-
+        if(!canAttack) {
+            attackCooldown++;
+            if(attackCooldown == FPS) {
+                canAttack = true;
+                attackCooldown = 0;
+            }
+        }
         if(hasIframes) {
             iFrameCounter++;
             if(iFrameCounter == gp.FPS) {
@@ -125,9 +128,12 @@ public class Player extends Entity {
                 direction = "idle";
             }
             if(keyHandler.atkPressed) {
-                attacking = true;
-                spriteCounter = 0;
-                spriteNum = 0;
+                if(canAttack) {
+                    canAttack = false;
+                    attacking = true;
+                    spriteCounter = 0;
+                    spriteNum = 0;
+                }
             } else {
                 attacking = false;
             }
