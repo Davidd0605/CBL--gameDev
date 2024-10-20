@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Object initialization
     CollisionChecker collisionChecker = new CollisionChecker(this);
     KeyHandler keyHandler = new KeyHandler(this);
-    GameBar gameBar;
+
     TileManager tileManager = new TileManager(this);
 
 
@@ -87,7 +87,9 @@ public class GamePanel extends JPanel implements Runnable {
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
             tileManager.generatePerlin();
-
+            for(int i =1; i< 24; i++) {
+                tileManager.mapTileNum[i] = tileManager.perlinMap[i].clone();
+            }
         }
         tileManager.draw(g2);
 
