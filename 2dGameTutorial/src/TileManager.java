@@ -18,16 +18,15 @@ public class TileManager extends PerlinGenerator {
         this.gp = gp;
         KeyHandler keyHandler = new KeyHandler(gp);
         this.keyHandler = keyHandler;
-
         tile = new tiles[10];
         //mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
-        mapTileNum = new int[24][24];
         generatePerlin();
+        mapTileNum = perlinMap;
         getTileImage();
         //loadMap("/maps/miniMap.txt");
-        for(int i =0;i< 24; i++){
-            mapTileNum[i] = perlinMap[i].clone();
-        }
+//        for(int i =0;i< 24; i++){
+//            mapTileNum[i] = perlinMap[i].clone();
+//        }
 
 
     }
@@ -87,18 +86,11 @@ public class TileManager extends PerlinGenerator {
             e.printStackTrace();
         }
     }
-
-    public void generateMap(){
-
-    }
     public void draw(Graphics2D g2){
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
 //            g2.dispose();
             generatePerlin();
-            for(int i =0;i< 24; i++){
-                mapTileNum[i] = perlinMap[i].clone();   //to test map gen, replace mapTileNum with perlinMap
-            }
         }
         int worldRow = 0;
         int worldCol = 0;
@@ -122,9 +114,7 @@ public class TileManager extends PerlinGenerator {
 
             if(worldCol == gp.maxWorldCol){
                 worldCol = 0;
-
                 worldRow++;
-
             }
         }
 

@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable {
     //WORLD SETTINGS
     public double screenHeight;
     public double screenWidth;
-    public final int maxWorldCol = 18;  //values of the miniMap number of columns and rows
+    public final int maxWorldCol = 24;  //values of the miniMap number of columns and rows
     public final int maxWorldRow = 24;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
