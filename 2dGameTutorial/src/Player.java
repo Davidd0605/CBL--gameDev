@@ -12,6 +12,7 @@ public class Player extends Entity {
     public boolean canAttack = true;
     public int attackCooldown = 0;
     public boolean attacking = false;
+    private double initialSpeed;
 
     public int frameClock = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
@@ -38,6 +39,7 @@ public class Player extends Entity {
         worldX = 12 * gp.tileSize;
         worldY = 9* gp.tileSize;
         speed = 10;
+        initialSpeed = speed;
         assignSprite();
     }
 
@@ -97,7 +99,13 @@ public class Player extends Entity {
                 iFrameCounter = 0;
             }
         }
-        speed = 200 / FPS; // speed is i.p. to FPS
+        speed = 200 / FPS;
+        initialSpeed = speed; // speed is i.p. to FPS
+        if(keyHandler.shitfPressed) {
+            speed *= 1.4;
+        } else {
+            speed = initialSpeed;
+        }
         double xDirection = 0;
         double yDirection = 0;
         collisionOn = false;
@@ -260,6 +268,9 @@ public class Player extends Entity {
                 }
                 break;
 
+        }
+        if(hasIframes) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
         }
         g2.drawImage(img, (int)imgX, (int)imgY, imgWidth, imgHeight, null);
 

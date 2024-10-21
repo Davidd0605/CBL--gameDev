@@ -6,6 +6,7 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+    boolean shitfPressed = false;
     boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed, escPressed = false, OPressed = false;
     @Override
     public void keyTyped(KeyEvent e) {
@@ -14,6 +15,9 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+        if(key == KeyEvent.VK_SHIFT) {
+            shitfPressed = true;
+        }
         if(key == KeyEvent.VK_SPACE) {
             atkPressed = true;
         }
@@ -49,6 +53,9 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
+        if(key == KeyEvent.VK_SHIFT) {
+            shitfPressed = false;
+        }
         if(key == KeyEvent.VK_SPACE) {
             atkPressed = false;
         }

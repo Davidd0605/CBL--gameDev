@@ -8,6 +8,10 @@ public class UI {
     GamePanel gamePanel;
     public double timeCounter = 0;
     private Font fontPixelated;
+
+    public boolean notificationOn = false;
+    public String notification = "";
+    public int notificationCounter = 0;
     private final DecimalFormat df = new DecimalFormat("0.00");
 
     public UI(GamePanel gamePanel) {
@@ -21,13 +25,24 @@ public class UI {
             e.printStackTrace();
         }
     }
-
+    public void setNotification(String notification) {
+        this.notification = notification;
+        notificationOn = true;
+    }
     public void draw(Graphics2D g) {
         g.setFont(fontPixelated);
         g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
         g.setColor(Color.WHITE);
-
+        if(notificationOn) {
+            g.drawString(notification, 50, 200);
+            notificationCounter++;
+            if(notificationCounter == gamePanel.FPS * 4) {
+                notificationCounter = 0;
+                notificationOn = false;
+            }
+        }
         if(gamePanel.gameState == gamePanel.pauseState) {
+            notificationOn = false;
             int x;
             int y;
             String pauseText = "Game Paused";
@@ -39,7 +54,6 @@ public class UI {
             g.drawString(pauseText, x, y);
 
         }
-
         if (gamePanel.gameState == gamePanel.playState) {
             timeCounter += (double) 1 / gamePanel.FPS;
             g.drawString(gamePanel.player.FPS + " FPS", 50, 50);

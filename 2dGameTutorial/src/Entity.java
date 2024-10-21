@@ -6,7 +6,7 @@ public class Entity {
     public double y;
     public double worldX, worldY;
     public double screenX, screenY;
-    public int speed;
+    public double speed;
     public double size;
     int hp;
     int currentHP;

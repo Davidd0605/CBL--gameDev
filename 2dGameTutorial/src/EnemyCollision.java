@@ -3,6 +3,7 @@ import java.awt.*;
 public class EnemyCollision extends CollisionChecker{
 
     public Player player;
+    public int comboCounter = 0;
     EnemyCollision(GamePanel gamePanel, Player player) {
         super(gamePanel);
         this.player = player;
@@ -63,19 +64,30 @@ public class EnemyCollision extends CollisionChecker{
                     if(!entity.hasIframes) {
                         entity.hasIframes = true;
                         entity.currentHP--;
-                        System.out.println("HIT REGISTER " + entity.currentHP);
+                        if(gamePanel.ui.notificationOn) {
+                            gamePanel.ui.notification = "ENEMY HAS BEEN HIT! x" + comboCounter;
+                            gamePanel.ui.notificationCounter = 0;
+                            comboCounter++;
+                        } else {
+                            gamePanel.ui.notificationOn = true;
+                            gamePanel.ui.notification = "ENEMY HAS BEEN HIT!";
+                            comboCounter = 2;
+                        }
+
                     }
                 } else {
                     if(!player.hasIframes) {
                         player.hasIframes = true;
-                        System.out.println("PLAYER CRITICALLY HIT");
+                        gamePanel.ui.notificationOn = true;
+                        gamePanel.ui.notification = "PLAYER HAS BEEN CRITICALLY INJURED!";
                         player.FPS -= 10;
                     }
                 }
             } else {
                 if(!player.hasIframes) {
                     player.hasIframes = true;
-                    System.out.println("PLAYER HIT");
+                    gamePanel.ui.notificationOn = true;
+                    gamePanel.ui.notification = "PLAYER HAS BEEN HIT!";
                     player.FPS -= 5;
                 }
 
