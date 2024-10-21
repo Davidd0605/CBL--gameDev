@@ -113,10 +113,15 @@ public class GamePanel extends JPanel implements Runnable {
 
         //FOR TITLE
         if(gameState == titleState) {
+            this.setBackground(Color.BLACK);
+//            g2.setColor(new Color( 100,100,100));
+//            g2.fillRect(0, 0, this.getWidth(), this.getHeight()); //alternate way of changing color
             ui.draw(g2);
             g2.dispose();
         }
         else {
+            this.setBackground(Color.GREEN);
+
             tileManager.draw(g2);
             for(int i = 0 ; i < waveNumber ; i ++) {
                 if(enemy[i] != null) {
