@@ -23,16 +23,14 @@ public class Main {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
+        } 
         GamePanel newGamePanel = new GamePanel(16, 12);
-        frame.setSize(780, 520);    //originally 24 * 32 and 600
+        frame.setSize(780, 520);
         frame.setResizable(false);
         frame.setTitle("FPS survivor");
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         frame.add(newGamePanel, BorderLayout.CENTER);
         newGamePanel.startGameThread();
         frame.setVisible(true);

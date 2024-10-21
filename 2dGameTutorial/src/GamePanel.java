@@ -42,7 +42,6 @@ public class GamePanel extends JPanel implements Runnable {
     //test enemy
     Enemy[] enemy = new Enemy[5];
     ArrayList<Entity> entityList = new ArrayList<>();
-    //Constructor for the panel
     void checkNumberOfEnemies() {
         int no = 0;
         for(int i = 0; i < enemy.length; i ++) {
@@ -115,7 +114,6 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
 
     }
-
     //Game thread
     @Override
     public void run() {
@@ -126,9 +124,6 @@ public class GamePanel extends JPanel implements Runnable {
         while(gameThread.isAlive()) {
             update();
             repaint();
-
-
-            // try and catch works as follows: if the program runs intro any errors in the try flag, then it will cll t
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime / 1000000;

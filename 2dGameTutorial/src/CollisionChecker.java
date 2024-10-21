@@ -75,51 +75,28 @@ public class CollisionChecker {
     }
     public void checkEntity(Entity entity) {
         //TODO CHECK COLLISIONS WITH OTHER ENTITIES
-        //Determine bounds of the hit box
-        entityLeftWorldX = entity.worldX;
-        entityTopWorldY = entity.worldY;
-        entityRightWorldX = entity.worldX + gamePanel.tileSize;
-        entityBottomWorldY = entity.worldY + gamePanel.tileSize;
-//        //Finds coords in n x n tile map matrix
-//        entityLeftCol = (int) (entityLeftWorldX/gamePanel.tileSize);
-//        entityRightCol = (int) (entityRightWorldX/gamePanel.tileSize);
-//        entityTopRow = (int) (entityTopWorldY/gamePanel.tileSize);
-//        entityBottomRow = (int) (entityBottomWorldY/gamePanel.tileSize);
         for(Enemy e: gamePanel.enemy) {
             if(e != null) {
                 if(e != entity) {
-                    //GET BOUNDS OF COLLIDING ENTITY
-                    double collisionLeftWorldX = e.worldX;
-                    double collisionTopWorldY = e.worldY;
-                    double collisionRightWorldX = e.worldX + gamePanel.tileSize;
-                    double collisionBottomWorldY = e.worldY + gamePanel.tileSize;
-                    //GET COORDS IN MATRIX
-//                int coliisionLeftCol = (int) (collisionLeftWorldX/gamePanel.tileSize);
-//                int collisionBottomCol = (int) (collisionBottomWorldY/gamePanel.tileSize);
-//                int collisionRightCol = (int) (collisionRightWorldX/gamePanel.tileSize);
-//                int collisionTopRow = (int) (collisionTopWorldY/gamePanel.tileSize);
-//
-                switch(entity.direction) {
-                    case "up" :
-                        entityTopWorldY = entityTopWorldY - entity.speed;
-                        entityBottomWorldY = entityBottomWorldY - entity.speed;
-                        break;
-                    case "down" :
-                        entityBottomWorldY = entityBottomWorldY + entity.speed;
-                        entityTopWorldY = entityTopWorldY + entity.speed;
-                        break;
-                    case "left" :
-                        entityLeftWorldX = (entityLeftWorldX - entity.speed);
-                        entityRightWorldX = entityRightWorldX - entity.speed;
-
-                        break;
-                    case "right" :
-                        entityRightWorldX= (entityRightWorldX + entity.speed);
-                        entityLeftWorldX = entityLeftWorldX + entity.speed;
-                        break;
-                }
-                    if( doOverLap(collisionLeftWorldX, collisionRightWorldX, collisionTopWorldY, collisionBottomWorldY,
-                            entityLeftWorldX, entityRightWorldX, entityTopWorldY, entityBottomWorldY) ) {
+                    double wx = entity.worldX;
+                    double wy = entity.worldY;
+                    double distance;
+                    switch(entity.direction) {
+                        case "up":
+                            wy -= entity.speed;
+                            break;
+                        case "down":
+                            wy += entity.speed;
+                            break;
+                        case "left":
+                            wx -= entity.speed;
+                            break;
+                        case "right":
+                            wx += entity.speed;
+                            break;
+                    }
+                    distance = Math.sqrt(Math.pow(wx - e.worldX, 2) + Math.pow(wy - e.worldY, 2));
+                    if(distance < gamePanel.tileSize) {
                         entity.collisionOn = true;
                     }
                 }

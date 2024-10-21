@@ -38,7 +38,6 @@ public class KeyHandler implements KeyListener {
         if(key == KeyEvent.VK_ESCAPE) {
             escPressed = !escPressed;
             gamePanel.gameState = gamePanel.gameState == gamePanel.playState ? gamePanel.pauseState : gamePanel.playState;
-            System.out.println(gamePanel.gameState);
         }
         if(key == KeyEvent.VK_O){
             OPressed = !OPressed;

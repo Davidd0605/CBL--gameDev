@@ -19,16 +19,10 @@ public class TileManager extends PerlinGenerator {
         KeyHandler keyHandler = new KeyHandler(gp);
         this.keyHandler = keyHandler;
         tile = new tiles[10];
-        //mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         generatePerlin();
         mapTileNum = perlinMap;
         getTileImage();
         //loadMap("/maps/miniMap.txt");
-//        for(int i =0;i< 24; i++){
-//            mapTileNum[i] = perlinMap[i].clone();
-//        }
-
-
     }
 
     public void getTileImage() {
