@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Game State
     public int gameState;
+    public int titleState = -1;
     public int playState = 0;
     public int pauseState = 1;
     public int overState = 2;
@@ -70,7 +71,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.green);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.gameState = this.playState;
+        //this.gameState = this.playState;
+        this.gameState = this.titleState;
+
         gameThread = new Thread(this);
 
         setEnemy();
@@ -81,6 +84,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     void update(){
+        if(gameState == titleState){
+
+        }
         if(gameState == playState){
             checkNumberOfEnemies();
             for(int i = 0 ; i < waveNumber ; i ++) {
@@ -101,18 +107,26 @@ public class GamePanel extends JPanel implements Runnable {
             keyHandler.OPressed = false;
             tileManager.generatePerlin();
             for(int i =0; i< 24; i++) {
-                tileManager.mapTileNum[i] = tileManager.perlinMap[i].clone();
+                tileManager.mapTileNum = tileManager.perlinMap;
             }
         }
-        tileManager.draw(g2);
-        for(int i = 0 ; i < waveNumber ; i ++) {
-            if(enemy[i] != null) {
-                enemy[i].draw(g2);
-            }
+
+        //FOR TITLE
+        if(gameState == titleState) {
+            ui.draw(g2);
+            g2.dispose();
         }
-        player.draw(g2);
-        ui.draw(g2);
-        g2.dispose();
+        else {
+            tileManager.draw(g2);
+            for(int i = 0 ; i < waveNumber ; i ++) {
+                if(enemy[i] != null) {
+                    enemy[i].draw(g2);
+                }
+            }
+            player.draw(g2);
+            ui.draw(g2);
+            g2.dispose();
+        }
 
     }
 

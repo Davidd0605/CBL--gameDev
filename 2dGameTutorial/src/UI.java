@@ -21,11 +21,28 @@ public class UI {
             e.printStackTrace();
         }
     }
+    public void drawTitleScreen(){
+
+    }
 
     public void draw(Graphics2D g) {
         g.setFont(fontPixelated);
         g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
         g.setColor(Color.WHITE);
+        System.out.println("Reached here");
+        if(gamePanel.gameState == gamePanel.titleState){
+            drawTitleScreen();
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 48F));
+            System.out.println("Title Screen Rendered");
+            String titleText = "Stupid idiot with a knife";
+            int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(titleText, g).getWidth();
+            int x = gamePanel.getWidth()/2 - textSize / 2;;
+            int y = 2 * gamePanel.tileSize;
+
+            g.setColor(Color.BLUE);
+            g.drawString(titleText, x, y);
+
+        }
         if(gamePanel.gameState == gamePanel.pauseState) {
             int x;
             int y;
@@ -47,6 +64,7 @@ public class UI {
             int waveY;
             waveX = gamePanel.getWidth()/2 - textSize / 2;
             waveY = 50;
+            System.out.println("fssfsfsf");
             g.drawString(waveText, waveX, waveY);
 
             //DRAW TIMER

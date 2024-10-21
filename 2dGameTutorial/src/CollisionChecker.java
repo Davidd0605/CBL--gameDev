@@ -94,7 +94,7 @@ public class CollisionChecker {
                     double collisionRightWorldX = e.worldX + gamePanel.tileSize;
                     double collisionBottomWorldY = e.worldY + gamePanel.tileSize;
                     //GET COORDS IN MATRIX
-//                int coliisionLeftCol = (int) (collisionLeftWorldX/gamePanel.tileSize);
+//                int collisionLeftCol = (int) (collisionLeftWorldX/gamePanel.tileSize);
 //                int collisionBottomCol = (int) (collisionBottomWorldY/gamePanel.tileSize);
 //                int collisionRightCol = (int) (collisionRightWorldX/gamePanel.tileSize);
 //                int collisionTopRow = (int) (collisionTopWorldY/gamePanel.tileSize);
