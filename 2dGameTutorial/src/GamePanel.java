@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 24;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
+    public int generatedSize = 0;
     final int FPS = 60;
     //UI
     public UI ui = new UI(this);
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Game State
     public int gameState;
+    public int titleState = -1;
     public int playState = 0;
     public int pauseState = 1;
     public int overState = 2;
@@ -69,7 +71,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.green);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.gameState = this.playState;
+        //this.gameState = this.playState;
+        this.gameState = this.titleState;
+
         gameThread = new Thread(this);
 
         setEnemy();
@@ -80,6 +84,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     void update(){
+        if(gameState == titleState){
+
+        }
         if(gameState == playState){
             checkNumberOfEnemies();
             for(int i = 0 ; i < waveNumber ; i ++) {
@@ -100,18 +107,31 @@ public class GamePanel extends JPanel implements Runnable {
             keyHandler.OPressed = false;
             tileManager.generatePerlin();
             for(int i =0; i< 24; i++) {
-                tileManager.mapTileNum[i] = tileManager.perlinMap[i].clone();
+                tileManager.mapTileNum = tileManager.perlinMap;
             }
         }
-        tileManager.draw(g2);
-        for(int i = 0 ; i < waveNumber ; i ++) {
-            if(enemy[i] != null) {
-                enemy[i].draw(g2);
-            }
+
+        //FOR TITLE
+        if(gameState == titleState) {
+            this.setBackground(Color.BLACK);
+//            g2.setColor(new Color( 100,100,100));
+//            g2.fillRect(0, 0, this.getWidth(), this.getHeight()); //alternate way of changing color
+            ui.draw(g2);
+            g2.dispose();
         }
-        player.draw(g2);
-        ui.draw(g2);
-        g2.dispose();
+        else {
+            this.setBackground(Color.GREEN);
+
+            tileManager.draw(g2);
+            for(int i = 0 ; i < waveNumber ; i ++) {
+                if(enemy[i] != null) {
+                    enemy[i].draw(g2);
+                }
+            }
+            player.draw(g2);
+            ui.draw(g2);
+            g2.dispose();
+        }
 
     }
     //Game thread

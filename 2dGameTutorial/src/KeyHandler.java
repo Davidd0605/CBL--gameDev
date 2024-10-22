@@ -14,6 +14,43 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
+
+        //Title State
+        if(gamePanel.gameState == gamePanel.titleState){
+            if(key == KeyEvent.VK_W){
+                gamePanel.ui.commandNum--;
+                if(gamePanel.ui.commandNum < 0){
+                    gamePanel.ui.commandNum = 2;
+                }
+            }
+            if(key == KeyEvent.VK_S){
+                gamePanel.ui.commandNum++;
+                if(gamePanel.ui.commandNum > 2){
+                    gamePanel.ui.commandNum = 0;
+                }
+            }
+            if(key == KeyEvent.VK_A && gamePanel.ui.commandNum == 1 && gamePanel.ui.showSize){
+                gamePanel.ui.mapSize--;
+            }
+            if(key == KeyEvent.VK_D && gamePanel.ui.commandNum == 1 && gamePanel.ui.showSize){
+                gamePanel.ui.mapSize++;
+            }
+            if(key == KeyEvent.VK_ENTER){
+                if(gamePanel.ui.commandNum == 0){
+                    gamePanel.gameState = gamePanel.playState;
+                }
+                if(gamePanel.ui.commandNum == 1){
+                    gamePanel.ui.showSize = !gamePanel.ui.showSize;
+                }
+                if(gamePanel.ui.commandNum == 2){
+                    System.exit(0);
+                }
+
+            }
+        }
+
+
+        //Play State
         if(key == KeyEvent.VK_SPACE) {
             atkPressed = true;
         }
