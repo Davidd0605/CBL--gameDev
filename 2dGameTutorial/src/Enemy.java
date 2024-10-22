@@ -59,10 +59,6 @@ public class Enemy extends Entity {
     }
     public void assignSprite() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
             left1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_1.png"));
             left2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_1.png"));

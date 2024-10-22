@@ -78,7 +78,7 @@ public class UI {
             int counterX = 50;
             int counterY = 70;
             String counterText = df.format(timeCounter) + " seconds";
-            if(timeCounter > 30) {
+            if(timeCounter > 60) {
                 fontPixelated = fontPixelated.deriveFont(Font.PLAIN, 40);
                 counterX = waveX - (int) g.getFontMetrics(g.getFont()).getStringBounds(counterText, g).getWidth()/2;
                 counterY = waveY + gamePanel.tileSize;
