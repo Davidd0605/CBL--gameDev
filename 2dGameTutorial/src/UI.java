@@ -9,6 +9,10 @@ public class UI {
     public double timeCounter = 0;
     private Font fontPixelated;
     private final DecimalFormat df = new DecimalFormat("0.00");
+    public int commandNum = 0;
+    public int mapSize = 0;
+    private String size = "Small";
+    public boolean showSize = false;
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -48,24 +52,62 @@ public class UI {
             //MENU
             g.setFont(g.getFont().deriveFont(Font.BOLD, 24F));
 
+            int offset = gamePanel.tileSize / 2;
             titleText="Start game";
             x=gamePanel.getWidth()/2-2*gamePanel.tileSize;
-            y=gamePanel.getHeight()/2-2*gamePanel.tileSize;
+            y=gamePanel.getHeight()/2-2*gamePanel.tileSize + 2*offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
+            if(commandNum == 0) {
+                showSize = false;
+                g.drawString(">", x- gamePanel.tileSize/2, y);
+            }
 
 
-            titleText="Options";
-            x=gamePanel.getWidth()/2-2*gamePanel.tileSize;
-            y=gamePanel.getHeight()/2-3*gamePanel.tileSize/2;
+            titleText="Map Size";
+            x=gamePanel.getWidth()/2-2*gamePanel.tileSize+25;
+            y=gamePanel.getHeight()/2-3*gamePanel.tileSize/2 + 2*offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
+            if(commandNum == 1) {
+                g.drawString(">", x- gamePanel.tileSize/2, y);
+                if(showSize) {
+
+                    if(mapSize == 0){
+                        size = "Small";
+                        gamePanel.generatedSize = 16;
+                    }
+                    else if(mapSize == 1){
+                        size = "Medium";
+                        gamePanel.generatedSize = 24;
+                    }
+                    else if(mapSize == 2){
+                        size = "Large";
+                        gamePanel.generatedSize = 32;
+                    }
+                    else if(mapSize > 2){
+                        mapSize = 0;
+                    }
+                    else {
+                        mapSize = 2;
+                    }
+
+                    g.drawString(size, x + 3* gamePanel.tileSize, y );
+                }
+
+            }
+
 
             titleText="Exit game";
-            x=gamePanel.getWidth()/2-2*gamePanel.tileSize;
-            y=gamePanel.getHeight()/2-gamePanel.tileSize;
+            x=gamePanel.getWidth()/2-2*gamePanel.tileSize+15;
+            y=gamePanel.getHeight()/2-gamePanel.tileSize + 2*offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
+            if(commandNum == 2) {
+                showSize = false;
+                g.drawString(">", x- gamePanel.tileSize/2, y);
+
+            }
         }
         if(gamePanel.gameState == gamePanel.pauseState) {
             int x;
