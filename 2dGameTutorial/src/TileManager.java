@@ -19,9 +19,11 @@ public class TileManager extends PerlinGenerator {
         KeyHandler keyHandler = new KeyHandler(gp);
         this.keyHandler = keyHandler;
         tile = new tiles[10];
+        this.mapSize = gp.ui.mapSize;
         generatePerlin();
         mapTileNum = perlinMap;
         getTileImage();
+
         //loadMap("/maps/miniMap.txt");
     }
 
@@ -86,9 +88,10 @@ public class TileManager extends PerlinGenerator {
 //            g2.dispose();
             generatePerlin();
         }
+
         int worldRow = 0;
         int worldCol = 0;
-        while(worldRow < 24 && worldCol < 24){  //worldRow < gp.maxWorldRow && worldCol < gp.maxWorldCol
+        while(worldRow < mapSize && worldCol < mapSize){  //worldRow < gp.maxWorldRow && worldCol < gp.maxWorldCol
 
             int tileNum = mapTileNum[worldCol][worldRow];    //int tileNum = mapTileNum[worldCol][worldRow]
 
