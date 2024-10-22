@@ -94,6 +94,9 @@ public class Player extends Entity {
     }
 
     public void update() {
+        if(FPS < 8) {
+            FPS = 8;
+        }
         if(hasIframes) {
             iFrameCounter++;
             if(iFrameCounter == gp.FPS) {

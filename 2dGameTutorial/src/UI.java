@@ -13,7 +13,13 @@ public class UI {
     public String notification = "";
     public int notificationCounter = 0;
     private final DecimalFormat df = new DecimalFormat("0.00");
+    public void drawOptions(Graphics g) {
+        String optionText = "OPTIONS";
+        g.drawString(optionText, 10, 20);
+        g.setColor(Color.black);
+        g.drawRect(10, 20, 100,100);
 
+    }
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         try {
@@ -43,15 +49,16 @@ public class UI {
         }
         if(gamePanel.gameState == gamePanel.pauseState) {
             notificationOn = false;
-            int x;
-            int y;
-            String pauseText = "Game Paused";
-            g.setFont(g.getFont().deriveFont(Font.PLAIN, 50));
-            int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(pauseText, g).getWidth();
-            x = gamePanel.getWidth()/2 - textSize / 2;
-            y = gamePanel.getHeight()/2 - 2 * gamePanel.tileSize;
-            g.setColor(Color.WHITE);
-            g.drawString(pauseText, x, y);
+//            int x;
+//            int y;
+//            String pauseText = "Game Paused";
+//            g.setFont(g.getFont().deriveFont(Font.PLAIN, 50));
+//            int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(pauseText, g).getWidth();
+//            x = gamePanel.getWidth()/2 - textSize / 2;
+//            y = gamePanel.getHeight()/2 - 2 * gamePanel.tileSize;
+//            g.setColor(Color.WHITE);
+//            g.drawString(pauseText, x, y);
+            drawOptions(g);
 
 
 

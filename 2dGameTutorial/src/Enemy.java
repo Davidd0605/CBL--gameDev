@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ public class Enemy extends Entity {
     public int directionCounter;
     public int detectionDistance;
     public Point initialPosition;
+    public String lastDirection = "right";
     public boolean playerCollision = false;
 
     public Enemy(GamePanel gp, Player player) {
@@ -61,10 +63,10 @@ public class Enemy extends Entity {
             up2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
             down1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
             down2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_2.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +80,42 @@ public class Enemy extends Entity {
         //only render if on screen
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
                 && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-            g2.drawImage(up1, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            BufferedImage image = right1;
+            switch(direction) {
+                case "up","down":
+                    switch (lastDirection) {
+                        case "right":
+                            if(spriteNum == 1) {
+                                image = right1;
+                            } else {
+                                image = right2;
+                            }
+                            break;
+                        case "left":
+                            if(spriteNum == 1) {
+                                image = left1;
+                            } else {
+                                image = left2;
+                            }
+                            break;
+                    }
+                    break;
+                case "left":
+                    if(spriteNum == 1) {
+                        image = left1;
+                    } else {
+                        image = left2;
+                    }
+                    break;
+                case "right":
+                    if(spriteNum == 1) {
+                        image = right1;
+                    } else {
+                        image = right2;
+                    }
+                    break;
+            }
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         }
     }
@@ -148,6 +185,16 @@ public class Enemy extends Entity {
         if(collisionOn || playerCollision) {
             direction = "idle";
         }
+        spriteCounter++;
+        if(spriteCounter < gp.FPS/2) {
+            spriteNum = 1;
+        }
+        else {
+            spriteNum = 2;
+        }
+        if(spriteCounter == gp.FPS) {
+            spriteCounter = 0;
+        }
         switch(direction) {
             case "up":
                     worldY -= speed;
@@ -156,9 +203,11 @@ public class Enemy extends Entity {
                 worldY += speed;
                 break;
             case "left":
+                lastDirection = direction;
                 worldX -= speed;
                 break;
             case "right":
+                lastDirection = direction;
                 worldX += speed;
                 break;
         }

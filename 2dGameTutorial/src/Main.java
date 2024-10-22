@@ -2,7 +2,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
 /**
  *
  * @author David
@@ -35,6 +34,5 @@ public class Main {
         frame.setVisible(true);
 
     }
-
 
 }
