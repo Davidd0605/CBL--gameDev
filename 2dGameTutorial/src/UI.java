@@ -53,6 +53,8 @@ public class UI {
             g.setColor(Color.WHITE);
             g.drawString(pauseText, x, y);
 
+
+
         }
         if (gamePanel.gameState == gamePanel.playState) {
             timeCounter += (double) 1 / gamePanel.FPS;

@@ -41,7 +41,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     //test enemy
     Enemy[] enemy = new Enemy[5];
+
+    //Sound
+    SoundManager soundManager = new SoundManager();
     ArrayList<Entity> entityList = new ArrayList<>();
+
     void checkNumberOfEnemies() {
         int no = 0;
         for(int i = 0; i < enemy.length; i ++) {
@@ -71,15 +75,22 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         this.gameState = this.playState;
         gameThread = new Thread(this);
-
         setEnemy();
     }
     //Start threads
     public void startGameThread() {
+        playMusic(3);
         playerThread.startGameThread();
         gameThread.start();
     }
     void update(){
+        if(!player.canAttack) {
+            player.attackCooldown++;
+            if(player.attackCooldown == FPS) {
+                player.canAttack = true;
+                player.attackCooldown = 0;
+            }
+        }
         if(gameState == playState){
             checkNumberOfEnemies();
             for(int i = 0 ; i < waveNumber ; i ++) {
@@ -138,6 +149,18 @@ public class GamePanel extends JPanel implements Runnable {
             }
 
         }
+    }
+    void playMusic(int i) {
+        soundManager.setFile(i);
+        soundManager.play();
+        soundManager.loop();
+    }
+    void stopMusic() {
+        soundManager.stop();
+    }
+    void playSFX(int i) {
+        soundManager.setFile(i);
+        soundManager.play();
     }
 
 }

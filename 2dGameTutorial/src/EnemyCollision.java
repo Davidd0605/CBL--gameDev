@@ -64,6 +64,7 @@ public class EnemyCollision extends CollisionChecker{
                     if(!entity.hasIframes) {
                         entity.hasIframes = true;
                         entity.currentHP--;
+                        player.hitConnected = true;
                         if(gamePanel.ui.notificationOn) {
                             gamePanel.ui.notification = "ENEMY HAS BEEN HIT! x" + comboCounter;
                             gamePanel.ui.notificationCounter = 0;
@@ -77,6 +78,7 @@ public class EnemyCollision extends CollisionChecker{
                     }
                 } else {
                     if(!player.hasIframes) {
+                        gamePanel.playSFX(4);
                         player.hasIframes = true;
                         gamePanel.ui.notificationOn = true;
                         gamePanel.ui.notification = "PLAYER HAS BEEN CRITICALLY INJURED!";
@@ -85,6 +87,7 @@ public class EnemyCollision extends CollisionChecker{
                 }
             } else {
                 if(!player.hasIframes) {
+                    gamePanel.playSFX(4);
                     player.hasIframes = true;
                     gamePanel.ui.notificationOn = true;
                     gamePanel.ui.notification = "PLAYER HAS BEEN HIT!";

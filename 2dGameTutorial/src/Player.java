@@ -13,6 +13,7 @@ public class Player extends Entity {
     public int attackCooldown = 0;
     public boolean attacking = false;
     private double initialSpeed;
+    public boolean hitConnected = false;
 
     public int frameClock = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
@@ -72,26 +73,27 @@ public class Player extends Entity {
     }
     public void attacking() {
         spriteCounter++;
+        if(spriteCounter == 2)
+            gp.playSFX(1);
         if(spriteCounter <= 5) {
             spriteNum = 1;
         }
         if(spriteCounter > FPS / 5 && spriteCounter <= FPS) {
             spriteNum = 2;
         }
+        if(spriteCounter == FPS/2 && hitConnected) {
+            gp.playSFX(2);
+            hitConnected = false;
+        }
         if(spriteCounter > FPS * 1 / 2) {
             spriteNum = 1;
             spriteCounter = 0;
             attacking = false;
         }
+
     }
+
     public void update() {
-        if(!canAttack) {
-            attackCooldown++;
-            if(attackCooldown == FPS) {
-                canAttack = true;
-                attackCooldown = 0;
-            }
-        }
         if(hasIframes) {
             iFrameCounter++;
             if(iFrameCounter == gp.FPS) {
@@ -112,6 +114,8 @@ public class Player extends Entity {
         gp.collisionChecker.checkTile(this);
         if(!collisionOn)
             gp.collisionChecker.checkEntity(this);
+
+
         if(attacking) {
             attacking();
         }
