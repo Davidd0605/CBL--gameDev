@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
  */
 public class Main {
     public static void main(String[] args) {
+
         JFrame frame = new JFrame();
         BufferedImage icon;
         frame.setIconImage(new ImageIcon("Player/boy_idle_1").getImage());
@@ -32,6 +33,15 @@ public class Main {
         frame.add(newGamePanel, BorderLayout.CENTER);
         newGamePanel.startGameThread();
         frame.setVisible(true);
+
+        //TODO Create tutorial pop up
+        JFrame Tutorial = new JFrame();
+        Tutorial.setTitle("Tutorial");
+        Tutorial.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        Tutorial.setResizable(false);
+        Tutorial.setSize(400, 200);
+        Tutorial.setLocationRelativeTo(null);
+        Tutorial.setVisible(true);
 
     }
 

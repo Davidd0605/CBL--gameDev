@@ -1,6 +1,6 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.util.HashMap;
 public class KeyHandler implements KeyListener {
     public GamePanel gamePanel;
     public KeyHandler(GamePanel gamePanel) {
@@ -35,13 +35,48 @@ public class KeyHandler implements KeyListener {
         }
         if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
             leftPressed = true;
+            if(gamePanel.gameState == gamePanel.pauseState) {
+                gamePanel.playSFX(0);
+                switch (gamePanel.ui.optionScreen) {
+                    case 0:
+                    gamePanel.ui.optionScroll --;
+                    if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                        gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+                    break;
+                    default:
+                        break;
+                }
+
+            }
         }
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             rightPressed = true;
+            if(gamePanel.gameState == gamePanel.pauseState) {
+                gamePanel.playSFX(0);
+                switch (gamePanel.ui.optionScreen) {
+                    case 0:
+                    gamePanel.ui.optionScroll ++;
+                    if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                        gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+                        break;
+                
+                    default:
+                        break;
+                }
+            }
         }
         if(key == KeyEvent.VK_ESCAPE) {
-            escPressed = !escPressed;
-            gamePanel.gameState = gamePanel.gameState == gamePanel.playState ? gamePanel.pauseState : gamePanel.playState;
+
+            switch (gamePanel.gameState) {
+                case 0:
+                    gamePanel.gameState = gamePanel.pauseState;
+                    gamePanel.playSFX(0);
+                    break;
+                case 1:
+                    gamePanel.gameState = gamePanel.playState;
+                    gamePanel.playSFX(0);
+                    break;
+            }
         }
         if(key == KeyEvent.VK_O){
             OPressed = !OPressed;

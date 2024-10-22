@@ -12,14 +12,12 @@ public class UI {
     public boolean notificationOn = false;
     public String notification = "";
     public int notificationCounter = 0;
+    public int optionScroll = 0;
+    public int minOptionScroll = 0;
+    public int maxOptionScroll = 3;
+    public int optionScreen = 0;
     private final DecimalFormat df = new DecimalFormat("0.00");
-    public void drawOptions(Graphics g) {
-        String optionText = "OPTIONS";
-        g.drawString(optionText, 10, 20);
-        g.setColor(Color.black);
-        g.drawRect(10, 20, 100,100);
 
-    }
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         try {
@@ -30,6 +28,59 @@ public class UI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void drawWindow(int x, int y, int height, int width, Graphics2D g) {
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+        g.setColor(Color.black);
+        g.fillRoundRect(x, y, width, height, 35, 35);
+        g.setColor(Color.white);
+        g.drawRoundRect(x, y, width, height, 35,35);
+    }
+    public void drawOptions(Graphics2D g) {
+
+        int frameX = gamePanel.tileSize + gamePanel.tileSize * 2;
+        int frameY = gamePanel.tileSize;
+        int frameWidth = gamePanel.tileSize * 10;
+        int frameHeigth = gamePanel.tileSize * 8;
+        drawWindow(frameX, frameY, frameHeigth, frameWidth, (Graphics2D)g);
+
+        switch (optionScreen) {
+            case 0:
+                optionList(frameX, frameY, frameWidth, frameHeigth, g);
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
+
+    }
+    public void optionList(int x, int y, int width, int height, Graphics2D g) {
+        String text = "Options";
+        int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+        int textX = x + width / 2 - textSize/2;
+        int textY = y + gamePanel.tileSize;
+        g.drawString(text, textX, textY);
+
+
+        textX = x + gamePanel.tileSize/2;
+        //MUSIC VOLUME
+        textY += gamePanel.tileSize;
+        text = "ADJUST VOLUME";
+        g.drawRect(x + width / 2, textY - 15, 100, 15);
+        text = optionScroll == 0 ? " > "  + text : text;
+        g.drawString(text, textX, textY);
+        //MUTE/UNMUTE SFX
+        textY += gamePanel.tileSize;
+        text = "MUTE SFX";
+        text = optionScroll == 1 ? " > "  + text : text;
+        g.drawString(text, textX, textY);
+        //MAIN MENU
+        textY += gamePanel.tileSize;
+        text = "MAIN MENU";
+        text = optionScroll == 2 ? " > " + text : text;
+        g.drawString(text, textX, textY);
+        
     }
     public void setNotification(String notification) {
         this.notification = notification;
@@ -49,15 +100,6 @@ public class UI {
         }
         if(gamePanel.gameState == gamePanel.pauseState) {
             notificationOn = false;
-//            int x;
-//            int y;
-//            String pauseText = "Game Paused";
-//            g.setFont(g.getFont().deriveFont(Font.PLAIN, 50));
-//            int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(pauseText, g).getWidth();
-//            x = gamePanel.getWidth()/2 - textSize / 2;
-//            y = gamePanel.getHeight()/2 - 2 * gamePanel.tileSize;
-//            g.setColor(Color.WHITE);
-//            g.drawString(pauseText, x, y);
             drawOptions(g);
 
 

@@ -30,9 +30,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Game State
     public int gameState;
-    public int playState = 0;
-    public int pauseState = 1;
-    public int overState = 2;
+    public final int playState = 0;
+    public final int pauseState = 1;
+    public final int overState = 2;
 
     //Entities
     Player player = new Player(this, keyHandler);
@@ -85,14 +85,14 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     void update(){
-        if(!player.canAttack) {
-            player.attackCooldown++;
-            if(player.attackCooldown == FPS) {
-                player.canAttack = true;
-                player.attackCooldown = 0;
-            }
-        }
         if(gameState == playState){
+            if(!player.canAttack) {
+                player.attackCooldown++;
+                if(player.attackCooldown == FPS) {
+                    player.canAttack = true;
+                    player.attackCooldown = 0;
+                }
+            }
             checkNumberOfEnemies();
             for(int i = 0 ; i < waveNumber ; i ++) {
                 if(enemy[i] != null) {

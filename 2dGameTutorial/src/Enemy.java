@@ -78,7 +78,7 @@ public class Enemy extends Entity {
                 && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             BufferedImage image = right1;
             switch(direction) {
-                case "up","down":
+                case "up","down","idle":
                     switch (lastDirection) {
                         case "right":
                             if(spriteNum == 1) {
@@ -182,12 +182,11 @@ public class Enemy extends Entity {
             direction = "idle";
         }
         spriteCounter++;
-        if(spriteCounter < gp.FPS/2) {
+        if(spriteCounter < gp.FPS/4 || (spriteCounter >= gp.FPS / 4 * 2 && spriteCounter <= gp.FPS / 4 * 3)) {
             spriteNum = 1;
-        }
-        else {
+        } else
             spriteNum = 2;
-        }
+
         if(spriteCounter == gp.FPS) {
             spriteCounter = 0;
         }
@@ -209,7 +208,6 @@ public class Enemy extends Entity {
         }
     }
     public void chase() {
-
         //TODO PATHFINDING
     }
 }
