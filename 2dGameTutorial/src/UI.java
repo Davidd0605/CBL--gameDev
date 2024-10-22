@@ -79,6 +79,7 @@ public class UI {
             g.drawString(pauseText, x, y);
 
         }
+
         if (gamePanel.gameState == gamePanel.playState) {
             timeCounter += (double) 1 / gamePanel.FPS;
             g.drawString(gamePanel.player.FPS + " FPS", 50, 50);
@@ -105,9 +106,7 @@ public class UI {
             }
             g.drawString(counterText, counterX, counterY);
         }
-
     }
-    // DISPLAY WAVE
 
 
 }
