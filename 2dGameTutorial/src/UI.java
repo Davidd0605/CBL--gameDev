@@ -21,9 +21,8 @@ public class UI {
     public int musicVolumeInd = 0;
     public int SFXVolumeInd = 50;
     private final DecimalFormat df = new DecimalFormat("0.00");
-    public int commandNum = 0;
-    public int mapSize = 0;
-    private String size = "Small";
+    public int mapSize = 2;
+    private String size = "Large";
     public boolean showSize = false;
     PerlinGenerator peg = new PerlinGenerator();
 
@@ -84,7 +83,7 @@ public class UI {
         text = "YES";
         textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
         textX = x + width / 2 - textSize/2;
-        textY += 2*gamePanel.tileSize;
+        textY += 2 * gamePanel.tileSize;
         text = optionScroll == 1 ? " > " + text : text;
         g.drawString(text, textX, textY);
 
@@ -171,11 +170,9 @@ public class UI {
                 notificationOn = false;
             }
         }
-        System.out.println("Reached here");
         if(gamePanel.gameState == gamePanel.titleState){
-
+            notificationOn = false;
             g.setFont(g.getFont().deriveFont(Font.BOLD, 48F));
-            System.out.println("Title Screen Rendered");
             String titleText = "Stupid idiot with a knife";
             int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(titleText, g).getWidth();
             int x = gamePanel.getWidth()/2 - textSize / 2;;
@@ -184,21 +181,19 @@ public class UI {
             //Shadow text
             g.setColor(Color.YELLOW);
             g.drawString(titleText, x+3, y+3);
-
             //Main text
             g.setColor(Color.BLUE);
             g.drawString(titleText, x, y);
 
             //MENU
             g.setFont(g.getFont().deriveFont(Font.BOLD, 24F));
-
             int offset = gamePanel.tileSize / 2;
             titleText="Start game";
             x=gamePanel.getWidth()/2-2*gamePanel.tileSize;
             y=gamePanel.getHeight()/2-2*gamePanel.tileSize + 2*offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
-            if(commandNum == 0) {
+            if(optionScroll == 0) {
                 showSize = false;
                 g.drawString(">", x- gamePanel.tileSize/2, y);
             }
@@ -209,7 +204,7 @@ public class UI {
             y=gamePanel.getHeight()/2-3*gamePanel.tileSize/2 + 2*offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
-            if(commandNum == 1) {
+            if(optionScroll == 1) {
                 g.drawString(">", x- gamePanel.tileSize/2, y);
                 if(showSize) {
 
@@ -248,7 +243,7 @@ public class UI {
             y=gamePanel.getHeight()/2-gamePanel.tileSize + 2*offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
-            if(commandNum == 2) {
+            if(optionScroll == 2) {
                 showSize = false;
                 g.drawString(">", x- gamePanel.tileSize/2, y);
 
@@ -268,8 +263,15 @@ public class UI {
             int waveY;
             waveX = gamePanel.getWidth()/2 - textSize / 2;
             waveY = 50;
-            System.out.println("fssfsfsf");
             g.drawString(waveText, waveX, waveY);
+
+            String enemiesText = "Enemies left: " + gamePanel.numberOfEnemies;
+            int enemiesX;
+            int enemiesY;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(enemiesText, g).getWidth();
+            enemiesY = waveY + gamePanel.tileSize;
+            enemiesX = gamePanel.getWidth()/2 - textSize / 2;
+            g.drawString(enemiesText, enemiesX, enemiesY);
 
             //DRAW TIMER
             int counterX = 50;
@@ -278,12 +280,106 @@ public class UI {
             if(timeCounter > 60) {
                 fontPixelated = fontPixelated.deriveFont(Font.PLAIN, 40);
                 counterX = waveX - (int) g.getFontMetrics(g.getFont()).getStringBounds(counterText, g).getWidth()/2;
-                counterY = waveY + gamePanel.tileSize;
+                counterY = waveY + 2 * gamePanel.tileSize;
 
                 g.setFont(fontPixelated);
                 g.setColor(Color.RED);
             }
             g.drawString(counterText, counterX, counterY);
+        }
+        if(gamePanel.gameState == gamePanel.overState) {
+            maxOptionScroll = 2;
+            minOptionScroll = 0;
+            notificationOn = false;
+            int frameX = gamePanel.tileSize + gamePanel.tileSize * 2;
+            int frameY = gamePanel.tileSize;
+            int frameWidth = gamePanel.tileSize * 10;
+            int frameHeigth = gamePanel.tileSize * 8;
+            drawWindow(frameX, frameY, frameHeigth, frameWidth, g);
+
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 40));
+            String text = "Game Over";
+            int textX;
+            int textY;
+            int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth/2 - textSize / 2;
+            textY = frameY + 2 * gamePanel.tileSize;
+            g.drawString(text, textX, textY);
+
+            g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
+            text = "You have survived " + gamePanel.waveNumber + " waves";
+            textY += 3 * gamePanel.tileSize / 2;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth/2 - textSize / 2;
+            g.drawString(text, textX, textY);
+
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 25));
+            text = "TRY AGAIN?";
+            textY += 3 * gamePanel.tileSize / 2;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth/2 - textSize / 2;
+            g.drawString(text, textX, textY);
+
+            textY += gamePanel.tileSize;
+            g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
+            textX = frameX + 4 * gamePanel.tileSize;
+            text = "YES";
+            text = optionScroll == 1 ? " > " + text : text;
+            g.drawString(text, textX, textY);
+
+            text = "NO";
+            text = optionScroll == 2 ? " > " + text : text;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth - 4 * gamePanel.tileSize - textSize;
+            g.drawString(text, textX, textY);
+        }
+
+        if(gamePanel.gameState == gamePanel.winState) {
+            maxOptionScroll = 2;
+            minOptionScroll = 0;
+            notificationOn = false;
+            int frameX = gamePanel.tileSize + gamePanel.tileSize * 2;
+            int frameY = gamePanel.tileSize;
+            int frameWidth = gamePanel.tileSize * 10;
+            int frameHeigth = gamePanel.tileSize * 8;
+            drawWindow(frameX, frameY, frameHeigth, frameWidth, g);
+
+
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 40));
+            String text = "YOU WON";
+            int textX;
+            int textY;
+            int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth/2 - textSize / 2;
+            textY = frameY + 2 * gamePanel.tileSize;
+            g.drawString(text, textX, textY);
+
+            g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
+            text = "You have defeated " + (mapSize + 1) * 15 + " enemies";
+            textY += 3 * gamePanel.tileSize / 2;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth/2 - textSize / 2;
+            g.drawString(text, textX, textY);
+
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 25));
+            text = "CONTINUE?";
+            textY += 3 * gamePanel.tileSize / 2;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth/2 - textSize / 2;
+            g.drawString(text, textX, textY);
+
+            textY += gamePanel.tileSize;
+            g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
+            textX = frameX + 4 * gamePanel.tileSize;
+            text = "YES";
+            text = optionScroll == 1 ? " > " + text : text;
+            g.drawString(text, textX, textY);
+
+            text = "NO";
+            text = optionScroll == 2 ? " > " + text : text;
+            textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(text, g).getWidth();
+            textX = frameX + frameWidth - 4 * gamePanel.tileSize - textSize;
+            g.drawString(text, textX, textY);
         }
     }
 

@@ -6,7 +6,7 @@ public class KeyHandler implements KeyListener {
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-    boolean shitfPressed = false;
+    boolean shiftPressed = false;
     boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed, escPressed = false, OPressed = false;
     @Override
     public void keyTyped(KeyEvent e) {
@@ -16,51 +16,31 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
         if(key == KeyEvent.VK_SHIFT) {
-            shitfPressed = true;
+            shiftPressed = true;
         }
-
         //Title State
         if(gamePanel.gameState == gamePanel.titleState){
-            if(key == KeyEvent.VK_W){
-                gamePanel.ui.commandNum--;
-                if(gamePanel.ui.commandNum < 0){
-                    gamePanel.ui.commandNum = 2;
-                }
-            }
-            if(key == KeyEvent.VK_S){
-                gamePanel.ui.commandNum++;
-                if(gamePanel.ui.commandNum > 2){
-                    gamePanel.ui.commandNum = 0;
-                }
-            }
-            if(key == KeyEvent.VK_A && gamePanel.ui.commandNum == 1 && gamePanel.ui.showSize){
+            if(key == KeyEvent.VK_A && gamePanel.ui.optionScroll == 1 && gamePanel.ui.showSize){
                 gamePanel.ui.mapSize--;
             }
-            if(key == KeyEvent.VK_D && gamePanel.ui.commandNum == 1 && gamePanel.ui.showSize){
+            if(key == KeyEvent.VK_D && gamePanel.ui.optionScroll== 1 && gamePanel.ui.showSize){
                 gamePanel.ui.mapSize++;
             }
-            if(key == KeyEvent.VK_ENTER){
-                if(gamePanel.ui.commandNum == 0){
+            if(key == KeyEvent.VK_SPACE){
+                if(gamePanel.ui.optionScroll == 0){
                     gamePanel.gameState = gamePanel.playState;
                 }
-                if(gamePanel.ui.commandNum == 1){
+                if(gamePanel.ui.optionScroll == 1){
                     gamePanel.ui.showSize = !gamePanel.ui.showSize;
                 }
-                if(gamePanel.ui.commandNum == 2){
+                if(gamePanel.ui.optionScroll == 2){
                     System.exit(0);
                 }
 
             }
         }
 
-
         //Play State
-        if(key == KeyEvent.VK_J){
-
-            //Main.main(new String[0]);
-            gamePanel.gameState = gamePanel.titleState;
-            gamePanel.restartGame();
-        }
         if(key == KeyEvent.VK_SPACE) {
             atkPressed = true;
             if(gamePanel.gameState == gamePanel.pauseState) {
@@ -68,8 +48,7 @@ public class KeyHandler implements KeyListener {
                     case 0:
                         switch(gamePanel.ui.optionScroll) {
                             case 1:
-                                //TODO LINK WITH DAN MAIN MENU
-                                //GAME STATE = MAIN MENU
+                                gamePanel.restartGame();
                                 break;
                             case 2:
                                 gamePanel.ui.optionScroll = 0;
@@ -109,21 +88,43 @@ public class KeyHandler implements KeyListener {
                             default: break;
                         }
                         break;
-                        case 2:
-                            switch(gamePanel.ui.optionScroll) {
-                                case 1:
-                                    System.out.println("KILL GAME");
-                                    System.exit(0);
-                                    break;
-                                case 2:
-                                    gamePanel.ui.optionScroll = 0;
-                                    gamePanel.ui.optionScreen = 0;
-                                    break;
-                            }
-                            break;
+                    case 2:
+                        switch(gamePanel.ui.optionScroll) {
+                            case 1:
+                                System.exit(0);
+                                break;
+                            case 2:
+                                gamePanel.ui.optionScroll = 0;
+                                gamePanel.ui.optionScreen = 0;
+                                break;
+                        }
+                        break;
+                }
+            }
+            if(gamePanel.gameState == gamePanel.overState) {
+                switch (gamePanel.ui.optionScroll) {
+                    case 1:
+                        gamePanel.restartGame();
+                        break;
+                    case 2:
+                        System.exit(0);
+                        break;
+                }
+            }
+            if(gamePanel.gameState == gamePanel.winState) {
+                switch (gamePanel.ui.optionScroll) {
+                    case 1:
+                        gamePanel.waveNumber = 6;
+                        gamePanel.gameState = gamePanel.playState;
+                        break;
+                    case 2:
+                        System.exit(0);
+                        break;
                 }
             }
         }
+
+        //TEMPORARY FPS CONTROL FOR GAME TESTING
         if(key == KeyEvent.VK_R) {
             turnFPSUp = true;
         }
@@ -132,6 +133,12 @@ public class KeyHandler implements KeyListener {
         }
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
             upPressed = true;
+            if(gamePanel.gameState == gamePanel.titleState) {
+                gamePanel.playSFX(0);
+                gamePanel.ui.optionScroll --;
+                if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                    gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+            }
             if(gamePanel.gameState == gamePanel.pauseState) {
                 gamePanel.playSFX(0);
                 switch (gamePanel.ui.optionScreen) {
@@ -148,6 +155,12 @@ public class KeyHandler implements KeyListener {
         }
         if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
             downPressed = true;
+            if(gamePanel.gameState == gamePanel.titleState) {
+                gamePanel.playSFX(0);
+                gamePanel.ui.optionScroll ++;
+                if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                    gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+            }
             if(gamePanel.gameState == gamePanel.pauseState) {
                 gamePanel.playSFX(0);
                 switch (gamePanel.ui.optionScreen) {
@@ -174,6 +187,18 @@ public class KeyHandler implements KeyListener {
                     }
                 }
             }
+            if(gamePanel.gameState == gamePanel.overState) {
+                gamePanel.playSFX(0);
+                gamePanel.ui.optionScroll --;
+                if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                    gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+            }
+            if(gamePanel.gameState == gamePanel.winState) {
+                gamePanel.playSFX(0);
+                gamePanel.ui.optionScroll --;
+                if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                    gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+            }
         }
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             rightPressed = true;
@@ -186,6 +211,18 @@ public class KeyHandler implements KeyListener {
                         gamePanel.SFX.volumeInd = gamePanel.ui.SFXVolumeInd;
                     }
                 }
+            }
+            if(gamePanel.gameState == gamePanel.overState) {
+                gamePanel.playSFX(0);
+                gamePanel.ui.optionScroll ++;
+                if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                    gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+            }
+            if(gamePanel.gameState == gamePanel.winState) {
+                gamePanel.playSFX(0);
+                gamePanel.ui.optionScroll ++;
+                if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                    gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
             }
         }
         if(key == KeyEvent.VK_ESCAPE) {
@@ -202,10 +239,10 @@ public class KeyHandler implements KeyListener {
                     break;
             }
         }
+
+        //TODO REMOVE
         if(key == KeyEvent.VK_O){
-            OPressed = !OPressed;
-            System.out.println("Map toggled");
-            System.out.println(OPressed);
+            gamePanel.gameState = gamePanel.winState;
         }
     }
 
@@ -213,7 +250,7 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
         if(key == KeyEvent.VK_SHIFT) {
-            shitfPressed = false;
+            shiftPressed = false;
         }
         if(key == KeyEvent.VK_SPACE) {
             atkPressed = false;

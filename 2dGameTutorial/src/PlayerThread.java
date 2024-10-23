@@ -42,8 +42,7 @@ public class PlayerThread implements Runnable {
     }
     //Update game data function
     public void update() {
-        if(gamePanel.gameState == gamePanel.pauseState) {
-        } else {
+        if(gamePanel.gameState == gamePanel.playState) {
             player.update();
         }
     }

@@ -76,7 +76,7 @@ public class CollisionChecker {
     public void checkEntity(Entity entity) {
         //TODO CHECK COLLISIONS WITH OTHER ENTITIES
         for(Enemy e: gamePanel.enemy) {
-            if(e != null) {
+            if(e != null && e.alive) {
                 if(e != entity) {
                     double wx = entity.worldX;
                     double wy = entity.worldY;

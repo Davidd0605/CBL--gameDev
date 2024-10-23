@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
-
     public final int tileSize = 48;
     public final int noColumns = 24;
     public final int noRows = 10;
@@ -16,8 +15,8 @@ public class GamePanel extends JPanel implements Runnable {
     public double screenWidth;
     public final int maxWorldCol = 24;  //values of the miniMap number of columns and rows
     public final int maxWorldRow = 24;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
+//    public final int worldWidth = tileSize * maxWorldCol;
+//    public final int worldHeight = tileSize * maxWorldRow;
     public static int generatedSize = 0;
     final int FPS = 60;
     //UI
@@ -36,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int playState = 0;
     public int pauseState = 1;
     public int overState = 2;
+    public int winState = 3;
 
     //Entities
     Player player = new Player(this, keyHandler);
@@ -43,12 +43,11 @@ public class GamePanel extends JPanel implements Runnable {
     PlayerThread playerThread = new PlayerThread(player, this);
 
     //test enemy
-    Enemy[] enemy = new Enemy[5];
-
+    Enemy[] enemy = new Enemy[15];
+    public int numberOfEnemies = 0;
     //Sound
     SoundManager SFX = new SoundManager();
     SoundManager music = new SoundManager();
-    ArrayList<Entity> entityList = new ArrayList<>();
 
     void checkNumberOfEnemies() {
         int no = 0;
@@ -57,15 +56,19 @@ public class GamePanel extends JPanel implements Runnable {
                 no++;
             }
         }
+        numberOfEnemies = no;
         if(no == 0) {
-            System.out.println("No more enemies");
-            waveNumber++;
-            ui.timeCounter = 0;
-            setEnemy();
+                if(waveNumber == 5) {
+                    gameState = winState;
+                }
+                waveNumber++;
+                ui.timeCounter = 0;
+                setEnemy();
         }
     }
     void setEnemy() {
-        for(int i = 0 ; i < waveNumber; i ++) {
+        int numberOfEnemies = Math.min(waveNumber + waveNumber * ui.mapSize, (ui.mapSize + 1) * 5);
+        for(int i = 0 ; i < numberOfEnemies; i ++) {
             enemy[i] = new Enemy(this, player);
         }
     }
@@ -88,10 +91,16 @@ public class GamePanel extends JPanel implements Runnable {
 
         PerlinGenerator.mapSize = 32;
         gameState = this.titleState;
-        waveNumber = 1;
+        ui.mapSize = 2;
+        player.FPS = 50;
+
+        waveNumber = 0;
+        for(Enemy e : enemy) {
+            if(e != null)
+                e.alive = false;
+        }
         setEnemy();
         ui.timeCounter = 0;
-        player.hp = player.FPS;
         player.setDefaultValues();
         tileManager.generatePerlin();
         tileManager.mapTileNum = PerlinGenerator.perlinMap;//Alternatively you can just make the waveNumber = 1. Leaving it like this to avoid fewer possible problems
@@ -108,11 +117,13 @@ public class GamePanel extends JPanel implements Runnable {
     void update(){
         music.volumeInd = ui.musicVolumeInd;
         music.checkVolume();
-
         if(gameState == titleState){
 
         }
         if(gameState == playState){
+            if(player.FPS == 8 || ui.timeCounter >= 90) {
+                gameState = overState;
+            }
             if(!player.canAttack) {
                 player.attackCooldown++;
                 if(player.attackCooldown == FPS) {
@@ -121,13 +132,17 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
             checkNumberOfEnemies();
-            for(int i = 0 ; i < waveNumber ; i ++) {
+            int numberOfEnemies = Math.min(waveNumber + waveNumber * ui.mapSize, (ui.mapSize + 1) * 5);
+            for(int i = 0 ; i < numberOfEnemies ; i ++) {
                 if(enemy[i] != null) {
                     enemy[i].update();
                 }
             }
         }
         if(gameState == pauseState){
+
+        }
+        if(gameState == overState){
 
         }
     }
@@ -153,7 +168,8 @@ public class GamePanel extends JPanel implements Runnable {
             this.setBackground(Color.GREEN);
 
             tileManager.draw(g2);
-            for(int i = 0 ; i < waveNumber ; i ++) {
+            int numberOfEnemies = Math.min(waveNumber + waveNumber * ui.mapSize, (ui.mapSize + 1) * 5);
+            for(int i = 0 ; i < numberOfEnemies ; i ++) {
                 if(enemy[i] != null) {
                     enemy[i].draw(g2);
                 }

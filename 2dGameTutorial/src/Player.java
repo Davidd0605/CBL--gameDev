@@ -106,7 +106,7 @@ public class Player extends Entity {
         }
         speed = 200 / FPS;
         initialSpeed = speed; // speed is i.p. to FPS
-        if(keyHandler.shitfPressed) {
+        if(keyHandler.shiftPressed) {
             speed *= 1.4;
         } else {
             speed = initialSpeed;

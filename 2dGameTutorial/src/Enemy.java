@@ -57,6 +57,10 @@ public class Enemy extends Entity {
         int x = (int)( worldBoundLeft + randomXPercent / 100 * (worldBoundRight - worldBoundLeft));
         int y = (int)( worldBoundTop + randomYPercent / 100 * (worldBoundBottom - worldBoundTop));
 
+        double distance = Math.sqrt(Math.pow(x - gp.player.worldX, 2) + Math.pow(y - gp.player.worldY, 2));
+        if(distance < 2 * gp.tileSize) {
+            return randomPosition();
+        }
         return new Point(x, y);
     }
     public void assignSprite() {
