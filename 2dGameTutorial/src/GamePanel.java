@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
+
     public final int tileSize = 48;
     public final int noColumns = 24;
     public final int noRows = 10;
@@ -17,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 24;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
+    public static int generatedSize = 0;
     final int FPS = 60;
     //UI
     public UI ui = new UI(this);
@@ -30,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //Game State
     public int gameState;
+    public int titleState = -1;
     public int playState = 0;
     public int pauseState = 1;
     public int overState = 2;
@@ -69,10 +72,27 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.green);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
-        this.gameState = this.playState;
+        //this.gameState = this.playState;
+        this.gameState = this.titleState;
+
         gameThread = new Thread(this);
 
         setEnemy();
+    }
+    //Restart game
+    public void restartGame(){
+
+        PerlinGenerator.mapSize = 32;
+        gameState = this.titleState;
+        waveNumber = 1;
+        setEnemy();
+        ui.timeCounter = 0;
+        player.hp = player.FPS;
+        player.setDefaultValues();
+        tileManager.generatePerlin();
+        tileManager.mapTileNum = PerlinGenerator.perlinMap;//Alternatively you can just make the waveNumber = 1. Leaving it like this to avoid fewer possible problems
+        //didn't really touch threads. A superficial restart
+
     }
     //Start threads
     public void startGameThread() {
@@ -80,6 +100,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     void update(){
+        if(gameState == titleState){
+
+        }
         if(gameState == playState){
             checkNumberOfEnemies();
             for(int i = 0 ; i < waveNumber ; i ++) {
@@ -99,19 +122,30 @@ public class GamePanel extends JPanel implements Runnable {
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
             tileManager.generatePerlin();
-            for(int i =0; i< 24; i++) {
-                tileManager.mapTileNum[i] = tileManager.perlinMap[i].clone();
+            for(int i = 0; i< PerlinGenerator.mapSize; i++) {
+                tileManager.mapTileNum = PerlinGenerator.perlinMap;
             }
         }
-        tileManager.draw(g2);
-        for(int i = 0 ; i < waveNumber ; i ++) {
-            if(enemy[i] != null) {
-                enemy[i].draw(g2);
-            }
+
+        //FOR TITLE
+        if(gameState == titleState) {
+            this.setBackground(Color.BLACK);
+            ui.draw(g2);
+            g2.dispose();
         }
-        player.draw(g2);
-        ui.draw(g2);
-        g2.dispose();
+        else {
+            this.setBackground(Color.GREEN);
+
+            tileManager.draw(g2);
+            for(int i = 0 ; i < waveNumber ; i ++) {
+                if(enemy[i] != null) {
+                    enemy[i].draw(g2);
+                }
+            }
+            player.draw(g2);
+            ui.draw(g2);
+            g2.dispose();
+        }
 
     }
     //Game thread
