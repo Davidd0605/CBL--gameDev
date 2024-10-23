@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class Enemy extends Entity {
+
     public Player player;
     public GamePanel gp;
     public EnemyCollision collisionChecker;

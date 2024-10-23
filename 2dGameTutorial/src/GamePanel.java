@@ -43,7 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
     Enemy[] enemy = new Enemy[5];
 
     //Sound
-    SoundManager soundManager = new SoundManager();
+    SoundManager SFX = new SoundManager();
+    SoundManager music = new SoundManager();
     ArrayList<Entity> entityList = new ArrayList<>();
 
     void checkNumberOfEnemies() {
@@ -85,6 +86,9 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
     }
     void update(){
+        music.volumeInd = ui.musicVolumeInd;
+        music.checkVolume();
+
         if(gameState == playState){
             if(!player.canAttack) {
                 player.attackCooldown++;
@@ -152,16 +156,16 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
     void playMusic(int i) {
-        soundManager.setFile(i);
-        soundManager.play();
-        soundManager.loop();
+        music.setFile(i);
+        music.play();
+        music.loop();
     }
     void stopMusic() {
-        soundManager.stop();
+        music.stop();
     }
     void playSFX(int i) {
-        soundManager.setFile(i);
-        soundManager.play();
+        SFX.setFile(i);
+        SFX.play();
     }
 
 }
