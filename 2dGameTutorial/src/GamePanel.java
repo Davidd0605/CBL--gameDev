@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
     //implement runnable for thread to run
 
+
     public final int tileSize = 48;
     public final int noColumns = 24;
     public final int noRows = 10;
@@ -17,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 24;
     public final int worldWidth = tileSize * maxWorldCol;
     public final int worldHeight = tileSize * maxWorldRow;
-    public int generatedSize = 0;
+    public static int generatedSize = 0;
     final int FPS = 60;
     //UI
     public UI ui = new UI(this);
@@ -106,8 +107,8 @@ public class GamePanel extends JPanel implements Runnable {
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
             tileManager.generatePerlin();
-            for(int i =0; i< 24; i++) {
-                tileManager.mapTileNum = tileManager.perlinMap;
+            for(int i = 0; i< PerlinGenerator.mapSize; i++) {
+                tileManager.mapTileNum = PerlinGenerator.perlinMap;
             }
         }
 
