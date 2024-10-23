@@ -22,6 +22,7 @@ public class TileManager extends PerlinGenerator {
         tile = new tiles[10];
         //this.mapSize = gp.ui.mapSize;
         generatePerlin();
+        //applyRules(perlinMap);
         mapTileNum = perlinMap;
         getTileImage();
 
