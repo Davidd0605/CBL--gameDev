@@ -36,7 +36,7 @@ public class Player extends Entity {
     public void setDefaultValues() {
         size = gp.tileSize;
         worldX = 12 * gp.tileSize;
-        worldY = 9* gp.tileSize;
+        worldY = 9 * gp.tileSize;
         speed = 10;
         assignSprite();
     }

@@ -52,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
                 no++;
             }
         }
+        System.out.println(no);
         if(no == 0) {
             System.out.println("No more enemies");
             waveNumber++;
@@ -78,6 +79,21 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
 
         setEnemy();
+    }
+    //Restart game
+    public void restartGame(){
+
+        PerlinGenerator.mapSize = 32;
+        gameState = this.titleState;
+        waveNumber = 0;
+        ui.timeCounter = 0;
+        player.hp = player.FPS;
+        player.setDefaultValues();
+        tileManager.generatePerlin();
+        tileManager.mapTileNum = PerlinGenerator.perlinMap;
+        checkNumberOfEnemies(); //Alternatively you can just make the waveNumber = 1. Leaving it like this to avoid fewer possible problems
+        //didn't really touch threads. A superficial restart
+
     }
     //Start threads
     public void startGameThread() {
