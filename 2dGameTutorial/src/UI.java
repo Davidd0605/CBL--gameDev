@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 
 public class UI {
     GamePanel gamePanel;
+
     public double timeCounter = 0;
     private Font fontPixelated;
     private final DecimalFormat df = new DecimalFormat("0.00");
@@ -13,6 +14,7 @@ public class UI {
     public int mapSize = 0;
     private String size = "Small";
     public boolean showSize = false;
+    PerlinGenerator peg = new PerlinGenerator();
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -75,15 +77,18 @@ public class UI {
 
                     if(mapSize == 0){
                         size = "Small";
-                        gamePanel.generatedSize = 16;
+                        PerlinGenerator.mapSize = 16;
+                        peg.generatePerlin();
                     }
                     else if(mapSize == 1){
                         size = "Medium";
-                        gamePanel.generatedSize = 24;
+                        PerlinGenerator.mapSize = 24;
+                        peg.generatePerlin();
                     }
                     else if(mapSize == 2){
                         size = "Large";
-                        gamePanel.generatedSize = 32;
+                        PerlinGenerator.mapSize = 32;
+                        peg.generatePerlin();
                     }
                     else if(mapSize > 2){
                         mapSize = 0;

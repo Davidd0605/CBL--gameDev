@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 public class TileManager extends PerlinGenerator {
 
     public GamePanel gp;
+    public PerlinGenerator peg;
     public tiles[] tile = new tiles[10];
     public int[][] mapTileNum;
     public KeyHandler keyHandler;
@@ -19,7 +20,7 @@ public class TileManager extends PerlinGenerator {
         KeyHandler keyHandler = new KeyHandler(gp);
         this.keyHandler = keyHandler;
         tile = new tiles[10];
-        this.mapSize = gp.ui.mapSize;
+        //this.mapSize = gp.ui.mapSize;
         generatePerlin();
         mapTileNum = perlinMap;
         getTileImage();
@@ -83,11 +84,16 @@ public class TileManager extends PerlinGenerator {
         }
     }
     public void draw(Graphics2D g2){
+        //this.mapSize = gp.generatedSize;
+        //System.out.println(gp.generatedSize);
+        System.out.println(mapSize);
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
 //            g2.dispose();
             generatePerlin();
         }
+        applyRules(mapTileNum);
+        System.out.println("Applied rules");
 
         int worldRow = 0;
         int worldCol = 0;
@@ -109,7 +115,7 @@ public class TileManager extends PerlinGenerator {
             worldCol++;
 
 
-            if(worldCol == gp.maxWorldCol){
+            if(worldCol == PerlinGenerator.mapSize){
                 worldCol = 0;
                 worldRow++;
             }
