@@ -23,7 +23,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         } 
-        GamePanel newGamePanel = new GamePanel(16, 12);
+        GamePanel newGamePanel = new GamePanel(16, 12);;
         frame.setSize(780, 520);
         frame.setResizable(false);
         frame.setTitle("FPS survivor");

@@ -9,23 +9,29 @@ public class PerlinGenerator extends PerlinNoise2D {
     //First of all, ground creation
 
     static int[][] perlinMap;
-    //int mapSize;
+    public static int mapSize=32;
+    //public int generatedSize = 0;
     //TODO add parameter for map generator size
     public PerlinGenerator() {
-        perlinMap = new int[24][24];
+        perlinMap = new int[mapSize][mapSize];
     }
     public void generatePerlin() {
+        perlinMap = new int[mapSize][mapSize];
         Random rand = new Random();
         System.out.print("New perlin created");
         double XOffset = rand.nextDouble(1000);
         double YOffset = rand.nextDouble(1000);
         double scale = 0.15;    //controls the smoothness of the transitions
-        for(int i=0;i<24;i++){
-            for(int j=0;j<24;j++){
+        System.out.println(mapSize);
+        for(int i=0;i<mapSize;i++){
+            System.out.println("Started entering for");
+            for(int j=0;j<mapSize;j++){
+                System.out.println("Entered for");
                 double noiseValue = noise((i * 1.01 + XOffset) * scale, (j* 1.03 + YOffset) * scale );
                 noiseValue = (noiseValue +1)/2; //normalize the values
                 if(noiseValue>0.5){
                     perlinMap[i][j] = 3;
+                    System.out.println("Creating map");
                 }
                 else{
                     perlinMap[i][j] = 2;
@@ -43,24 +49,24 @@ public class PerlinGenerator extends PerlinNoise2D {
     }
 
     public void borderRules(int[][] map){
-        for(int j=0;j<24;j++){
+        for(int j=0; j< mapSize;j++){
             map[0][j]= map[1][j] == 2 ? 0 : 1;
-            map[23][j]=map[22][j] == 2 ? 0 : 1;
+            map[mapSize-1][j]=map[mapSize-2][j] == 2 ? 0 : 1;
             map[j][0]=map[j][1] == 2 ? 0 : 1;
-            map[j][23]=map[j][22] == 2 ? 0 : 1;
+            map[j][mapSize-1]=map[j][mapSize-2] == 2 ? 0 : 1;
         }
         map[0][0] = map[1][1] == 2 ? 0 : 1;
-        map[23][0] = map[22][1] == 2 ? 0 : 1;
-        map[0][23]=map[1][22] == 2 ? 0 : 1;
-        map[23][23]=map[22][22] == 2 ? 0 : 1;   //for corners
+        map[mapSize-1][0] = map[mapSize-2][1] == 2 ? 0 : 1;
+        map[0][mapSize-1]=map[1][mapSize-2] == 2 ? 0 : 1;
+        map[mapSize-1][mapSize-1]=map[mapSize-2][mapSize-2] == 2 ? 0 : 1;   //for corners
     }
 
     public void holeRules(int[][] map){
-        for(int j=0;j<24;j++){
+        for(int j=0;j< mapSize;j++){
             map[j][1] = map[j][2] == 2 ? 2 : 3;
-            map[j][22] = map[j][21] == 2 ? 2 : 3;
+            map[j][mapSize-2] = map[j][mapSize-3] == 2 ? 2 : 3;
             map[1][j] = map[2][j] == 2 ? 2 : 3;
-            map[22][j] = map[21][j] == 2 ? 2 : 3;
+            map[mapSize-2][j] = map[mapSize-3][j] == 2 ? 2 : 3;
         }
 
     }

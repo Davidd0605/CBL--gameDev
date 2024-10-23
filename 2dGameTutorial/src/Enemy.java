@@ -18,6 +18,7 @@ public class Enemy extends Entity {
     public String lastDirection = "right";
     public boolean playerCollision = false;
 
+
     public Enemy(GamePanel gp, Player player) {
         this.gp = gp;
         this.player = player;
@@ -46,9 +47,9 @@ public class Enemy extends Entity {
     }
     public Point randomPosition() {
         int worldBoundLeft = gp.tileSize;
-        int worldBoundRight = gp.tileSize * gp.maxWorldCol - 3 * gp.tileSize;
+        int worldBoundRight = gp.tileSize * PerlinGenerator.mapSize - 3 * gp.tileSize;
         int worldBoundTop = gp.tileSize;
-        int worldBoundBottom = gp.tileSize * gp.maxWorldRow - 3 * gp.tileSize;
+        int worldBoundBottom = gp.tileSize * PerlinGenerator.mapSize - 3 * gp.tileSize;
 
         double randomXPercent = new Random().nextDouble(100) + 1;
         double randomYPercent = new Random().nextDouble(100) + 1;
