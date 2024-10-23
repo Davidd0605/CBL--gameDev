@@ -84,6 +84,7 @@ public class UI {
                         size = "Medium";
                         PerlinGenerator.mapSize = 24;
                         peg.generatePerlin();
+
                     }
                     else if(mapSize == 2){
                         size = "Large";
