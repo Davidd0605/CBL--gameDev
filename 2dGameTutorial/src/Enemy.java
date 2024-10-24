@@ -58,10 +58,20 @@ public class Enemy extends Entity {
         int y = (int)( worldBoundTop + randomYPercent / 100 * (worldBoundBottom - worldBoundTop));
 
         double distance = Math.sqrt(Math.pow(x - gp.player.worldX, 2) + Math.pow(y - gp.player.worldY, 2));
-        if(distance < 2 * gp.tileSize) {
+        if(distance < (double) (3 * gp.tileSize) / 2) {
             return randomPosition();
         }
+        for(int i = 0 ; i < 15; i ++) {
+            if(gp.enemy[i] != null && gp.enemy[i] != this) {
+                Enemy otherEnemy = gp.enemy[i];
+                distance = Math.sqrt(Math.pow(x - otherEnemy.worldX, 2) + Math.pow(y - otherEnemy.worldY, 2));
+                if(distance < 2 * gp.tileSize) {
+                    return randomPosition();
+                }
+            }
+        }
         return new Point(x, y);
+
     }
     public void assignSprite() {
         try {
@@ -69,6 +79,9 @@ public class Enemy extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_2.png"));
+            dead = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_dead.png"));
+            hitLeft = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_hit_left.png"));
+            hitRight = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_hit_right.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,40 +96,49 @@ public class Enemy extends Entity {
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
                 && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             BufferedImage image = right1;
-            switch(direction) {
-                case "up","down","idle":
-                    switch (lastDirection) {
-                        case "right":
-                            if(spriteNum == 1) {
-                                image = right1;
-                            } else {
-                                image = right2;
-                            }
-                            break;
-                        case "left":
-                            if(spriteNum == 1) {
-                                image = left1;
-                            } else {
-                                image = left2;
-                            }
-                            break;
-                    }
-                    break;
-                case "left":
-                    if(spriteNum == 1) {
-                        image = left1;
-                    } else {
-                        image = left2;
-                    }
-                    break;
-                case "right":
-                    if(spriteNum == 1) {
-                        image = right1;
-                    } else {
-                        image = right2;
-                    }
-                    break;
+            if(alive) {
+                switch(direction) {
+                    case "up","down","idle":
+                        switch (lastDirection) {
+                            case "right":
+                                if(spriteNum == 1) {
+                                    image = right1;
+                                } else {
+                                    image = right2;
+                                }
+                                break;
+                            case "left":
+                                if(spriteNum == 1) {
+                                    image = left1;
+                                } else {
+                                    image = left2;
+                                }
+                                break;
+                        }
+                        break;
+                    case "left":
+                        if(spriteNum == 1) {
+                            image = left1;
+                        } else {
+                            image = left2;
+                        }
+                        break;
+                    case "right":
+                        if(spriteNum == 1) {
+                            image = right1;
+                        } else {
+                            image = right2;
+                        }
+                        break;
+                }
+                if(hasIframes)
+                    if(player.worldX < worldX)
+                        image = hitLeft;
+                    else
+                        image = hitRight;
             }
+            if(!alive)
+                image = dead;
             g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         }
@@ -150,7 +172,6 @@ public class Enemy extends Entity {
                     break;
             }
         }
-
     }
     private boolean playerProximity() {
         double distance = Math.sqrt(Math.pow(worldX - gp.player.worldX, 2) + Math.pow(worldY - gp.player.worldY, 2));

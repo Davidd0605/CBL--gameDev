@@ -333,7 +333,6 @@ public class UI {
             textX = frameX + frameWidth - 4 * gamePanel.tileSize - textSize;
             g.drawString(text, textX, textY);
         }
-
         if(gamePanel.gameState == gamePanel.winState) {
             maxOptionScroll = 2;
             minOptionScroll = 0;
