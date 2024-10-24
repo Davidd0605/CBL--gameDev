@@ -3,6 +3,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public GamePanel gamePanel;
+    public PerlinGenerator perlinGenerator;
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
@@ -38,6 +39,7 @@ public class KeyHandler implements KeyListener {
             if(key == KeyEvent.VK_ENTER){
                 if(gamePanel.ui.commandNum == 0){
                     gamePanel.gameState = gamePanel.playState;
+                    gamePanel.tileManager.generatePerlin();
                 }
                 if(gamePanel.ui.commandNum == 1){
                     gamePanel.ui.showSize = !gamePanel.ui.showSize;

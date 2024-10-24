@@ -34,11 +34,11 @@ public class UI {
         g.setFont(fontPixelated);
         g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
         g.setColor(Color.WHITE);
-        System.out.println("Reached here");
+        //System.out.println("Reached here");
         if(gamePanel.gameState == gamePanel.titleState){
 
             g.setFont(g.getFont().deriveFont(Font.BOLD, 48F));
-            System.out.println("Title Screen Rendered");
+            //System.out.println("Title Screen Rendered");
             String titleText = "Stupid idiot with a knife";
             int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(titleText, g).getWidth();
             int x = gamePanel.getWidth()/2 - textSize / 2;;
@@ -80,18 +80,24 @@ public class UI {
                         size = "Small";
                         PerlinGenerator.mapSize = 16;
                         peg.generatePerlin();
+                        //peg.applyRules(PerlinGenerator.perlinMap);
+                        //peg.structureRules(PerlinGenerator.perlinMap);
 
                     }
                     else if(mapSize == 1){
                         size = "Medium";
                         PerlinGenerator.mapSize = 24;
                         peg.generatePerlin();
+                        //peg.applyRules(PerlinGenerator.perlinMap);
+                        //peg.structureRules(PerlinGenerator.perlinMap);
 
                     }
                     else if(mapSize == 2){
                         size = "Large";
                         PerlinGenerator.mapSize = 32;
                         peg.generatePerlin();
+                        //peg.applyRules(PerlinGenerator.perlinMap);
+                        //peg.structureRules(PerlinGenerator.perlinMap);
                     }
                     else if(mapSize > 2){
                         mapSize = 0;
@@ -139,7 +145,7 @@ public class UI {
             int waveY;
             waveX = gamePanel.getWidth()/2 - textSize / 2;
             waveY = 50;
-            System.out.println("fssfsfsf");
+            //System.out.println("fssfsfsf");
             g.drawString(waveText, waveX, waveY);
 
             //DRAW TIMER
