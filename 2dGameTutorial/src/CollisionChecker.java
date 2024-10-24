@@ -80,7 +80,7 @@ public class CollisionChecker {
                 if(e != entity) {
                     int detectionDistance = gamePanel.tileSize;
                     if(e.tag.equals("enemy") && entity.tag.equals("enemy")) {
-                        detectionDistance *=2;
+                        detectionDistance += gamePanel.tileSize / 2;
                     }
                     double wx = entity.worldX;
                     double wy = entity.worldY;

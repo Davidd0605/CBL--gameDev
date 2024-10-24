@@ -205,15 +205,28 @@ public class Enemy extends Entity {
         }
         directionCounter %= gp.FPS; //reset every FPS frames so essentially once per second
 
-        if(collisionOn || playerCollision) {
-            direction = "idle";
+        if(collisionOn) {
+            switch (direction) {
+                case "left":
+                    direction = "right";
+                    break;
+                case "right":
+                    direction = "left";
+                    break;
+                case "up" :
+                    direction = "down";
+                    break;
+                case "down":
+                    direction = "up";
+                    break;
+            }
         }
         spriteCounter++;
         if(spriteCounter < gp.FPS/4 || (spriteCounter >= gp.FPS / 4 * 2 && spriteCounter <= gp.FPS / 4 * 3)) {
             spriteNum = 1;
-        } else
+        } else {
             spriteNum = 2;
-
+        }
         if(spriteCounter == gp.FPS) {
             spriteCounter = 0;
         }
