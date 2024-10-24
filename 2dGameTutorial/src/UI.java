@@ -52,7 +52,7 @@ public class UI {
         if(gamePanel.gameState == gamePanel.titleState){
 
             g.setFont(g.getFont().deriveFont(Font.BOLD, 48F));
-            System.out.println("Title Screen Rendered");
+            //System.out.println("Title Screen Rendered");
             String titleText = "Stupid idiot with a knife";
             int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(titleText, g).getWidth();
             int x = gamePanel.getWidth()/2 - textSize / 2;;
@@ -153,7 +153,7 @@ public class UI {
             int waveY;
             waveX = gamePanel.getWidth()/2 - textSize / 2;
             waveY = 50;
-            System.out.println("fssfsfsf");
+            //System.out.println("fssfsfsf");
             g.drawString(waveText, waveX, waveY);
 
             //DRAW TIMER
