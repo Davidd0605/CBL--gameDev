@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     CollisionChecker collisionChecker = new CollisionChecker(this);
     KeyHandler keyHandler = new KeyHandler(this);
     TileManager tileManager = new TileManager(this);
+    public Pathfinder pathfinder = new Pathfinder(this);
 
 
     //Game State

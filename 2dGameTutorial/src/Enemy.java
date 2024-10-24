@@ -105,9 +105,11 @@ public class Enemy extends Entity {
             }
             switch (behaviourState) {
                 case wanderingState:
+                    onPath = false;
                     wander();
                     break;
                 case chasingState:
+                    onPath = true;
                     chase();
                     break;
             }
@@ -165,6 +167,37 @@ public class Enemy extends Entity {
         }
     }
     public void chase() {
+        if(onPath){
+            int goalCol= (int)(gp.player.worldX + gp.player.hitBox.x)/gp.tileSize;
+            int goalRow = (int)(gp.player.worldY + gp.player.hitBox.y)/gp.tileSize;
+
+
+            int  startCol = (int) (worldX+hitBox.x)/gp.tileSize ;
+            int startRow = (int) (worldY+ hitBox.y)/gp.tileSize ;
+
+            gp.pathfinder.setNodes(startCol, startRow, goalCol, goalRow);
+
+            if(gp.pathfinder.search()){
+                //Next worldX and worldY
+                int nextX = gp.pathfinder.pathList.get(0).col * gp.tileSize;
+                int nextY = gp.pathfinder.pathList.get(0).row * gp.tileSize;
+
+                //Entity's hitbox position
+                int enLeftX = (int)worldX+hitBox.x;
+                int enRightX = (int)worldX + hitBox.x+ hitBox.width;
+                int enTopY = (int)worldY+hitBox.y;
+                int enBottomY = (int)worldY + hitBox.y+ hitBox.height;
+
+//                int nextRow = gp.pathfinder.pathList.get(0).row;
+//                int nextCol = gp.pathfinder.pathList.get(0).col;
+//                if(nextCol == goalCol && nextRow == goalRow) {
+//                    onPath = false;
+//                }
+
+            }
+
+
+        }
 
         //TODO PATHFINDING
     }
