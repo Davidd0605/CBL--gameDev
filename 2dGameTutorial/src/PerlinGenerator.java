@@ -18,20 +18,20 @@ public class PerlinGenerator extends PerlinNoise2D {
     public void generatePerlin() {
         perlinMap = new int[mapSize][mapSize];
         Random rand = new Random();
-        System.out.print("New perlin created");
+        //System.out.print("New perlin created");
         double XOffset = rand.nextDouble(1000);
         double YOffset = rand.nextDouble(1000);
         double scale = 0.15;    //controls the smoothness of the transitions
-        System.out.println(mapSize);
+        //System.out.println(mapSize);
         for(int i=0;i<mapSize;i++){
-            System.out.println("Started entering for");
+            //System.out.println("Started entering for");
             for(int j=0;j<mapSize;j++){
-                System.out.println("Entered for");
+                //System.out.println("Entered for");
                 double noiseValue = noise((i * 1.01 + XOffset) * scale, (j* 1.03 + YOffset) * scale );
                 noiseValue = (noiseValue +1)/2; //normalize the values
                 if(noiseValue>0.5){
                     perlinMap[i][j] = 3;
-                    System.out.println("Creating map");
+                    //System.out.println("Creating map");
                 }
                 else{
                     perlinMap[i][j] = 2;
@@ -78,37 +78,5 @@ public class PerlinGenerator extends PerlinNoise2D {
     public void checkBorders(int[][] map){
 
     }
-//    public static void main(String[] args) {
-//        PerlinGenerator pg = new PerlinGenerator();
-//        Random rand = new Random();
-//        for(int i=0;i<30;i++){
-//            for(int j=0;j<30;j++){
-//                double noiseValue = pg.noise(i * 1.01, j* 1.03);
-//                noiseValue = (noiseValue+1)/2;
-//                if(noiseValue<1 && noiseValue > 0.7){
-//                    perlinMap[i][j] = 0;
-//                }
-//                else if(noiseValue>0.5 && noiseValue < 0.7){
-//                    perlinMap[i][j] = 3;
-//                }
-//                else if(noiseValue>0.3 && noiseValue < 0.5){
-//                    perlinMap[i][j] = 1;
-//                }
-//                else if(noiseValue < 0.3){
-//                    perlinMap[i][j] = 2;
-//                }
-//
-//                System.out.printf("%.2f ", noiseValue);
-//            }
-//            System.out.println();
-//        }
-//
-//        for(int i=0;i<30;i++){
-//            for(int j=0;j<30;j++){
-//                System.out.print(perlinMap[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
 
 }
