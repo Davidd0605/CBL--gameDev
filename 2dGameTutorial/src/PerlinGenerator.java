@@ -70,6 +70,14 @@ public class PerlinGenerator extends PerlinNoise2D {
         }
 
     }
+
+    public void structureRules(int[][] map){
+
+    }
+
+    public void checkBorders(int[][] map){
+
+    }
 //    public static void main(String[] args) {
 //        PerlinGenerator pg = new PerlinGenerator();
 //        Random rand = new Random();
