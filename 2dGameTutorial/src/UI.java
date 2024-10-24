@@ -80,18 +80,24 @@ public class UI {
                         size = "Small";
                         PerlinGenerator.mapSize = 16;
                         peg.generatePerlin();
+                        //peg.applyRules(PerlinGenerator.perlinMap);
+                        //peg.structureRules(PerlinGenerator.perlinMap);
 
                     }
                     else if(mapSize == 1){
                         size = "Medium";
                         PerlinGenerator.mapSize = 24;
                         peg.generatePerlin();
+                        //peg.applyRules(PerlinGenerator.perlinMap);
+                        //peg.structureRules(PerlinGenerator.perlinMap);
 
                     }
                     else if(mapSize == 2){
                         size = "Large";
                         PerlinGenerator.mapSize = 32;
                         peg.generatePerlin();
+                        //peg.applyRules(PerlinGenerator.perlinMap);
+                        //peg.structureRules(PerlinGenerator.perlinMap);
                     }
                     else if(mapSize > 2){
                         mapSize = 0;
