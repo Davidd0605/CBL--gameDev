@@ -12,6 +12,7 @@ public class TileManager extends PerlinGenerator {
     public tiles[] tile = new tiles[10];
     public int[][] mapTileNum;
     public KeyHandler keyHandler;
+    boolean structuresGenerated = false;
 
 
 
@@ -24,6 +25,7 @@ public class TileManager extends PerlinGenerator {
         generatePerlin();
         //applyRules(perlinMap);
         mapTileNum = perlinMap;
+
         getTileImage();
 
         //loadMap("/maps/miniMap.txt");
@@ -91,8 +93,19 @@ public class TileManager extends PerlinGenerator {
             keyHandler.OPressed = false;
 //            g2.dispose();
             generatePerlin();
+            structuresGenerated = !structuresGenerated;
+//            applyRules(mapTileNum);
+            mapTileNum = perlinMap;
+            structureRules(mapTileNum);
         }
         applyRules(mapTileNum);
+//        structureRules(mapTileNum);
+//        structureRules(mapTileNum);
+        if(!structuresGenerated){
+            structureRules(mapTileNum);
+            structuresGenerated = true;
+        }
+        //System.out.println("Applied rules");
 
         int worldRow = 0;
         int worldCol = 0;

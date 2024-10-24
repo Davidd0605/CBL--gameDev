@@ -3,6 +3,7 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 public class KeyHandler implements KeyListener {
     public GamePanel gamePanel;
+    public PerlinGenerator perlinGenerator;
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
@@ -29,6 +30,7 @@ public class KeyHandler implements KeyListener {
             if(key == KeyEvent.VK_SPACE){
                 if(gamePanel.ui.optionScroll == 0){
                     gamePanel.gameState = gamePanel.playState;
+                    gamePanel.tileManager.generatePerlin();
                 }
                 if(gamePanel.ui.optionScroll == 1){
                     gamePanel.ui.showSize = !gamePanel.ui.showSize;
