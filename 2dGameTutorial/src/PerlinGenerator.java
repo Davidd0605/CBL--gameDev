@@ -7,8 +7,7 @@ public class PerlinGenerator extends PerlinNoise2D {
     //Random pickups
     //Wall formations that don't block the player
     //First of all, ground creation
-
-    static int[][] perlinMap;
+    public static int[][] perlinMap;
     public static int mapSize = 32;
     Random rand = new Random();
 

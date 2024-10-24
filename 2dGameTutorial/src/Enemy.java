@@ -37,7 +37,6 @@ public class Enemy extends Entity {
     private void setDefaultValues() {
         hp = currentHP = 5;
         behaviourState = wanderingState;
-        //Generate worldX worldY randomly
         worldX = initialPosition.x;
         worldY = initialPosition.y;
         hp = 50;
@@ -46,21 +45,21 @@ public class Enemy extends Entity {
         detectionDistance = gp.tileSize * 4;
     }
     public Point randomPosition() {
-        int worldBoundLeft = gp.tileSize;
-        int worldBoundRight = gp.tileSize * PerlinGenerator.mapSize - 3 * gp.tileSize;
-        int worldBoundTop = gp.tileSize;
-        int worldBoundBottom = gp.tileSize * PerlinGenerator.mapSize - 3 * gp.tileSize;
+        int x = new Random().nextInt(gp.tileManager.perlinMap.length);
+        int y = new Random().nextInt(gp.tileManager.perlinMap.length) ;
 
-        double randomXPercent = new Random().nextDouble(100) + 1;
-        double randomYPercent = new Random().nextDouble(100) + 1;
+        if(gp.tileManager.tile[gp.tileManager.mapTileNum[x][y]].collision) {
+            return randomPosition();
+        }
+        x *=gp.tileSize;
+        y *=gp.tileSize;
 
-        int x = (int)( worldBoundLeft + randomXPercent / 100 * (worldBoundRight - worldBoundLeft));
-        int y = (int)( worldBoundTop + randomYPercent / 100 * (worldBoundBottom - worldBoundTop));
-
+        //CHECK DISTANCE TO PLAYER
         double distance = Math.sqrt(Math.pow(x - gp.player.worldX, 2) + Math.pow(y - gp.player.worldY, 2));
         if(distance < (double) (3 * gp.tileSize) / 2) {
             return randomPosition();
         }
+        //CHECK ENEMIES COLLIDING ON SPAWN
         for(int i = 0 ; i < 15; i ++) {
             if(gp.enemy[i] != null && gp.enemy[i] != this) {
                 Enemy otherEnemy = gp.enemy[i];

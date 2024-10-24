@@ -82,7 +82,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
         //this.gameState = this.playState;
         this.gameState = this.titleState;
-
         gameThread = new Thread(this);
         setEnemy();
     }
@@ -99,11 +98,12 @@ public class GamePanel extends JPanel implements Runnable {
             if(e != null)
                 e.alive = false;
         }
-        setEnemy();
         ui.timeCounter = 0;
         player.setDefaultValues();
         tileManager.generatePerlin();
-        tileManager.mapTileNum = PerlinGenerator.perlinMap;//Alternatively you can just make the waveNumber = 1. Leaving it like this to avoid fewer possible problems
+        tileManager.mapTileNum = PerlinGenerator.perlinMap;
+        setEnemy();
+        //Alternatively you can just make the waveNumber = 1. Leaving it like this to avoid fewer possible problems
         //didn't really touch threads. A superficial restart
 
     }
