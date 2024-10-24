@@ -127,16 +127,12 @@ public class PerlinGenerator extends PerlinNoise2D {
         int maxStructures = mapSize / 8 + 3;
         int randomStructure;
         int maxStructureSize = mapSize / 4;
-        System.out.println("Structures generated");
-        System.out.println(mapSize);
-        System.out.println(mapSize-maxStructures);
+
 
         for(int i = 0; i < maxStructures; i++){
             int xPos = rand.nextInt(mapSize-maxStructureSize-2)+2;
             int yPos = rand.nextInt(mapSize-maxStructureSize-2)+2;
-            if(xPos > mapSize || yPos > mapSize){
-                System.out.println("Error: xPos > mapSize || yPos > mapSize");
-            }
+
             randomStructure = rand.nextInt(5);
 
             int structureSize = rand.nextInt(maxStructureSize+1)+1;
@@ -168,9 +164,7 @@ public class PerlinGenerator extends PerlinNoise2D {
     }
 
     private boolean checkBorders(int[][] map, int Xposition, int Yposition){
-        if(Xposition+2>=mapSize || Yposition+2>=mapSize){
-            System.out.println("over border");
-        }
+
         if(Xposition+2 >= mapSize || Yposition+2 >= mapSize){
             return false;
         }
