@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
                 no++;
             }
         }
-        System.out.println(no);
+        //System.out.println(no);
         if(no == 0) {
             System.out.println("No more enemies");
             waveNumber++;
@@ -84,6 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void restartGame(){
 
         PerlinGenerator.mapSize = 32;
+
         gameState = this.titleState;
         waveNumber = 0;
         ui.timeCounter = 0;

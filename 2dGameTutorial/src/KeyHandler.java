@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -51,6 +53,35 @@ public class KeyHandler implements KeyListener {
 
 
         //Play State
+        if(key == KeyEvent.VK_G){
+            Main.frame.dispose();
+            Main.frame = new JFrame();
+
+            Main.frame.setIconImage(new ImageIcon("Player/boy_idle_1").getImage());
+            try {
+                for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if(info.getName().equals("CDE/Motif")) {
+                        break;
+                    }
+                }
+            } catch (Exception t) {
+                t.printStackTrace();
+            }
+            PerlinGenerator.mapSize = 32;
+            GamePanel newGamePanel = new GamePanel(16, 12);
+            Main.frame.setSize(780, 520);
+            Main.frame.setResizable(false);
+            Main.frame.setTitle("FPS survivor");
+            Main.frame.setLocationRelativeTo(null);
+            Main.frame.setLayout(null);
+            Main.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            Main.frame.add(newGamePanel, BorderLayout.CENTER);
+            newGamePanel.startGameThread();
+            Main.frame.setVisible(true);
+
+
+        }
+
         if(key == KeyEvent.VK_J){
 
             //Main.main(new String[0]);

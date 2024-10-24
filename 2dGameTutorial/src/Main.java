@@ -11,8 +11,10 @@ import java.awt.image.BufferedImage;
  *
  */
 public class Main {
+        public static JFrame frame;
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
+        //JFrame frame = new JFrame();
+        frame = new JFrame();
         BufferedImage icon;
         frame.setIconImage(new ImageIcon("Player/boy_idle_1").getImage());
         try {
