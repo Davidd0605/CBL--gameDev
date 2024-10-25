@@ -159,6 +159,7 @@ public class UI {
         notificationOn = true;
     }
     public void draw(Graphics2D g) {
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
         g.setFont(fontPixelated);
         g.setFont(g.getFont().deriveFont(Font.PLAIN, 20));
         g.setColor(Color.WHITE);

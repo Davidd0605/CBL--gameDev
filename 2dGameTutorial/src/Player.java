@@ -14,6 +14,7 @@ public class Player extends Entity {
     public boolean attacking = false;
     private double initialSpeed;
     public boolean hitConnected = false;
+    public boolean betweenIFrames = false;
 
     public int frameClock = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
@@ -98,10 +99,14 @@ public class Player extends Entity {
             FPS = 8;
         }
         if(hasIframes) {
+            entityCollision = true;
             iFrameCounter++;
+            betweenIFrames = !betweenIFrames;
             if(iFrameCounter == gp.FPS) {
                 hasIframes = false;
                 iFrameCounter = 0;
+                betweenIFrames = false;
+                entityCollision = false;
             }
         }
         speed = 200 / FPS;
@@ -115,7 +120,7 @@ public class Player extends Entity {
         double yDirection = 0;
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        if(!collisionOn)
+        if(!collisionOn && !entityCollision)    //&& !entityCollision
             gp.collisionChecker.checkEntity(this);
 
 
@@ -277,7 +282,12 @@ public class Player extends Entity {
 
         }
         if(hasIframes) {
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+            if(!betweenIFrames){
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.0f));
+            } else {
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+            }
+            //g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
         }
         g2.drawImage(img, (int)imgX, (int)imgY, imgWidth, imgHeight, null);
 
