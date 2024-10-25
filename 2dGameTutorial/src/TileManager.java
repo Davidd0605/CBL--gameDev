@@ -11,6 +11,7 @@ public class TileManager extends PerlinGenerator {
     public PerlinGenerator peg;
     public tiles[] tile = new tiles[10];
     public int[][] mapTileNum;
+    boolean drawPath = true;
     public KeyHandler keyHandler;
     boolean structuresGenerated = false;
 
@@ -97,15 +98,15 @@ public class TileManager extends PerlinGenerator {
             structuresGenerated = !structuresGenerated;
 //            applyRules(mapTileNum);
             mapTileNum = perlinMap;
-            structureRules(mapTileNum);
+            //structureRules(mapTileNum);
         }
         applyRules(mapTileNum);
 //        structureRules(mapTileNum);
 //        structureRules(mapTileNum);
-        if(!structuresGenerated){
-            structureRules(mapTileNum);
-            structuresGenerated = true;
-        }
+//        if(!structuresGenerated){
+//            structureRules(mapTileNum);
+//            structuresGenerated = true;
+//        }
         //System.out.println("Applied rules");
 
         int worldRow = 0;
@@ -131,6 +132,19 @@ public class TileManager extends PerlinGenerator {
             if(worldCol == PerlinGenerator.mapSize){
                 worldCol = 0;
                 worldRow++;
+            }
+        }
+        if(drawPath){
+            g2.setColor(new Color(255, 0 , 0, 70));
+
+            for(int i =0; i <gp.pathfinder.pathList.size(); i++){
+                int worldX = gp.pathfinder.pathList.get(i).col * gp.tileSize;
+                int worldY = gp.pathfinder.pathList.get(i).row * gp.tileSize;
+                int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);
+                int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);
+
+                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+
             }
         }
 

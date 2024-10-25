@@ -121,22 +121,22 @@ public class Pathfinder {
             if(col - 1 >= 0){
                 openNode(node[col-1][row]);
             }
-            //Open the up-left node
-            if(row - 1 >= 0 && col - 1 >= 0){
-                openNode(node[col-1][row-1]);
-            }
-            //Open the up-right node
-            if(row - 1 >= 0 && col + 1 < PerlinGenerator.mapSize){
-                openNode(node[col+1][row-1]);
-            }
-            //Open the down-left node
-            if(row + 1 < PerlinGenerator.mapSize && col - 1 >= 0){
-                openNode(node[col-1][row+1]);
-            }
-            //Open the down-right node
-            if(row + 1 < PerlinGenerator.mapSize && col + 1 < PerlinGenerator.mapSize){
-                openNode(node[col+1][row+1]);
-            }
+//            //Open the up-left node
+//            if(row - 1 >= 0 && col - 1 >= 0){
+//                openNode(node[col-1][row-1]);
+//            }
+//            //Open the up-right node
+//            if(row - 1 >= 0 && col + 1 < PerlinGenerator.mapSize){
+//                openNode(node[col+1][row-1]);
+//            }
+//            //Open the down-left node
+//            if(row + 1 < PerlinGenerator.mapSize && col - 1 >= 0){
+//                openNode(node[col-1][row+1]);
+//            }
+//            //Open the down-right node
+//            if(row + 1 < PerlinGenerator.mapSize && col + 1 < PerlinGenerator.mapSize){
+//                openNode(node[col+1][row+1]);
+//            }
             //Open the down node
             if(row + 1 < PerlinGenerator.mapSize){
                 openNode(node[col][row+1]);

@@ -33,13 +33,14 @@ public class Enemy extends Entity {
     }
     private void setDefaultValues() {
         hp = currentHP = 5;
-        behaviourState = wanderingState;
+        //behaviourState = wanderingState;
+        behaviourState = chasingState;
         //Generate worldX worldY randomly
         worldX = initialPosition.x;
         worldY = initialPosition.y;
         hp = 50;
         speed = 2;
-        hitBox = new Rectangle(0, 0, gp.tileSize, gp.tileSize);
+        hitBox = new Rectangle(0, 0, gp.tileSize-10, gp.tileSize-10);
         detectionDistance = gp.tileSize * 4;
     }
     public Point randomPosition() {
@@ -185,8 +186,84 @@ public class Enemy extends Entity {
                 //Entity's hitbox position
                 int enLeftX = (int)worldX+hitBox.x;
                 int enRightX = (int)worldX + hitBox.x+ hitBox.width;
-                int enTopY = (int)worldY+hitBox.y;
-                int enBottomY = (int)worldY + hitBox.y+ hitBox.height;
+                int enTopY = (int)worldY+hitBox.y+1;
+                int enBottomY = (int)worldY + hitBox.y+ hitBox.height-1;
+
+                if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
+                    direction = "up";
+
+                }
+                else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + gp.tileSize) {
+                    direction = "down";
+                } else if (enTopY >= nextY && enBottomY < nextY+gp.tileSize) {
+                    //left or right
+                    if(enLeftX>nextX){
+                        direction = "left";
+                    }
+                    if(enLeftX<nextX){
+                        direction = "right";
+                    }
+                } else if (enTopY > nextY && enLeftX > nextX) {
+                    //up or left
+                    direction = "up";
+                    collisionChecker.checkEntity(this);
+                    collisionChecker.checkTile(this);
+                    if(collisionOn){
+                        direction = "left";
+                    }
+                    System.out.println("Reached up-left");
+                } else if (enTopY > nextY && enLeftX < nextX) {
+                    //up or right
+                    direction = "up";
+                    collisionChecker.checkEntity(this);
+                    collisionChecker.checkTile(this);
+                    if(collisionOn){
+                        direction = "right";
+                    }
+                    System.out.println("Reached up-right");
+                } else if (enTopY < nextY && enLeftX > nextX) {
+                    //down or left
+                    direction = "down";
+                    collisionChecker.checkEntity(this);
+                    collisionChecker.checkTile(this);
+                    if(collisionOn){
+                        direction = "left";
+                    }
+                    System.out.println("Reached down-left");
+                } else if (enTopY < nextY && enRightX < nextX) {
+                    //down or right
+                    direction = "down";
+                    collisionChecker.checkEntity(this);
+                    collisionChecker.checkTile(this);
+                    if(collisionOn){
+                        direction = "right";
+                    }
+                    System.out.println("Reached down-right");
+                }   else {
+                    System.out.println("Could not find direction");
+                }
+                directionCounter %= gp.FPS; //reset every FPS frames so essentially once per second
+
+//                if(collisionOn || playerCollision) {
+//                    direction = "idle";
+//                }
+                switch(direction) {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left":
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+                collisionOn = false;
+                System.out.println(direction);
+
 
 //                int nextRow = gp.pathfinder.pathList.get(0).row;
 //                int nextCol = gp.pathfinder.pathList.get(0).col;
