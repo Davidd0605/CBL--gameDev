@@ -1,9 +1,11 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
 public class Enemy extends Entity {
+
     public Player player;
     public GamePanel gp;
     public EnemyCollision collisionChecker;
@@ -13,6 +15,7 @@ public class Enemy extends Entity {
     public int directionCounter;
     public int detectionDistance;
     public Point initialPosition;
+    public String lastDirection = "right";
     public boolean playerCollision = false;
 
 
@@ -44,29 +47,42 @@ public class Enemy extends Entity {
         detectionDistance = gp.tileSize * 6;    //was originally 4
     }
     public Point randomPosition() {
-        int worldBoundLeft = gp.tileSize;
-        int worldBoundRight = gp.tileSize * PerlinGenerator.mapSize - 3 * gp.tileSize;
-        int worldBoundTop = gp.tileSize;
-        int worldBoundBottom = gp.tileSize * PerlinGenerator.mapSize - 3 * gp.tileSize;
+        int x = new Random().nextInt(gp.tileManager.perlinMap.length);
+        int y = new Random().nextInt(gp.tileManager.perlinMap.length) ;
 
-        double randomXPercent = new Random().nextDouble(100) + 1;
-        double randomYPercent = new Random().nextDouble(100) + 1;
+        if(gp.tileManager.tile[gp.tileManager.mapTileNum[x][y]].collision) {
+            return randomPosition();
+        }
+        x *=gp.tileSize;
+        y *=gp.tileSize;
 
-        int x = (int)( worldBoundLeft + randomXPercent / 100 * (worldBoundRight - worldBoundLeft));
-        int y = (int)( worldBoundTop + randomYPercent / 100 * (worldBoundBottom - worldBoundTop));
-
+        //CHECK DISTANCE TO PLAYER
+        double distance = Math.sqrt(Math.pow(x - gp.player.worldX, 2) + Math.pow(y - gp.player.worldY, 2));
+        if(distance < (double) (3 * gp.tileSize) / 2) {
+            return randomPosition();
+        }
+        //CHECK ENEMIES COLLIDING ON SPAWN
+        for(int i = 0 ; i < 15; i ++) {
+            if(gp.enemy[i] != null && gp.enemy[i] != this) {
+                Enemy otherEnemy = gp.enemy[i];
+                distance = Math.sqrt(Math.pow(x - otherEnemy.worldX, 2) + Math.pow(y - otherEnemy.worldY, 2));
+                if(distance < 2 * gp.tileSize) {
+                    return randomPosition();
+                }
+            }
+        }
         return new Point(x, y);
+
     }
     public void assignSprite() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("image-119.jpg"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_1.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_left_2.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_1.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_right_2.png"));
+            dead = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_dead.png"));
+            hitLeft = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_hit_left.png"));
+            hitRight = ImageIO.read(getClass().getResourceAsStream("Enemy/enemy_hit_right.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,7 +96,51 @@ public class Enemy extends Entity {
         //only render if on screen
         if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
                 && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-            g2.drawImage(up1, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            BufferedImage image = right1;
+            if(alive) {
+                switch(direction) {
+                    case "up","down","idle":
+                        switch (lastDirection) {
+                            case "right":
+                                if(spriteNum == 1) {
+                                    image = right1;
+                                } else {
+                                    image = right2;
+                                }
+                                break;
+                            case "left":
+                                if(spriteNum == 1) {
+                                    image = left1;
+                                } else {
+                                    image = left2;
+                                }
+                                break;
+                        }
+                        break;
+                    case "left":
+                        if(spriteNum == 1) {
+                            image = left1;
+                        } else {
+                            image = left2;
+                        }
+                        break;
+                    case "right":
+                        if(spriteNum == 1) {
+                            image = right1;
+                        } else {
+                            image = right2;
+                        }
+                        break;
+                }
+                if(hasIframes)
+                    if(player.worldX < worldX)
+                        image = hitLeft;
+                    else
+                        image = hitRight;
+            }
+            if(!alive)
+                image = dead;
+            g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
         }
     }
@@ -115,7 +175,6 @@ public class Enemy extends Entity {
                     break;
             }
         }
-
     }
     private boolean playerProximity() {
         double distance = Math.sqrt(Math.pow(worldX - gp.player.worldX, 2) + Math.pow(worldY - gp.player.worldY, 2));
@@ -149,8 +208,30 @@ public class Enemy extends Entity {
         }
         directionCounter %= gp.FPS; //reset every FPS frames so essentially once per second
 
-        if(collisionOn || playerCollision) {
-            direction = "idle";
+        if(collisionOn) {
+            switch (direction) {
+                case "left":
+                    direction = "right";
+                    break;
+                case "right":
+                    direction = "left";
+                    break;
+                case "up" :
+                    direction = "down";
+                    break;
+                case "down":
+                    direction = "up";
+                    break;
+            }
+        }
+        spriteCounter++;
+        if(spriteCounter < gp.FPS/4 || (spriteCounter >= gp.FPS / 4 * 2 && spriteCounter <= gp.FPS / 4 * 3)) {
+            spriteNum = 1;
+        } else {
+            spriteNum = 2;
+        }
+        if(spriteCounter == gp.FPS) {
+            spriteCounter = 0;
         }
         switch(direction) {
             case "up":
@@ -160,9 +241,11 @@ public class Enemy extends Entity {
                 worldY += speed;
                 break;
             case "left":
+                lastDirection = direction;
                 worldX -= speed;
                 break;
             case "right":
+                lastDirection = direction;
                 worldX += speed;
                 break;
         }

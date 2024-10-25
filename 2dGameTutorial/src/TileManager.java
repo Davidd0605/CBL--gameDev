@@ -22,14 +22,9 @@ public class TileManager extends PerlinGenerator {
         KeyHandler keyHandler = new KeyHandler(gp);
         this.keyHandler = keyHandler;
         tile = new tiles[10];
-        //this.mapSize = gp.ui.mapSize;
         generatePerlin();
-        //applyRules(perlinMap);
         mapTileNum = perlinMap;
-
         getTileImage();
-
-        //loadMap("/maps/miniMap.txt");
     }
 
     public void getTileImage() {
@@ -77,7 +72,6 @@ public class TileManager extends PerlinGenerator {
 
                 }
 
-
                 lineCounter++;
             }
             br.close();
@@ -90,7 +84,6 @@ public class TileManager extends PerlinGenerator {
     public void draw(Graphics2D g2){
         //this.mapSize = gp.generatedSize;
         //System.out.println(gp.generatedSize);
-        //System.out.println(mapSize);
         if(keyHandler.OPressed){
             keyHandler.OPressed = false;
 //            g2.dispose();
@@ -123,12 +116,8 @@ public class TileManager extends PerlinGenerator {
             if(worldX +gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize< gp.player.worldX + gp.player.screenX
                 && worldY + gp.tileSize> gp.player.worldY - gp.player.screenY && worldY -gp.tileSize< gp.player.worldY + gp.player.screenY){
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
             }
-
             worldCol++;
-
-
             if(worldCol == PerlinGenerator.mapSize){
                 worldCol = 0;
                 worldRow++;

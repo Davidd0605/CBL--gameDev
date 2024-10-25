@@ -12,6 +12,8 @@ public class Player extends Entity {
     public boolean canAttack = true;
     public int attackCooldown = 0;
     public boolean attacking = false;
+    private double initialSpeed;
+    public boolean hitConnected = false;
 
     public int frameClock = 0;
     public Player(GamePanel gp , KeyHandler keyHandler) {
@@ -38,6 +40,7 @@ public class Player extends Entity {
         worldX = 12 * gp.tileSize;
         worldY = 9 * gp.tileSize;
         speed = 10;
+        initialSpeed = speed;
         assignSprite();
     }
 
@@ -70,25 +73,29 @@ public class Player extends Entity {
     }
     public void attacking() {
         spriteCounter++;
+        if(spriteCounter == 2)
+            gp.playSFX(1);
         if(spriteCounter <= 5) {
             spriteNum = 1;
         }
         if(spriteCounter > FPS / 5 && spriteCounter <= FPS) {
             spriteNum = 2;
         }
+        if(spriteCounter == FPS/2 && hitConnected) {
+            gp.playSFX(2);
+            hitConnected = false;
+        }
         if(spriteCounter > FPS * 1 / 2) {
             spriteNum = 1;
             spriteCounter = 0;
             attacking = false;
         }
+
     }
+
     public void update() {
-        if(!canAttack) {
-            attackCooldown++;
-            if(attackCooldown == FPS) {
-                canAttack = true;
-                attackCooldown = 0;
-            }
+        if(FPS < 8) {
+            FPS = 8;
         }
         if(hasIframes) {
             iFrameCounter++;
@@ -97,13 +104,21 @@ public class Player extends Entity {
                 iFrameCounter = 0;
             }
         }
-        speed = 200 / FPS; // speed is i.p. to FPS
+        speed = 200 / FPS;
+        initialSpeed = speed; // speed is i.p. to FPS
+        if(keyHandler.shiftPressed) {
+            speed *= 1.4;
+        } else {
+            speed = initialSpeed;
+        }
         double xDirection = 0;
         double yDirection = 0;
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
         if(!collisionOn)
             gp.collisionChecker.checkEntity(this);
+
+
         if(attacking) {
             attacking();
         }
@@ -260,6 +275,9 @@ public class Player extends Entity {
                 }
                 break;
 
+        }
+        if(hasIframes) {
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
         }
         g2.drawImage(img, (int)imgX, (int)imgY, imgWidth, imgHeight, null);
 
