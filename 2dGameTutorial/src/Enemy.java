@@ -98,45 +98,45 @@ public class Enemy extends Entity {
                 && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
             BufferedImage image = right1;
             if(alive) {
-                switch(direction) {
-                    case "up","down","idle":
-                        switch (lastDirection) {
-                            case "right":
-                                if(spriteNum == 1) {
-                                    image = right1;
-                                } else {
-                                    image = right2;
-                                }
-                                break;
-                            case "left":
-                                if(spriteNum == 1) {
-                                    image = left1;
-                                } else {
-                                    image = left2;
-                                }
-                                break;
-                        }
-                        break;
-                    case "left":
-                        if(spriteNum == 1) {
-                            image = left1;
-                        } else {
-                            image = left2;
-                        }
-                        break;
-                    case "right":
-                        if(spriteNum == 1) {
-                            image = right1;
-                        } else {
-                            image = right2;
-                        }
-                        break;
-                }
-                if(hasIframes)
-                    if(player.worldX < worldX)
-                        image = hitLeft;
-                    else
-                        image = hitRight;
+                    switch(direction) {
+                        case "up","down","idle":
+                            switch (lastDirection) {
+                                case "right":
+                                    if(spriteNum == 1) {
+                                        image = right1;
+                                    } else {
+                                        image = right2;
+                                    }
+                                    break;
+                                case "left":
+                                    if(spriteNum == 1) {
+                                        image = left1;
+                                    } else {
+                                        image = left2;
+                                    }
+                                    break;
+                            }
+                            break;
+                        case "left":
+                            if(spriteNum == 1) {
+                                image = left1;
+                            } else {
+                                image = left2;
+                            }
+                            break;
+                        case "right":
+                            if(spriteNum == 1) {
+                                image = right1;
+                            } else {
+                                image = right2;
+                            }
+                            break;
+                    }
+                    if(hasIframes)
+                        if(player.worldX < worldX)
+                            image = hitLeft;
+                        else
+                            image = hitRight;
             }
             if(!alive)
                 image = dead;
@@ -149,6 +149,15 @@ public class Enemy extends Entity {
     public void update() {
         if(alive) {
             checkLife();
+            spriteCounter++;
+            if(spriteCounter < gp.FPS/4 || (spriteCounter >= gp.FPS / 4 * 2 && spriteCounter <= gp.FPS / 4 * 3)) {
+                spriteNum = 1;
+            } else {
+                spriteNum = 2;
+            }
+            if(spriteCounter == gp.FPS) {
+                spriteCounter = 0;
+            }
             if(hasIframes) {
                 iFrameCounter ++;
                 if(iFrameCounter == gp.FPS) {
@@ -166,11 +175,13 @@ public class Enemy extends Entity {
             }
             switch (behaviourState) {
                 case wanderingState:
-                    onPath = false;
-                    wander();
+                    if(!hasIframes) {
+                        onPath = false;
+                        wander();
+                    }
                     break;
                 case chasingState:
-                    if(!player.hasIframes) {  //!playerCollision
+                    if(!player.hasIframes && !hasIframes) {  //!playerCollision
                         onPath = true;
                         chase();
                     }
@@ -178,6 +189,7 @@ public class Enemy extends Entity {
             }
         }
     }
+
     private boolean playerProximity() {
         double distance = Math.sqrt(Math.pow(worldX - gp.player.worldX, 2) + Math.pow(worldY - gp.player.worldY, 2));
         if (distance < detectionDistance) {
@@ -225,15 +237,6 @@ public class Enemy extends Entity {
                     direction = "up";
                     break;
             }
-        }
-        spriteCounter++;
-        if(spriteCounter < gp.FPS/4 || (spriteCounter >= gp.FPS / 4 * 2 && spriteCounter <= gp.FPS / 4 * 3)) {
-            spriteNum = 1;
-        } else {
-            spriteNum = 2;
-        }
-        if(spriteCounter == gp.FPS) {
-            spriteCounter = 0;
         }
         switch(direction) {
             case "up":
