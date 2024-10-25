@@ -44,7 +44,7 @@ public class Enemy extends Entity {
         hp = 50;
         speed = 2;
         hitBox = new Rectangle(0, 0, gp.tileSize-1, gp.tileSize-1); //Just below the tile size
-        detectionDistance = gp.tileSize * 6;    //was originally 4
+        detectionDistance = gp.tileSize * 5;    //was originally 4
     }
     public Point randomPosition() {
         int x = new Random().nextInt(gp.tileManager.perlinMap.length);
