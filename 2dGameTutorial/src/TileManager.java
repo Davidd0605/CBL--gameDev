@@ -8,9 +8,10 @@ import java.io.InputStreamReader;
 public class TileManager extends PerlinGenerator {
 
     public GamePanel gp;
-    public PerlinGenerator peg;
+    //public PerlinGenerator peg;
     public tiles[] tile = new tiles[10];
     public int[][] mapTileNum;
+    //boolean drawPath = true;
     public KeyHandler keyHandler;
     boolean structuresGenerated = false;
 
@@ -122,6 +123,19 @@ public class TileManager extends PerlinGenerator {
                 worldRow++;
             }
         }
+//        if(drawPath){
+//            g2.setColor(new Color(255, 0 , 0, 70));
+//
+//            for(int i =0; i <gp.pathfinder.pathList.size(); i++){
+//                int worldX = gp.pathfinder.pathList.get(i).col * gp.tileSize;
+//                int worldY = gp.pathfinder.pathList.get(i).row * gp.tileSize;
+//                int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);
+//                int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);
+//
+//                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+//
+//            }
+//        } //Draws the path the enemies will take
 
     }
 //    public void drawFullMap(Graphics2D g2) {  //this one just draws a map full of one kind of tile

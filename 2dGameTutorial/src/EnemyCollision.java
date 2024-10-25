@@ -11,7 +11,7 @@ public class EnemyCollision extends CollisionChecker{
     public void checkPlayer(Enemy entity) {
         //Determine bounds of the hit box
         entityLeftWorldX = entity.worldX;
-        entityTopWorldY = entity.worldY + entity.hitBox.y;
+        entityTopWorldY = entity.worldY;
         entityRightWorldX = entity.worldX + gamePanel.tileSize;
         entityBottomWorldY = entity.worldY + gamePanel.tileSize;
 

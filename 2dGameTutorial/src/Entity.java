@@ -12,6 +12,8 @@ public class Entity {
     int currentHP;
     boolean alive = true;
     String tag;
+    public boolean onPath = false;
+    public boolean entityCollision = false;
 
     //animations
     public String direction = "idle";
@@ -28,4 +30,6 @@ public class Entity {
     //IFRAME
     public boolean hasIframes;
     public int iFrameCounter = 0;
+
+
 }
