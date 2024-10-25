@@ -99,14 +99,14 @@ public class Player extends Entity {
             FPS = 8;
         }
         if(hasIframes) {
-            //entityCollision = true;
+            entityCollision = true;
             iFrameCounter++;
             betweenIFrames = !betweenIFrames;
             if(iFrameCounter == gp.FPS) {
                 hasIframes = false;
                 iFrameCounter = 0;
                 betweenIFrames = false;
-                //entityCollision = false;
+                entityCollision = false;
             }
         }
         speed = 200 / FPS;
@@ -120,7 +120,7 @@ public class Player extends Entity {
         double yDirection = 0;
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        if(!collisionOn)    //&& !entityCollision
+        if(!collisionOn && !entityCollision)    //&& !entityCollision
             gp.collisionChecker.checkEntity(this);
 
 
@@ -281,11 +281,11 @@ public class Player extends Entity {
                 break;
 
         }
-        if(hasIframes && !betweenIFrames) {
+        if(hasIframes) {
             if(!betweenIFrames){
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.0f));
             } else {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
             }
             //g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
         }
