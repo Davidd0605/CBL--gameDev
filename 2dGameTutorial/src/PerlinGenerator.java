@@ -70,8 +70,8 @@ public class PerlinGenerator extends PerlinNoise2D {
     }
 
     public void generateSquare(int squareSize, int[][] map, int startPositionX, int startPositionY) {
-        for (int i = 0; i < squareSize; i++) {
-            for (int j = 0; j < squareSize; j++) {
+        for (int i = 0; i < (squareSize/2)+1; i++) {
+            for (int j = 0; j < (squareSize/2)+1; j++) {
                 if (checkBorders(map, startPositionX + i, startPositionY + j))
                     map[startPositionX + i][startPositionY + j] = map[startPositionX + i][startPositionY + j] == 2 ? 0 : 1;
             }
