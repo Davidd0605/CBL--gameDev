@@ -98,10 +98,12 @@ public class Player extends Entity {
             FPS = 8;
         }
         if(hasIframes) {
+            //entityCollision = true;
             iFrameCounter++;
             if(iFrameCounter == gp.FPS) {
                 hasIframes = false;
                 iFrameCounter = 0;
+                //entityCollision = false;
             }
         }
         speed = 200 / FPS;
@@ -115,7 +117,7 @@ public class Player extends Entity {
         double yDirection = 0;
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        if(!collisionOn)
+        if(!collisionOn)    //&& !entityCollision
             gp.collisionChecker.checkEntity(this);
 
 

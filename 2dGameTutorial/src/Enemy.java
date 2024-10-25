@@ -156,7 +156,7 @@ public class Enemy extends Entity {
                     iFrameCounter = 0;
                 }
             }
-            behaviourState = playerProximity() ? chasingState : wanderingState;
+            behaviourState = playerProximity() ? chasingState : wanderingState;   //&& !player.hasIframes
             collisionOn = false;
             playerCollision = false;
             collisionChecker.checkPlayer(this);
@@ -170,8 +170,10 @@ public class Enemy extends Entity {
                     wander();
                     break;
                 case chasingState:
-                    onPath = true;
-                    chase();
+                    if(!playerCollision) {
+                        onPath = true;
+                        chase();
+                    }
                     break;
             }
         }

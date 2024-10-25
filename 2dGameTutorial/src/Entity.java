@@ -13,6 +13,7 @@ public class Entity {
     boolean alive = true;
     String tag;
     public boolean onPath = false;
+    public boolean entityCollision = false;
 
     //animations
     public String direction = "idle";
