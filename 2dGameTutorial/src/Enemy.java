@@ -96,7 +96,7 @@ public class Enemy extends Entity {
                     iFrameCounter = 0;
                 }
             }
-            behaviourState = playerProximity() ? chasingState : wanderingState;
+            //behaviourState = playerProximity() ? chasingState : wanderingState;
             collisionOn = false;
             playerCollision = false;
             collisionChecker.checkPlayer(this);

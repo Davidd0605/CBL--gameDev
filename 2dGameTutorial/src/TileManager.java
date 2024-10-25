@@ -98,15 +98,15 @@ public class TileManager extends PerlinGenerator {
             structuresGenerated = !structuresGenerated;
 //            applyRules(mapTileNum);
             mapTileNum = perlinMap;
-            //structureRules(mapTileNum);
+            structureRules(mapTileNum);
         }
         applyRules(mapTileNum);
 //        structureRules(mapTileNum);
 //        structureRules(mapTileNum);
-//        if(!structuresGenerated){
-//            structureRules(mapTileNum);
-//            structuresGenerated = true;
-//        }
+        if(!structuresGenerated){
+            structureRules(mapTileNum);
+            structuresGenerated = true;
+        }
         //System.out.println("Applied rules");
 
         int worldRow = 0;
