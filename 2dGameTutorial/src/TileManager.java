@@ -56,31 +56,31 @@ public class TileManager extends PerlinGenerator {
         }
     }
 
-    public void loadMap(String filepath){
-        try{
-            InputStream is = getClass().getResourceAsStream(filepath);   //importing the text file
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));  //read the text file
-
-            int lineCounter = 0;
-            while(br.ready()){
-                String line = br.readLine();    //read a single line
-                String[] numbers = line.split(" ");
-
-                for(int col = 0; col < numbers.length; col++){
-                    int num = Integer.parseInt(numbers[col]);
-                    mapTileNum[col][lineCounter] = num;
-
-                }
-
-                lineCounter++;
-            }
-            br.close();
-
-        } catch(Exception e){
-            //TODO HANDLE EXCEPTION
-            e.printStackTrace();
-        }
-    }
+//    public void loadMap(String filepath){
+//        try{
+//            InputStream is = getClass().getResourceAsStream(filepath);   //importing the text file
+//            BufferedReader br = new BufferedReader(new InputStreamReader(is));  //read the text file
+//
+//            int lineCounter = 0;
+//            while(br.ready()){
+//                String line = br.readLine();    //read a single line
+//                String[] numbers = line.split(" ");
+//
+//                for(int col = 0; col < numbers.length; col++){
+//                    int num = Integer.parseInt(numbers[col]);
+//                    mapTileNum[col][lineCounter] = num;
+//
+//                }
+//
+//                lineCounter++;
+//            }
+//            br.close();
+//
+//        } catch(Exception e){
+//            //TODO HANDLE EXCEPTION
+//            e.printStackTrace();
+//        }
+//    }
     public void draw(Graphics2D g2){
         //this.mapSize = gp.generatedSize;
         //System.out.println(gp.generatedSize);
