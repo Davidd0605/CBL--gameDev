@@ -33,15 +33,15 @@ public class Enemy extends Entity {
     }
     private void setDefaultValues() {
         hp = currentHP = 5;
-        //behaviourState = wanderingState;
-        behaviourState = chasingState;
+        behaviourState = wanderingState;
+        //behaviourState = chasingState;
         //Generate worldX worldY randomly
         worldX = initialPosition.x;
         worldY = initialPosition.y;
         hp = 50;
         speed = 2;
-        hitBox = new Rectangle(0, 0, gp.tileSize-10, gp.tileSize-10);
-        detectionDistance = gp.tileSize * 4;
+        hitBox = new Rectangle(0, 0, gp.tileSize-1, gp.tileSize-1); //Just below the tile size
+        detectionDistance = gp.tileSize * 6;    //was originally 4
     }
     public Point randomPosition() {
         int worldBoundLeft = gp.tileSize;
@@ -96,7 +96,7 @@ public class Enemy extends Entity {
                     iFrameCounter = 0;
                 }
             }
-            //behaviourState = playerProximity() ? chasingState : wanderingState;
+            behaviourState = playerProximity() ? chasingState : wanderingState;
             collisionOn = false;
             playerCollision = false;
             collisionChecker.checkPlayer(this);
@@ -211,7 +211,7 @@ public class Enemy extends Entity {
                     if(collisionOn){
                         direction = "left";
                     }
-                    System.out.println("Reached up-left");
+                    //System.out.println("Reached up-left");
                 } else if (enTopY > nextY && enLeftX < nextX) {
                     //up or right
                     direction = "up";
@@ -220,7 +220,7 @@ public class Enemy extends Entity {
                     if(collisionOn){
                         direction = "right";
                     }
-                    System.out.println("Reached up-right");
+                    //System.out.println("Reached up-right");
                 } else if (enTopY < nextY && enLeftX > nextX) {
                     //down or left
                     direction = "down";
@@ -229,7 +229,7 @@ public class Enemy extends Entity {
                     if(collisionOn){
                         direction = "left";
                     }
-                    System.out.println("Reached down-left");
+                    //System.out.println("Reached down-left");
                 } else if (enTopY < nextY && enRightX < nextX) {
                     //down or right
                     direction = "down";
@@ -238,10 +238,11 @@ public class Enemy extends Entity {
                     if(collisionOn){
                         direction = "right";
                     }
-                    System.out.println("Reached down-right");
-                }   else {
-                    System.out.println("Could not find direction");
+                    //System.out.println("Reached down-right");
                 }
+                //else {
+//                    System.out.println("Could not find direction");
+//                }
                 directionCounter %= gp.FPS; //reset every FPS frames so essentially once per second
 
 //                if(collisionOn || playerCollision) {
@@ -262,7 +263,7 @@ public class Enemy extends Entity {
                         break;
                 }
                 collisionOn = false;
-                System.out.println(direction);
+                //System.out.println(direction);
 
 
 //                int nextRow = gp.pathfinder.pathList.get(0).row;
