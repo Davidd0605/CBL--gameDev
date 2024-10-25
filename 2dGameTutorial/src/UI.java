@@ -18,7 +18,7 @@ public class UI {
     public int minOptionScroll = 0;
     public int maxOptionScroll = 3;
     public int optionScreen = 0;
-    public int musicVolumeInd = 0;
+    public int musicVolumeInd = 25;
     public int SFXVolumeInd = 50;
     private final DecimalFormat df = new DecimalFormat("0.00");
     public int mapSize = 2;

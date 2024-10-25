@@ -41,6 +41,10 @@ public class Main {
         Tutorial.setResizable(false);
         Tutorial.setSize(400, 200);
         Tutorial.setLocationRelativeTo(null);
+
+        TutorialScreen screen = new TutorialScreen();
+        screen.setVisible(true);
+        Tutorial.add(screen);
         Tutorial.setVisible(true);
 
     }
