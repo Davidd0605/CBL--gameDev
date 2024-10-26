@@ -23,9 +23,11 @@ public class KeyHandler implements KeyListener {
         if(gamePanel.gameState == gamePanel.titleState){
             if(key == KeyEvent.VK_A && gamePanel.ui.optionScroll == 1 && gamePanel.ui.showSize){
                 gamePanel.ui.mapSize--;
+                gamePanel.playSFX(0);
             }
             if(key == KeyEvent.VK_D && gamePanel.ui.optionScroll== 1 && gamePanel.ui.showSize){
                 gamePanel.ui.mapSize++;
+                gamePanel.playSFX(0);
             }
             if(key == KeyEvent.VK_SPACE){
                 if(gamePanel.ui.optionScroll == 0){
