@@ -1,9 +1,13 @@
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
+
 /**
- *
+ *  The main class for the CBL --gameDev assignment. A top down wave survival game(optional 
+ * endless) incorporating algorithms such A* path finding for enemies and improved Perlin Noise  
+ * generation for random map generations with a freestyled random structure generation. Also,
+ * the main feature of the game is the replacing of the player health with FPS, incorporating
+ * multithreading for it to work.
  * @author David
  * @author Dan
  *
@@ -15,10 +19,10 @@ public class Main {
         BufferedImage icon;
         frame.setIconImage(new ImageIcon("Player/boy_idle_1").getImage());
         try {
-            for(UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                    if(info.getName().equals("CDE/Motif")) {
-                        break;
-                    }
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if (info.getName().equals("CDE/Motif")) {
+                    break;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,18 +38,17 @@ public class Main {
         newGamePanel.startGameThread();
         frame.setVisible(true);
 
-        //TODO Create tutorial pop up
-        JFrame Tutorial = new JFrame();
-        Tutorial.setTitle("Tutorial");
-        Tutorial.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        Tutorial.setResizable(false);
-        Tutorial.setSize(400, 200);
-        Tutorial.setLocationRelativeTo(null);
+        JFrame tutorial = new JFrame();
+        tutorial.setTitle("Tutorial");
+        tutorial.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        tutorial.setResizable(false);
+        tutorial.setSize(400, 200);
+        tutorial.setLocationRelativeTo(null);
 
         TutorialScreen screen = new TutorialScreen();
         screen.setVisible(true);
-        Tutorial.add(screen);
-        Tutorial.setVisible(true);
+        tutorial.add(screen);
+        tutorial.setVisible(true);
 
     }
 
