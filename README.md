@@ -11,7 +11,8 @@ code and just run the main class.
 
     Topics of choice:
 
-    Version Control: Although we had a bit of experience using git before,
+    Version Control: 
+    Although we had a bit of experience using git before,
 this was the first chance to actually use it in a bigger project, where
 people could work on multiple things at the same time. Thanks to this, we learned
 how to handle conflicts, merges or even accidental deletions with ease. That's
@@ -20,7 +21,8 @@ rebases and issue handling.
 
     Git repository link: https: https://github.com/Davidd0605/CBL--gameDev.git
 
-    Algorithms: This was an entirely new concept to us. Finding the right
+    Algorithms: 
+    This was an entirely new concept to us. Finding the right
 fit for whatever our game needed required a lot of reading
 and actually understanding the logic behind the chosen algorithms
 proved challenging. We learned about concepts like noise generation algorithms
