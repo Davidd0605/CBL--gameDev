@@ -19,7 +19,7 @@ how to handle conflicts, merges or even accidental deletions with ease. That's
 not only it, as we've both learned how to make better use of branches, squashes,
 rebases and issue handling. 
 
-    Git repository link: https: https://github.com/Davidd0605/CBL--gameDev.git
+    Git repository link: https://github.com/Davidd0605/CBL--gameDev
 
     Algorithms: 
 -This was an entirely new concept to us. Finding the right
