@@ -92,13 +92,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.screenHeight = tileSize * y;
         this.screenWidth = tileSize * x;
         this.setSize((int) screenWidth, (int) screenHeight);
-        this.setBackground(Color.green);
+        this.setBackground(new Color(153, 102, 0));
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         //this.gameState = this.playState;
         this.gameState = this.titleState;
         gameThread = new Thread(this);
-        setEnemy();
+        //setEnemy();
     }
 
     /**
@@ -201,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable {
             g2.dispose();
         }
         else {
-            this.setBackground(Color.GREEN);
+            this.setBackground(new Color(0, 102, 0));
 
             tileManager.draw(g2);
             int numberOfEnemies = Math.min(waveNumber + waveNumber * ui.mapSize, (ui.mapSize + 1) * 5);
