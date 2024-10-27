@@ -202,8 +202,8 @@ public class UI {
         }
         if (gamePanel.gameState == gamePanel.titleState){
             notificationOn = false;
-            g.setFont(g.getFont().deriveFont(Font.BOLD, 48F));
-            String titleText = "Stupid idiot with a knife";
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 80F));
+            String titleText = "Fails Per Second"; //Originally "Stupid idiot with a knife"
             int textSize = (int) g.getFontMetrics(g.getFont()).getStringBounds(titleText, g).getWidth();
             int x = gamePanel.getWidth() / 2 - textSize / 2;
             int y = 2 * gamePanel.tileSize;
@@ -216,40 +216,46 @@ public class UI {
             g.drawString(titleText, x, y);
 
             //MENU
-            g.setFont(g.getFont().deriveFont(Font.BOLD, 24F));
+            g.setFont(g.getFont().deriveFont(Font.BOLD, 40F));
             int offset = gamePanel.tileSize / 2;
             titleText = "Start game";
-            x = gamePanel.getWidth() / 2 - 2 * gamePanel.tileSize;
+            x = gamePanel.getWidth() / 2 - 2 * gamePanel.tileSize - 37;
             y = gamePanel.getHeight() / 2 - 2 * gamePanel.tileSize + 2 * offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
             if (optionScroll == 0) {
                 showSize = false;
-                g.drawString(">", x - gamePanel.tileSize / 2, y);
+                g.drawString(">", x - gamePanel.tileSize / 2 - 10, y);
             }
 
 
             titleText = "Map Size";
-            x = gamePanel.getWidth() / 2 - 2 * gamePanel.tileSize + 25;
-            y = gamePanel.getHeight() / 2 - 3 * gamePanel.tileSize / 2 +  2 * offset;
+            x = gamePanel.getWidth() / 2 - 2 * gamePanel.tileSize;
+            y = gamePanel.getHeight() / 2 - 3 * gamePanel.tileSize / 2 +  3 * offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
             if (optionScroll == 1) {
-                g.drawString(">", x - gamePanel.tileSize  / 2, y);
+                g.drawString(">", x - gamePanel.tileSize  / 2 - 8, y);
                 if (showSize) {
 
                     if (mapSize == 0) {
                         size = "Small";
+                        g.setColor(Color.BLUE);
+                        g.setFont(g.getFont().deriveFont(Font.BOLD, 30F));
                         PerlinGenerator.mapSize = 16;
                         peg.generatePerlin();
 
                     } else if (mapSize == 1) {
                         size = "Medium";
+                        g.setColor(Color.YELLOW);
+                        g.setFont(g.getFont().deriveFont(Font.BOLD, 38F));
                         PerlinGenerator.mapSize = 24;
                         peg.generatePerlin();
 
                     } else if (mapSize == 2) {
                         size = "Large";
+                        g.setColor(Color.RED);
+                        g.setFont(g.getFont().deriveFont(Font.BOLD, 48F));
                         PerlinGenerator.mapSize = 32;
                         peg.generatePerlin();
                     } else if (mapSize > 2) {
@@ -258,21 +264,22 @@ public class UI {
                         mapSize = 2;
                     }
 
-                    g.drawString(size, x + 3 * gamePanel.tileSize, y);
+                    g.drawString(size, x + 5 * gamePanel.tileSize, y);
+                    g.setColor(Color.WHITE);
+                    g.setFont(g.getFont().deriveFont(Font.BOLD, 40F));
                 }
 
             }
 
 
             titleText = "Exit game";
-            x = gamePanel.getWidth() / 2 - 2 * gamePanel.tileSize +  15;
-            y = gamePanel.getHeight() / 2 - gamePanel.tileSize + 2 * offset;
+            x = gamePanel.getWidth() / 2 - 2 * gamePanel.tileSize  - 15;
+            y = gamePanel.getHeight() / 2 - gamePanel.tileSize + 4 * offset;
             g.setColor(Color.WHITE);
             g.drawString(titleText, x, y);
             if (optionScroll == 2) {
                 showSize = false;
-                g.drawString(">", x - gamePanel.tileSize / 2, y);
-
+                g.drawString(">", x - gamePanel.tileSize / 2 - 7, y);
             }
         }
         if (gamePanel.gameState == gamePanel.pauseState) {
