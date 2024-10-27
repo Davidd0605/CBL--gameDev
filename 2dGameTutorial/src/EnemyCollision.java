@@ -1,13 +1,26 @@
-import java.awt.*;
 
+/**
+ * The main class for checking the response of the enemies
+ * to colliding with the player attacks or other enemies.
+ */
 public class EnemyCollision extends CollisionChecker{
 
     public Player player;
     public int comboCounter = 0;
+    /**
+     * Default constructor bounding the enemy to the game panel
+     * and player.
+     */
+
     EnemyCollision(GamePanel gamePanel, Player player) {
         super(gamePanel);
         this.player = player;
     }
+    /**
+     * Method for checking if it is hit by the player or if
+     * it hit the player.
+     */
+
     public void checkPlayer(Enemy entity) {
         //Determine bounds of the hit box
         entityLeftWorldX = entity.worldX;
@@ -20,8 +33,9 @@ public class EnemyCollision extends CollisionChecker{
         double playerTopWorldY = player.worldY;
         double playerRightWorldX = player.worldX + gamePanel.tileSize;
         double playerBottomWorldY = player.worldY + gamePanel.tileSize;
-        if(player.attacking) {
-            switch(player.direction) {
+
+        if (player.attacking) {
+            switch (player.direction) {
                 case "up":
                     playerTopWorldY = playerTopWorldY - gamePanel.tileSize / 2;
                     break;
@@ -36,36 +50,41 @@ public class EnemyCollision extends CollisionChecker{
                     break;
             }
         }
-        entity.playerCollision = doOverLap(playerLeftWorldX, playerRightWorldX, playerTopWorldY, playerBottomWorldY,
-                entityLeftWorldX, entityRightWorldX, entityTopWorldY, entityBottomWorldY);
+        entity.playerCollision = doOverLap(playerLeftWorldX, playerRightWorldX, 
+                playerTopWorldY, playerBottomWorldY, entityLeftWorldX, entityRightWorldX, 
+                entityTopWorldY, entityBottomWorldY);
 
-        if(entity.playerCollision) {
-            if(player.attacking) {
+        if (entity.playerCollision) {
+            if (player.attacking) {
                 boolean hit = false;
-                switch(player.direction) {
+                switch (player.direction) {
                     case "up":
-                        if(entityTopWorldY <= playerTopWorldY)
+                        if (entityTopWorldY <= playerTopWorldY) {
                             hit = true;
+                        }
                         break;
                     case "down":
-                        if(entityBottomWorldY >= playerBottomWorldY)
+                        if (entityBottomWorldY >= playerBottomWorldY) {
                             hit = true;
+                        }
                         break;
                     case "left":
-                        if(entityLeftWorldX <= playerLeftWorldX)
+                        if (entityLeftWorldX <= playerLeftWorldX) {
                             hit = true;
+                        }
                         break;
                     case "right":
-                        if(entityRightWorldX >= playerRightWorldX)
+                        if (entityRightWorldX >= playerRightWorldX) {
                             hit = true;
+                        }
                         break;
                 }
-                if(hit) {
-                    if(!entity.hasIframes) {
+                if (hit) {
+                    if (!entity.hasIframes) {
                         entity.hasIframes = true;
                         entity.currentHP--;
                         player.hitConnected = true;
-                        if(gamePanel.ui.notificationOn) {
+                        if (gamePanel.ui.notificationOn) {
                             gamePanel.ui.notification = "ENEMY HAS BEEN HIT! x" + comboCounter;
                             gamePanel.ui.notificationCounter = 0;
                             comboCounter++;
@@ -77,7 +96,7 @@ public class EnemyCollision extends CollisionChecker{
 
                     }
                 } else {
-                    if(!player.hasIframes) {
+                    if (!player.hasIframes) {
                         gamePanel.playSFX(4);
                         player.hasIframes = true;
                         gamePanel.ui.notificationOn = true;
@@ -86,7 +105,7 @@ public class EnemyCollision extends CollisionChecker{
                     }
                 }
             } else {
-                if(!player.hasIframes) {
+                if (!player.hasIframes) {
                     gamePanel.playSFX(4);
                     player.hasIframes = true;
                     gamePanel.ui.notificationOn = true;

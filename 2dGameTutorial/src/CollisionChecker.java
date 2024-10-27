@@ -20,14 +20,17 @@ public class CollisionChecker {
         this.gamePanel = gamePanel;
     }
 
-    public boolean doOverLap(double PLX, double PRX, double PTY, double PBY, double ELX, double ERX, double ETY, double EBY) {
+    /**
+     * Checks if two rectangles overlap eachother.
+     */
+    public boolean doOverLap(double plx, double prx, double pty, double pby, double elx, double erx, double ety, double eby) {
         //if one rectangle is to the left of the other
-        if (PTY > EBY || ETY > PBY) {
+        if (pty > eby || ety > pby) {
             return false;
-        }
-        if (PLX > ERX || ELX > PRX) {
+        }   //for the OY axis
+        if (plx > erx || elx > prx) {
             return false;
-        }
+        }   //for the OX axis
         return true;
     }
     /**

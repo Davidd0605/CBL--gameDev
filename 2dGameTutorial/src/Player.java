@@ -1,7 +1,11 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+/**The main class for the player entity. This is what will be
+ * controlled by the user. The players health is represented
+ * by his own FPS.
+ */
 
 public class Player extends Entity {
     GamePanel gp;
@@ -17,7 +21,9 @@ public class Player extends Entity {
     public boolean betweenIFrames = false;
 
     public int frameClock = 0;
-    public Player(GamePanel gp , KeyHandler keyHandler) {
+
+    /**Default constructor, linking it to the main game threads,key handler and game panel. */
+    public Player(GamePanel gp, KeyHandler keyHandler) {
 
         this.gp = gp;
         this.keyHandler = keyHandler;
@@ -32,10 +38,11 @@ public class Player extends Entity {
         hitBox.y = 16 ;
         hitBox.width = 32;
         hitBox.height = 32;
-        screenX=(gp.tileSize * 8) - ((double) gp.tileSize / 2);
-        screenY=((double) (gp.tileSize * gp.noRows) /2) - ((double) gp.tileSize /2);
+        screenX = (gp.tileSize * 8) - ((double) gp.tileSize / 2);
+        screenY = ((double) (gp.tileSize * gp.noRows) / 2) - ((double) gp.tileSize / 2);
         this.tag = "player";
     }
+    /**Method for initializing the player when spawned. */
     public void setDefaultValues() {
         size = gp.tileSize;
         worldX = 12 * gp.tileSize;
@@ -45,7 +52,9 @@ public class Player extends Entity {
         assignSprite();
     }
 
-    public void assignSprite(){
+    /**Assigns sprites for all possible player animations. */
+
+    public void assignSprite() {
         try {
             up1 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_up_1.png"));
             up2 = ImageIO.read(getClass().getResourceAsStream("/Player/boy_up_2.png"));
@@ -70,39 +79,43 @@ public class Player extends Entity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    /**Sets animations and sounds for attacking. */
     public void attacking() {
         spriteCounter++;
-        if(spriteCounter == 2)
+        if (spriteCounter == 2){
             gp.playSFX(1);
-        if(spriteCounter <= 5) {
+        }
+        if (spriteCounter <= 5) {
             spriteNum = 1;
         }
-        if(spriteCounter > FPS / 5 && spriteCounter <= FPS) {
+        if (spriteCounter > FPS / 5 && spriteCounter <= FPS) {
             spriteNum = 2;
         }
-        if(spriteCounter == FPS/2 && hitConnected) {
+        if (spriteCounter == FPS / 2 && hitConnected) {
             gp.playSFX(2);
             hitConnected = false;
         }
-        if(spriteCounter > FPS * 1 / 2) {
+        if (spriteCounter > FPS * 1 / 2) {
             spriteNum = 1;
             spriteCounter = 0;
             attacking = false;
         }
 
     }
-
+    /**This method constantly updates the player state based on variables. It 
+     * can change speed, animations, FPS, location and so on.
+     */
     public void update() {
-        if(FPS < 8) {
+        if (FPS < 8) {
             FPS = 8;
         }
-        if(hasIframes) {
+        if (hasIframes) {
             entityCollision = true;
             iFrameCounter++;
             betweenIFrames = !betweenIFrames;
-            if(iFrameCounter == gp.FPS) {
+            if (iFrameCounter == gp.FPS) {
                 hasIframes = false;
                 iFrameCounter = 0;
                 betweenIFrames = false;
@@ -111,7 +124,7 @@ public class Player extends Entity {
         }
         speed = 200 / FPS;
         initialSpeed = speed; // speed is i.p. to FPS
-        if(keyHandler.shiftPressed) {
+        if (keyHandler.shiftPressed) {
             speed *= 1.4;
         } else {
             speed = initialSpeed;
@@ -120,35 +133,34 @@ public class Player extends Entity {
         double yDirection = 0;
         collisionOn = false;
         gp.collisionChecker.checkTile(this);
-        if(!collisionOn && !entityCollision)    //&& !entityCollision
+        if (!collisionOn && !entityCollision){
             gp.collisionChecker.checkEntity(this);
-
-
-        if(attacking) {
+        }
+        if (attacking) {
             attacking();
         }
         else {
-            if(keyHandler.downPressed) {
+            if (keyHandler.downPressed) {
                 direction = "down";
                 yDirection = 1;
             }
-            if(keyHandler.upPressed) {
+            if (keyHandler.upPressed) {
                 direction = "up";
                 yDirection = -1;
             }
-            if(keyHandler.rightPressed) {
+            if (keyHandler.rightPressed) {
                 direction = "right";
                 xDirection = 1;
             }
-            if(keyHandler.leftPressed) {
+            if (keyHandler.leftPressed) {
                 direction = "left";
                 xDirection = -1;
             }
-            if(xDirection == 0 && yDirection == 0) {
+            if (xDirection == 0 && yDirection == 0) {
                 direction = "idle";
             }
-            if(keyHandler.atkPressed) {
-                if(canAttack) {
+            if (keyHandler.atkPressed) {
+                if (canAttack) {
                     canAttack = false;
                     attacking = true;
                     spriteCounter = 0;
@@ -158,33 +170,38 @@ public class Player extends Entity {
                 attacking = false;
             }
             spriteCounter++;
-            if(spriteCounter > 10 * FPS / 50) {
+            if (spriteCounter > 10 * FPS / 50) {
                 spriteNum = spriteNum == 2 ? 1 : 2;
                 spriteCounter = 0;
             }
         }
 
-        if(!collisionOn) {
-            //Normalise the (xDirection, yDirection) vector, then multiply its length to be equal to speed
-            double length = Math.sqrt(Math.pow(xDirection,2) + Math.pow(yDirection,2));
+        if (!collisionOn) {
+            //Normalise the (xDirection, yDirection) vector,
+            // then multiply its length to be equal to speed
+            double length = Math.sqrt(Math.pow(xDirection, 2) + Math.pow(yDirection, 2));
             xDirection = length == 0 ? 0 : xDirection / length;
             yDirection = length == 0 ? 0 : yDirection / length;
             worldX += xDirection * speed;
             worldY += yDirection * speed;
 
         }
-        //TEMPORARY
-        if(keyHandler.turnFPSDown && FPS > 8) {
+        //TEMPORARY DEBUGGERS
+        if (keyHandler.turnFPSDown && FPS > 8) {
             this.FPS--;
             System.out.println("FPS: " + this.FPS);
         }
-        if(keyHandler.turnFPSUp && FPS < 60) {
+        if (keyHandler.turnFPSUp && FPS < 60) {
             this.FPS++;
             System.out.println("FPS: " + this.FPS);
         }
 
 
     }
+
+    /**This is the main draw method of the player. It changes
+     * how he looks based on variables.
+     */
     public void draw(Graphics2D g2) {
         BufferedImage img = up1;
         int imgHeight = gp.tileSize;
@@ -194,15 +211,16 @@ public class Player extends Entity {
         //draw player sprite in the middle of the screen
         switch (direction) {
             case "idle":
-                if(!attacking) {
-                    if(spriteNum == 1)
+                if (!attacking) {
+                    if (spriteNum == 1) {
                         img = idle1;
-                    else
+                    } else {
                         img = idle2;
+                    }
                 }
                 else {
-                    if(spriteNum == 1) {
-                        img =idle1;
+                    if (spriteNum == 1) {
+                        img = idle1;
                     }
                     else {
                         img = idle2;
@@ -211,15 +229,16 @@ public class Player extends Entity {
 
                 break;
             case "left":
-                if(!attacking) {
-                    if(spriteNum == 1)
+                if (!attacking) {
+                    if (spriteNum == 1) {
                         img = left1;
-                    else
+                    } else {
                         img = left2;
+                    }
                 } else {
                     imgWidth *= 2;
                     imgX -= gp.tileSize;
-                    if(spriteNum == 1) {
+                    if (spriteNum == 1) {
                         img = atkLeft1;
                     } else {
 
@@ -229,15 +248,16 @@ public class Player extends Entity {
 
                 break;
             case "up":
-                if(!attacking) {
-                    if(spriteNum == 1)
+                if (!attacking) {
+                    if (spriteNum == 1){
                         img = up1;
-                    else
+                    } else {
                         img = up2;
+                    }
                 } else {
                     imgHeight *= 2;
                     imgY -= gp.tileSize;
-                    if(spriteNum == 1) {
+                    if (spriteNum == 1) {
                         img = atkUp1;
                     } else {
 
@@ -247,14 +267,15 @@ public class Player extends Entity {
 
                 break;
             case "right":
-                if(!attacking) {
-                    if (spriteNum == 1)
+                if (!attacking) {
+                    if (spriteNum == 1) {
                         img = right1;
-                    else
+                    } else {
                         img = right2;
+                    }
                 } else {
                     imgWidth *= 2;
-                    if(spriteNum == 1) {
+                    if (spriteNum == 1) {
                         img = atkRight1;
                     } else {
 
@@ -263,15 +284,15 @@ public class Player extends Entity {
                 }
                 break;
             case "down":
-                if(!attacking) {
-                    if(spriteNum == 1)
+                if (!attacking) {
+                    if (spriteNum == 1) {
                         img = down1;
-                    else
+                    } else {
                         img = down2;
-
+                    }
                 } else {
                     imgHeight *= 2;
-                    if(spriteNum == 1) {
+                    if (spriteNum == 1) {
                         img = atkDown1;
                     }
                     else {
@@ -281,15 +302,15 @@ public class Player extends Entity {
                 break;
 
         }
-        if(hasIframes) {
-            if(!betweenIFrames){
+        if (hasIframes) {
+            if (!betweenIFrames){
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.0f));
             } else {
                 g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
             }
             //g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
         }
-        g2.drawImage(img, (int)imgX, (int)imgY, imgWidth, imgHeight, null);
+        g2.drawImage(img, (int) imgX, (int) imgY, imgWidth, imgHeight, null);
 
     }
 }

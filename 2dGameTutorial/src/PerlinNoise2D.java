@@ -1,26 +1,21 @@
+/**I'm not gonna go into the details of how perlin noise works, but,
+ * basically, it takes a non-integer value in order to create a new random
+ * value between -1 and 1. It is not random, the values being fed to it resulting
+ * in noise similar to other close values fed to it. This results in smooth number
+ * transitions, which can be later be used to make biomes, height maps, etc.
+ */
+
+
 public class PerlinNoise2D {
     private static double time = 0;
-//    private static BufferedImage image = new BufferedImage(MainWindow.WIDTH, MainWindow.HEIGHT, BufferedImage.TYPE_INT_RGB);
-//    public static BufferedImage getNoiseImage(){
-//        time += 0.01;
-//        for(int y = 0; y < MainWindow.HEIGHT; y++){
-//            for(int x = 0; x < MainWindow.WIDTH; x++){
-//                double dx = (double) x / MainWindow.HEIGHT;
-//                double dy = (double) y / MainWindow.HEIGHT;
-//                int frequency = 6;
-//                double noise = noise((dx * frequency) + time, (dy * frequency) + time);
-//                noise = (noise - 1) / 2;
-//                int b = (int)(noise * 0xFF);
-//                int g = b * 0x100;
-//                int r = b * 0x10000;
-//                int finalValue = r;
-//                image.setRGB(x, y, finalValue);
-//            }
-//        }
-//        return image;
-//    }
 
-    public static double noise(double x, double y){
+    /**Again, not going into details. It calculates noise based on two vectors
+     * and a point of origin, using the dot product to get the final result. 
+     * These two vectors can affect how big a change is from one value to another.
+     * Also the values are in base 255.
+     */
+
+    public static double noise(double x, double y) {
         int xi = (int) Math.floor(x) & 255;
         int yi = (int) Math.floor(y) & 255;
         int g1 = p[p[xi] + yi];
@@ -55,8 +50,8 @@ public class PerlinNoise2D {
         return t * t * t * (t * (t * 6 - 15) + 10);
     }
 
-    private static double grad(int hash, double x, double y){
-        switch(hash & 3){
+    private static double grad(int hash, double x, double y) {
+        switch (hash & 3){
             case 0: return x + y;
             case 1: return -x + y;
             case 2: return x - y;
@@ -78,6 +73,8 @@ public class PerlinNoise2D {
             49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
             138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
     };
-    static { for (int i=0; i < 256 ; i++) p[256+i] = p[i] = permutation[i]; }
+
+    //Makes sure the permutation stays in base 255 however much it changes.
+    static {for (int i = 0; i < 256 ; i++) {p[256 + i] = p[i] = permutation[i]; } }
 
 }

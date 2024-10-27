@@ -1,14 +1,20 @@
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
+/**
+ * The main class for handling all button presses.
+ */
+
 public class KeyHandler implements KeyListener {
     public GamePanel gamePanel;
     public PerlinGenerator perlinGenerator;
+
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
+
     boolean shiftPressed = false;
     boolean upPressed, downPressed, leftPressed, rightPressed, turnFPSUp, turnFPSDown, atkPressed, escPressed = false, OPressed = false;
+
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -16,28 +22,29 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        if(key == KeyEvent.VK_SHIFT) {
+        if (key == KeyEvent.VK_SHIFT) {
             shiftPressed = true;
         }
         //Title State
-        if(gamePanel.gameState == gamePanel.titleState){
-            if(key == KeyEvent.VK_A && gamePanel.ui.optionScroll == 1 && gamePanel.ui.showSize){
+        if (gamePanel.gameState == gamePanel.titleState){
+            if (key == KeyEvent.VK_A && gamePanel.ui.optionScroll == 1 && gamePanel.ui.showSize) {
                 gamePanel.ui.mapSize--;
                 gamePanel.playSFX(0);
             }
-            if(key == KeyEvent.VK_D && gamePanel.ui.optionScroll== 1 && gamePanel.ui.showSize){
+            if (key == KeyEvent.VK_D && gamePanel.ui.optionScroll == 1 && gamePanel.ui.showSize) {
                 gamePanel.ui.mapSize++;
                 gamePanel.playSFX(0);
             }
-            if(key == KeyEvent.VK_SPACE){
-                if(gamePanel.ui.optionScroll == 0){
+            if (key == KeyEvent.VK_SPACE){
+                if (gamePanel.ui.optionScroll == 0) {
                     gamePanel.gameState = gamePanel.playState;
                     gamePanel.tileManager.generatePerlin();
                 }
-                if(gamePanel.ui.optionScroll == 1){
+                if (gamePanel.ui.optionScroll == 1) {
                     gamePanel.ui.showSize = !gamePanel.ui.showSize;
+                    gamePanel.playSFX(0);
                 }
-                if(gamePanel.ui.optionScroll == 2){
+                if (gamePanel.ui.optionScroll == 2) {
                     System.exit(0);
                 }
 
@@ -45,12 +52,12 @@ public class KeyHandler implements KeyListener {
         }
 
         //Play State
-        if(key == KeyEvent.VK_SPACE) {
+        if (key == KeyEvent.VK_SPACE) {
             atkPressed = true;
-            if(gamePanel.gameState == gamePanel.pauseState) {
+            if (gamePanel.gameState == gamePanel.pauseState) {
                 switch (gamePanel.ui.optionScreen) {
                     case 0:
-                        switch(gamePanel.ui.optionScroll) {
+                        switch (gamePanel.ui.optionScroll) {
                             case 1:
                                 gamePanel.restartGame();
                                 break;
@@ -69,18 +76,18 @@ public class KeyHandler implements KeyListener {
                         }
                         break;
                     case 1:
-                        switch(gamePanel.ui.optionScroll) {
+                        switch (gamePanel.ui.optionScroll) {
                             case 1:
-                                if(gamePanel.ui.musicVolumeInd == 0)
+                                if (gamePanel.ui.musicVolumeInd == 0){
                                     gamePanel.ui.musicVolumeInd = 100;
-                                else {
+                                } else {
                                     gamePanel.ui.musicVolumeInd = 0;
                                 }
                                 break;
                             case 2:
-                                if(gamePanel.ui.SFXVolumeInd == 0)
+                                if (gamePanel.ui.SFXVolumeInd == 0){
                                     gamePanel.ui.SFXVolumeInd = 100;
-                                else {
+                                } else {
                                     gamePanel.ui.SFXVolumeInd = 0;
                                 }
                                 gamePanel.SFX.volumeInd = gamePanel.ui.SFXVolumeInd;
@@ -93,7 +100,7 @@ public class KeyHandler implements KeyListener {
                         }
                         break;
                     case 2:
-                        switch(gamePanel.ui.optionScroll) {
+                        switch (gamePanel.ui.optionScroll) {
                             case 1:
                                 System.exit(0);
                                 break;
@@ -105,7 +112,7 @@ public class KeyHandler implements KeyListener {
                         break;
                 }
             }
-            if(gamePanel.gameState == gamePanel.overState) {
+            if (gamePanel.gameState == gamePanel.overState) {
                 switch (gamePanel.ui.optionScroll) {
                     case 1:
                         gamePanel.restartGame();
@@ -115,7 +122,7 @@ public class KeyHandler implements KeyListener {
                         break;
                 }
             }
-            if(gamePanel.gameState == gamePanel.winState) {
+            if (gamePanel.gameState == gamePanel.winState) {
                 switch (gamePanel.ui.optionScroll) {
                     case 1:
                         gamePanel.waveNumber = 6;
@@ -128,28 +135,30 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-        //TEMPORARY FPS CONTROL FOR GAME TESTING
-        if(key == KeyEvent.VK_R) {
+        //FPS CONTROL FOR GAME TESTING
+        if (key == KeyEvent.VK_R) {
             turnFPSUp = true;
         }
-        if(key == KeyEvent.VK_T) {
+        if (key == KeyEvent.VK_T) {
             turnFPSDown = true;
         }
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
             upPressed = true;
-            if(gamePanel.gameState == gamePanel.titleState) {
+            if (gamePanel.gameState == gamePanel.titleState) {
                 gamePanel.playSFX(0);
-                gamePanel.ui.optionScroll --;
-                if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                gamePanel.ui.optionScroll--;
+                if (gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll){
                     gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+                }
             }
-            if(gamePanel.gameState == gamePanel.pauseState) {
+            if (gamePanel.gameState == gamePanel.pauseState) {
                 gamePanel.playSFX(0);
                 switch (gamePanel.ui.optionScreen) {
                     case 0, 1, 2:
-                        gamePanel.ui.optionScroll --;
-                        if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                        gamePanel.ui.optionScroll--;
+                        if (gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll){
                             gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+                        }
                         break;
                     default:
                         break;
@@ -159,19 +168,21 @@ public class KeyHandler implements KeyListener {
         }
         if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
             downPressed = true;
-            if(gamePanel.gameState == gamePanel.titleState) {
+            if (gamePanel.gameState == gamePanel.titleState) {
                 gamePanel.playSFX(0);
-                gamePanel.ui.optionScroll ++;
-                if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                gamePanel.ui.optionScroll++;
+                if (gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll) {
                     gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+                }
             }
-            if(gamePanel.gameState == gamePanel.pauseState) {
+            if (gamePanel.gameState == gamePanel.pauseState) {
                 gamePanel.playSFX(0);
                 switch (gamePanel.ui.optionScreen) {
                     case 0, 1, 2:
-                        gamePanel.ui.optionScroll ++;
-                        if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                        gamePanel.ui.optionScroll++;
+                        if (gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll) {
                             gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+                        }
                         break;
 
                     default:
@@ -181,55 +192,61 @@ public class KeyHandler implements KeyListener {
         }
         if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
             leftPressed = true;
-            if(gamePanel.gameState == gamePanel.pauseState) {
-                if(gamePanel.ui.optionScreen == 1) {
-                    if(gamePanel.ui.optionScroll == 1 && gamePanel.ui.musicVolumeInd > 0)
+            if (gamePanel.gameState == gamePanel.pauseState) {
+                if (gamePanel.ui.optionScreen == 1) {
+                    if (gamePanel.ui.optionScroll == 1 && gamePanel.ui.musicVolumeInd > 0) {
                         gamePanel.ui.musicVolumeInd--;
-                    if(gamePanel.ui.optionScroll == 2  && gamePanel.ui.SFXVolumeInd > 0) {
+                    }
+                    if (gamePanel.ui.optionScroll == 2  && gamePanel.ui.SFXVolumeInd > 0) {
                         gamePanel.ui.SFXVolumeInd--;
                         gamePanel.SFX.volumeInd = gamePanel.ui.SFXVolumeInd;
                     }
                 }
             }
-            if(gamePanel.gameState == gamePanel.overState) {
+            if (gamePanel.gameState == gamePanel.overState) {
                 gamePanel.playSFX(0);
-                gamePanel.ui.optionScroll --;
-                if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                gamePanel.ui.optionScroll--;
+                if (gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll) {
                     gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+                }
             }
-            if(gamePanel.gameState == gamePanel.winState) {
+            if (gamePanel.gameState == gamePanel.winState) {
                 gamePanel.playSFX(0);
-                gamePanel.ui.optionScroll --;
-                if(gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll)
+                gamePanel.ui.optionScroll--;
+                if (gamePanel.ui.optionScroll < gamePanel.ui.minOptionScroll) {
                     gamePanel.ui.optionScroll = gamePanel.ui.maxOptionScroll;
+                }
             }
         }
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             rightPressed = true;
-            if(gamePanel.gameState == gamePanel.pauseState) {
-                if(gamePanel.ui.optionScreen == 1) {
-                    if(gamePanel.ui.optionScroll == 1 && gamePanel.ui.musicVolumeInd < 100)
+            if (gamePanel.gameState == gamePanel.pauseState) {
+                if (gamePanel.ui.optionScreen == 1) {
+                    if (gamePanel.ui.optionScroll == 1 && gamePanel.ui.musicVolumeInd < 100) {
                         gamePanel.ui.musicVolumeInd++;
-                    if(gamePanel.ui.optionScroll == 2  && gamePanel.ui.SFXVolumeInd < 100) {
+                    }
+                    if (gamePanel.ui.optionScroll == 2  && gamePanel.ui.SFXVolumeInd < 100) {
                         gamePanel.ui.SFXVolumeInd++;
                         gamePanel.SFX.volumeInd = gamePanel.ui.SFXVolumeInd;
                     }
                 }
             }
-            if(gamePanel.gameState == gamePanel.overState) {
+            if (gamePanel.gameState == gamePanel.overState) {
                 gamePanel.playSFX(0);
                 gamePanel.ui.optionScroll ++;
-                if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                if (gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll) {
                     gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+                }
             }
-            if(gamePanel.gameState == gamePanel.winState) {
+            if (gamePanel.gameState == gamePanel.winState) {
                 gamePanel.playSFX(0);
                 gamePanel.ui.optionScroll ++;
-                if(gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll)
+                if (gamePanel.ui.optionScroll > gamePanel.ui.maxOptionScroll) {
                     gamePanel.ui.optionScroll = gamePanel.ui.minOptionScroll;
+                }
             }
         }
-        if(key == KeyEvent.VK_ESCAPE) {
+        if (key == KeyEvent.VK_ESCAPE) {
 
             switch (gamePanel.gameState) {
                 case 0:
@@ -244,25 +261,21 @@ public class KeyHandler implements KeyListener {
             }
         }
 
-        //TODO REMOVE
-        if(key == KeyEvent.VK_O){
-            gamePanel.gameState = gamePanel.winState;
-        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        if(key == KeyEvent.VK_SHIFT) {
+        if (key == KeyEvent.VK_SHIFT) {
             shiftPressed = false;
         }
-        if(key == KeyEvent.VK_SPACE) {
+        if (key == KeyEvent.VK_SPACE) {
             atkPressed = false;
         }
-        if(key == KeyEvent.VK_R) {
+        if (key == KeyEvent.VK_R) {
             turnFPSUp = false;
         }
-        if(key == KeyEvent.VK_T) {
+        if (key == KeyEvent.VK_T) {
             turnFPSDown = false;
         }
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {

@@ -44,6 +44,7 @@ public class Main {
         tutorial.setResizable(false);
         tutorial.setSize(400, 200);
         tutorial.setLocationRelativeTo(null);
+        tutorial.setBackground(Color.BLACK);
 
         TutorialScreen screen = new TutorialScreen();
         screen.setVisible(true);

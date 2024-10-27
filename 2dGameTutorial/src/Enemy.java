@@ -39,9 +39,12 @@ public class Enemy extends Entity {
         this.tag = "enemy";
 
     }
+    /**
+     * Checks if the enemy is alive.
+     */
     
     public void checkLife() {
-        if(currentHP == 0) {
+        if (currentHP == 0) {
             alive = false;
         }
     }
@@ -58,10 +61,15 @@ public class Enemy extends Entity {
         hitBox = new Rectangle(0, 0, gp.tileSize - 1, gp.tileSize - 1); //Just below the tile size
         detectionDistance = gp.tileSize * 5;    //was originally 4
     }
+    /**
+     * Returns a random position for the enemy to spawn in. Naturally,
+     * that means not spawning in a wall.
+     * 
+     */
 
     public Point randomPosition() {
         int x = new Random().nextInt(gp.tileManager.perlinMap.length);
-        int y = new Random().nextInt(gp.tileManager.perlinMap.length) ;
+        int y = new Random().nextInt(gp.tileManager.perlinMap.length);
 
         if (gp.tileManager.tile[gp.tileManager.mapTileNum[x][y]].collision) {
             return randomPosition();
@@ -104,7 +112,11 @@ public class Enemy extends Entity {
         }
 
     }
-
+    /**
+     * The main draw method for enemies. From changing their location
+     * to animating them, it takes care of all.
+     * 
+     */
     //REMAINS AS IS
     public void draw(Graphics2D g2) {
         //Complex equation I stole from the tile map draw thing
@@ -137,6 +149,8 @@ public class Enemy extends Entity {
                                     image = left2;
                                 }
                                 break;
+                            default:
+                                break;
                         }
                         break;
                     case "left":
@@ -152,6 +166,8 @@ public class Enemy extends Entity {
                         } else {
                             image = right2;
                         }
+                        break;
+                    default:
                         break;
                 }
                 if (hasIframes) {
@@ -218,6 +234,8 @@ public class Enemy extends Entity {
                         chase();
                     }
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -228,8 +246,9 @@ public class Enemy extends Entity {
         if (distance < detectionDistance) {
             return true;
         }
-        return false;
+        return false;   //left the if in its less "fancy form" for easier readability
     }
+
     /**
      * Wandering is the passive state of the enemy. It will move at 
      * random until entering the proximity of the player.
@@ -274,6 +293,8 @@ public class Enemy extends Entity {
                 case "down":
                     direction = "up";
                     break;
+                default:
+                    break;
             }
         }
         switch (direction) {
@@ -290,6 +311,8 @@ public class Enemy extends Entity {
             case "right":
                 lastDirection = direction;
                 worldX += speed;
+                break;
+            default:
                 break;
         }
     }
@@ -384,22 +407,11 @@ public class Enemy extends Entity {
                     case "right":
                         worldX += speed;
                         break;
+                    default:
+                        break;
                 }
                 collisionOn = false;
-                //System.out.println(direction);
-
-
-//                int nextRow = gp.pathfinder.pathList.get(0).row;
-//                int nextCol = gp.pathfinder.pathList.get(0).col;
-//                if(nextCol == goalCol && nextRow == goalRow) {
-//                    onPath = false;
-//                }
-
             }
-
-
         }
-
-        //TODO PATHFINDING
     }
 }

@@ -1,10 +1,11 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
 
+/**Base class for everything tile related. From images
+ * to building the actual map, this class is responsible
+ * for making the ground the player walks on.
+ */
 public class TileManager extends PerlinGenerator {
 
     public GamePanel gp;
@@ -16,7 +17,9 @@ public class TileManager extends PerlinGenerator {
     boolean structuresGenerated = false;
 
 
-
+    /**Base constructor. Sets all images to the tiles and generates a perlin array
+     * which and assigns it to the mapTileNum for later construction.
+     */
     public TileManager(GamePanel gp) {
         this.gp = gp;
         KeyHandler keyHandler = new KeyHandler(gp);
@@ -26,6 +29,8 @@ public class TileManager extends PerlinGenerator {
         mapTileNum = perlinMap;
         getTileImage();
     }
+
+    /**Assigns images to all types of tiles in an array. */
 
     public void getTileImage() {
 
@@ -56,109 +61,69 @@ public class TileManager extends PerlinGenerator {
         }
     }
 
-//    public void loadMap(String filepath){
-//        try{
-//            InputStream is = getClass().getResourceAsStream(filepath);   //importing the text file
-//            BufferedReader br = new BufferedReader(new InputStreamReader(is));  //read the text file
-//
-//            int lineCounter = 0;
-//            while(br.ready()){
-//                String line = br.readLine();    //read a single line
-//                String[] numbers = line.split(" ");
-//
-//                for(int col = 0; col < numbers.length; col++){
-//                    int num = Integer.parseInt(numbers[col]);
-//                    mapTileNum[col][lineCounter] = num;
-//
-//                }
-//
-//                lineCounter++;
-//            }
-//            br.close();
-//
-//        } catch(Exception e){
-//            //TODO HANDLE EXCEPTION
-//            e.printStackTrace();
-//        }
-//    }
+    /**Draw method for the tile manager. Draws a tile map
+     * based on a supplied matrix generated using perlin noise
+     * and with added rules. Every number corresponds to a 
+     * different kind of tile.
+     */
+
     public void draw(Graphics2D g2){
-        //this.mapSize = gp.generatedSize;
-        //System.out.println(gp.generatedSize);
-        if(keyHandler.OPressed){
+        if (keyHandler.OPressed) {
             keyHandler.OPressed = false;
-//            g2.dispose();
             generatePerlin();
             structuresGenerated = !structuresGenerated;
-//            applyRules(mapTileNum);
             mapTileNum = perlinMap;
             structureRules(mapTileNum);
         }
         applyRules(mapTileNum);
-//        structureRules(mapTileNum);
-//        structureRules(mapTileNum);
-        if(!structuresGenerated){
+        if (!structuresGenerated) { 
             structureRules(mapTileNum);
             structuresGenerated = true;
         }
-        //System.out.println("Applied rules");
+
 
         int worldRow = 0;
         int worldCol = 0;
-        while(worldRow < mapSize && worldCol < mapSize){  //worldRow < gp.maxWorldRow && worldCol < gp.maxWorldCol
+        while (worldRow < mapSize && worldCol < mapSize) { 
 
-            int tileNum = mapTileNum[worldCol][worldRow];    //int tileNum = mapTileNum[worldCol][worldRow]
+            int tileNum = mapTileNum[worldCol][worldRow];    
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
-            int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);  //the tutorial did not need the (int)
-            int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);  //it's +player.screen in order to offset the correct coordinate for the tile since the player is in the middle of the screen
+            int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);  
+            int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY); 
+            //it's + player.screen in order to offset the correct coordinate 
+            //for the tile since the player is in the middle of the screen
 
-            if(worldX +gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize< gp.player.worldX + gp.player.screenX
-                && worldY + gp.tileSize> gp.player.worldY - gp.player.screenY && worldY -gp.tileSize< gp.player.worldY + gp.player.screenY){
+            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX 
+                && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX
+                && worldY + gp.tileSize > gp.player.worldY - gp.player.screenY 
+                && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
             }
             worldCol++;
-            if(worldCol == PerlinGenerator.mapSize){
+            if (worldCol == PerlinGenerator.mapSize) {
                 worldCol = 0;
                 worldRow++;
             }
         }
-//        if(drawPath){
-//            g2.setColor(new Color(255, 0 , 0, 70));
-//
-//            for(int i =0; i <gp.pathfinder.pathList.size(); i++){
-//                int worldX = gp.pathfinder.pathList.get(i).col * gp.tileSize;
-//                int worldY = gp.pathfinder.pathList.get(i).row * gp.tileSize;
-//                int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);
-//                int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);
-//
-//                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
-//
-//            }
-//        } //Draws the path the enemies will take
+        //        if(drawPath){
+        //            g2.setColor(new Color(255, 0 , 0, 70));
+        //
+        //            for(int i =0; i <gp.pathfinder.pathList.size(); i++){
+        //                int worldX = gp.pathfinder.pathList.get(i).col * gp.tileSize;
+        //                int worldY = gp.pathfinder.pathList.get(i).row * gp.tileSize;
+        //                int screenX = (int) ((worldX - gp.player.worldX) + gp.player.screenX);
+        //                int screenY = (int) ((worldY - gp.player.worldY) + gp.player.screenY);
+        //
+        //                g2.fillRect(screenX, screenY, gp.tileSize, gp.tileSize);
+        //
+        //            }
+        //        } 
+        //Draws the path the enemies will take when chasing the player. 
+        //Left in code in case the corrector is interested in seeing it.
 
     }
-//    public void drawFullMap(Graphics2D g2) {  //this one just draws a map full of one kind of tile
-//        int x =0;
-//        int y =0;
-//        int row = 0;
-//        int col = 0;
-//        while(row < gp.noRows && col < gp.noColumns){
-//
-//            g2.drawImage(tile[1].image, x, y, gp.tileSize, gp.tileSize, null);
-//            col++;
-//            x += gp.tileSize;
-//
-//            if(col == 16){
-//                col = 0;
-//                x=0;
-//                row++;
-//                y +=gp.tileSize;
-//            }
-//        }
-//    }
-
-
-
-
 }

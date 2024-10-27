@@ -1,17 +1,24 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * The superclass for the player and 
+ * enemy class.
+ */
 public class Entity {
     public double x;
     public double y;
     public double worldX, worldY;
-    public double screenX, screenY;
+    public double screenX, screenY; 
+    //Ignored checkstyle for better readablity
     public double speed;
     public double size;
+
     int hp;
     int currentHP;
     boolean alive = true;
     String tag;
+
     public boolean onPath = false;
     public boolean entityCollision = false;
 
@@ -23,9 +30,11 @@ public class Entity {
     //HITBOX
     public Rectangle hitBox;
     public Rectangle hitBoxLocation;
+
     public void setHitBox(int x, int y, int width, int height) {
         hitBox = new Rectangle(x, y, width, height);
     }
+    
     public boolean collisionOn = false;
     //IFRAME
     public boolean hasIframes;

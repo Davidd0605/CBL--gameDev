@@ -1,3 +1,8 @@
+
+/**
+ * Nodes are used in the pathfinding class in order to
+ * add properties to tiles.
+ */
 public class Node {
     Node parent;
     public int col;
@@ -9,7 +14,11 @@ public class Node {
     boolean open;
     boolean checked;
 
-    public Node(int col, int row){
+    /** Base constructor assigning every node created a collumn
+     * and a row.
+     */
+
+    public Node(int col, int row) {
         this.col = col;
         this.row = row;
     }
